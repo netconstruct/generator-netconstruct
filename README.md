@@ -1,5 +1,4 @@
-# generator-netconstruct [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url] [![Coverage percentage][coveralls-image]][coveralls-url]
-> NetConstruct generator.
+# generator-netconstruct
 
 ## Installation
 
@@ -23,13 +22,3 @@ Yeoman has a heart of gold. He&#39;s a person with feelings and opinions, but he
 ## License
 
  © [NetConstruct](http://www.netconstruct.co.uk)
-
-
-[npm-image]: https://badge.fury.io/js/generator-netconstruct.svg
-[npm-url]: https://npmjs.org/package/generator-netconstruct
-[travis-image]: https://travis-ci.org/rshackleton-netc/generator-netconstruct.svg?branch=master
-[travis-url]: https://travis-ci.org/rshackleton-netc/generator-netconstruct
-[daviddm-image]: https://david-dm.org/rshackleton-netc/generator-netconstruct.svg?theme=shields.io
-[daviddm-url]: https://david-dm.org/rshackleton-netc/generator-netconstruct
-[coveralls-image]: https://coveralls.io/repos/rshackleton-netc/generator-netconstruct/badge.svg
-[coveralls-url]: https://coveralls.io/r/rshackleton-netc/generator-netconstruct
