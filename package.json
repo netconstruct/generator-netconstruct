@@ -1,6 +1,6 @@
 {
   "name": "generator-netconstruct",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "NetConstruct generator.",
   "homepage": "http://www.netconstruct.co.uk",
   "author": {
@@ -17,6 +17,7 @@
   ],
   "dependencies": {
     "chalk": "^1.0.0",
+    "extend": "^3.0.0",
     "mkdirp": "^0.5.1",
     "underscore.string": "^3.2.2",
     "wiredep": "^3.0.0",
@@ -24,7 +25,6 @@
     "yosay": "^1.0.2"
   },
   "devDependencies": {
-    "extend": "^3.0.0",
     "gulp": "^3.6.0",
     "gulp-coveralls": "^0.1.0",
     "gulp-eslint": "^1.0.0",
