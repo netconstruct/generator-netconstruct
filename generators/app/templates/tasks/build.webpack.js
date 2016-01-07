@@ -5,7 +5,7 @@
 
   var deployOptions = require('./webpack.deploy.config');
 
-  module.exports = gulp.task('build:webpack', ['build:clean'], function (callback) {
+  module.exports = gulp.task('build:webpack', [], function (callback) {
     webpack(deployOptions, function (err, stats) {
       if (err) {
         throw new gutil.PluginError('webpack', err);
