@@ -27,6 +27,7 @@
   "node": true,
   "globals": {
     "angular": true,
+    "deferredBootstrapper": true,
     "Modernizr": true,
 
     "DEBUG": true

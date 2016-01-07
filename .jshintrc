@@ -27,7 +27,10 @@
   "node": true,
   "globals": {
     "angular": true,
+    "before": true,
+    "describe": true,
     "Modernizr": true,
+    "it": true,
 
     "DEBUG": true
   }
