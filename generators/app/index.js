@@ -262,6 +262,7 @@ module.exports = yeoman.generators.Base.extend({
         'gulp',
         'gulp-util',
         'image-webpack-loader',
+        'jshint',
         'jshint-loader',
         'lodash',
         'ng-annotate-loader',
@@ -274,9 +275,6 @@ module.exports = yeoman.generators.Base.extend({
         'webpack-dev-middleware',
         'webpack-hot-middleware'
       ];
-
-      // Install JSHint globally.
-      this.spawnCommand('npm', ['install', '-g', 'jshint']);
 
       // Install dependencies.
       this.npmInstall(npmDependencies, {
