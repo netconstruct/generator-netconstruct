@@ -208,6 +208,7 @@ _Pvt_Extensions
 CMS/.sass-cache
 CMS/.grunt
 CMS/App_Data/CMSModules/DeviceProfile/
+CMS/App_Data/CMSModules/SmartSearch/
 CMS/App_Data/CMSModules/WinServices/
 CMS/App_Data/CMSTemp/
 CMS/App_Data/Persistent/
