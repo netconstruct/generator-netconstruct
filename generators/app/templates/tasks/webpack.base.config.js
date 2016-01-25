@@ -29,7 +29,7 @@
         },
         {
           test: /\.html$/,
-          loader: 'raw'
+          loader: 'html'
         },
         {
           test: /\.js$/,
