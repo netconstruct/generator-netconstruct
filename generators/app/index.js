@@ -261,6 +261,7 @@ module.exports = yeoman.generators.Base.extend({
         'file-loader',
         'gulp',
         'gulp-util',
+        'html-loader',
         'image-webpack-loader',
         'jshint',
         'jshint-loader',
