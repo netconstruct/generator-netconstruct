@@ -255,6 +255,7 @@ module.exports = yeoman.generators.Base.extend({
         'browser-sync',
         'css-loader',
         'del',
+        'exports-loader',
         'expose-loader',
         'extend',
         'extract-text-webpack-plugin',
