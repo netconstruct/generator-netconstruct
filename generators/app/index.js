@@ -1,11 +1,9 @@
 'use strict';
 
 var _s = require('underscore.string');
-var chalk = require('chalk');
 var mkdirp = require('mkdirp');
 var path = require('path');
 var yeoman = require('yeoman-generator');
-var yosay = require('yosay');
 
 module.exports = yeoman.generators.Base.extend({
 
@@ -23,9 +21,6 @@ module.exports = yeoman.generators.Base.extend({
   /** Set generator prompts. */
   prompting: function () {
     var done = this.async();
-
-    // Welcome message.
-    this.log(yosay('Welcome to the ' + chalk.green('Netconstruct') + ' generator!'));
 
     if (this.props) {
       this.log('Using saved configuration.');
