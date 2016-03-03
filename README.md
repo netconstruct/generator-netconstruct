@@ -15,9 +15,26 @@ Then generate your new project:
 yo netconstruct
 ```
 
-## Getting To Know Yeoman
+## Git Branches
 
-Yeoman has a heart of gold. He&#39;s a person with feelings and opinions, but he&#39;s very easy to work with. If you think he&#39;s too opinionated, he can be easily convinced. Feel free to [learn more about him](http://yeoman.io/).
+The generator can create the default Git branches for a project, this assumes the repository has already been configured and created on the remote "origin":
+
+```bash
+yo netconstruct:git
+```
+
+## Angular JS Generators
+
+The generator can also generate various templated Angular JS files using the following commands:
+
+```bash
+yo netconstruct:module
+yo netconstruct:controller
+yo netconstruct:directive
+yo netconstruct:factory
+yo netconstruct:filter
+yo netconstruct:service
+```
 
 ## License
 
