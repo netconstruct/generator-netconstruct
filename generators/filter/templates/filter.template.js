@@ -5,8 +5,10 @@
    * <%= filterName %> filter.
    * @ngInject
    */
-  function <%= filterCamelCaseName %>(input) {
-    return input;
+  function <%= filterCamelCaseName %>() {
+    return function (input) {
+      return input;
+    }
   }
 
   module.exports = <%= filterCamelCaseName %>;
