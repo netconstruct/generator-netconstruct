@@ -8,18 +8,18 @@ var yeoman = require('yeoman-generator');
 module.exports = yeoman.generators.Base.extend({
 
   /** Generator constructor. */
-  constructor: function () {
+  constructor: function() {
     yeoman.generators.Base.apply(this, arguments);
   },
 
   /** Initialise generator. */
-  initializing: function () {
+  initializing: function() {
     this.pkg = require('../../package.json');
     this.props = this.config.get('props');
   },
 
   /** Set generator prompts. */
-  prompting: function () {
+  prompting: function() {
     var done = this.async();
 
     if (this.props) {
@@ -62,7 +62,7 @@ module.exports = yeoman.generators.Base.extend({
       }
     ];
 
-    this.prompt(prompts, function (props) {
+    this.prompt(prompts, function(props) {
       this.props = props;
 
       // Set app name.
@@ -75,14 +75,14 @@ module.exports = yeoman.generators.Base.extend({
   configuring: {
 
     /** Save user configuration. */
-    saveConfig: function () {
+    saveConfig: function() {
       this.config.set({
         props: this.props
       });
     },
 
     /** Set path properties. */
-    setPaths: function () {
+    setPaths: function() {
       // Set root path.
       this.root = this.destinationRoot();
 
@@ -105,7 +105,7 @@ module.exports = yeoman.generators.Base.extend({
     },
 
     /** Set app name properties. */
-    setAppName: function () {
+    setAppName: function() {
       this.props.appnameSlug = _s.slugify(this.props.appname);
     }
   },
@@ -113,7 +113,7 @@ module.exports = yeoman.generators.Base.extend({
   writing: {
 
     /** Create folder structure. */
-    createFolderStructure: function () {
+    createFolderStructure: function() {
       if (this.props.createFolderStructure) {
         mkdirp(this.fontsPath);
         mkdirp(this.imgPath);
@@ -124,7 +124,7 @@ module.exports = yeoman.generators.Base.extend({
     },
 
     /** Create bower.json file. */
-    bowerJson: function () {
+    bowerJson: function() {
       var bowerJson = {
         name: this.props.appnameSlug,
         private: true,
@@ -135,8 +135,17 @@ module.exports = yeoman.generators.Base.extend({
       this.fs.writeJSON(this.destinationPath(path.join(this.root, 'SiteFiles/src/bower.json')), bowerJson);
     },
 
+    /** Create bower.json file. */
+    babelRc: function() {
+      var babelRcJson = {
+        presets: ['es2015']
+      };
+
+      this.fs.writeJSON(this.destinationPath(path.join(this.root, 'SiteFiles/src/.babelrc')), babelRcJson);
+    },
+
     /** Create git files. */
-    git: function () {
+    git: function() {
       this.fs.copy(
         this.templatePath('_gitignore'),
         this.destinationPath('.gitignore')
@@ -149,7 +158,7 @@ module.exports = yeoman.generators.Base.extend({
     },
 
     /** Create gulpfile. */
-    gulpfile: function () {
+    gulpfile: function() {
       this.fs.copy(
         this.templatePath('gulpfile.js'),
         this.destinationPath(path.join(this.root, 'SiteFiles/src/gulpfile.js'))
@@ -157,7 +166,7 @@ module.exports = yeoman.generators.Base.extend({
     },
 
     /** Create jshint config file. */
-    jshint: function () {
+    jshint: function() {
       this.fs.copy(
         this.templatePath('_jshintrc'),
         this.destinationPath('.jshintrc')
@@ -165,7 +174,7 @@ module.exports = yeoman.generators.Base.extend({
     },
 
     /** Create package.json file. */
-    packageJson: function () {
+    packageJson: function() {
       var packageJson = {
         name: this.props.appnameSlug,
         private: true,
@@ -177,7 +186,7 @@ module.exports = yeoman.generators.Base.extend({
     },
 
     /** Create templated js files. */
-    js: function () {
+    js: function() {
       this.fs.copyTpl(
         this.templatePath('js/*'),
         this.destinationPath(this.jsPath),
@@ -186,7 +195,7 @@ module.exports = yeoman.generators.Base.extend({
     },
 
     /** Create templated sass files. */
-    sass: function () {
+    sass: function() {
       this.fs.copyTpl(
         this.templatePath('sass/*'),
         this.destinationPath(this.sassPath)
@@ -194,7 +203,7 @@ module.exports = yeoman.generators.Base.extend({
     },
 
     /** Create templated task files. */
-    tasks: function () {
+    tasks: function() {
       this.fs.copyTpl(
         this.templatePath('tasks/*'),
         this.destinationPath(this.tasksPath)
@@ -205,20 +214,18 @@ module.exports = yeoman.generators.Base.extend({
   install: {
 
     /** Change folder to bower/package.json location. */
-    changeToSrcPath: function () {
+    changeToSrcPath: function() {
       process.chdir(this.srcPath);
     },
 
     /** Install bower dependencies. */
-    bowerInstall: function () {
+    bowerInstall: function() {
 
       // Install dependencies.
-      var bowerDependencies = [
-      ];
+      var bowerDependencies = [];
 
       // Install dev dependencies.
-      var bowerDevDependencies = [
-      ];
+      var bowerDevDependencies = [];
 
       this.bowerInstall(bowerDependencies, {
         'save': true
@@ -230,7 +237,7 @@ module.exports = yeoman.generators.Base.extend({
     },
 
     /** Install npm dependencies. */
-    npmInstall: function () {
+    npmInstall: function() {
 
       var npmDependencies = [
         'angular',
@@ -291,12 +298,12 @@ module.exports = yeoman.generators.Base.extend({
   end: {
 
     /** Display completion message. */
-    complete: function () {
+    complete: function() {
       this.log('Application initialisation completed.');
     },
 
     /** Run default gulp task. */
-    serve: function () {
+    serve: function() {
       this.log('Running gulp.');
       this.spawnCommand('gulp');
     }
