@@ -246,6 +246,7 @@ module.exports = yeoman.generators.Base.extend({
       var npmDevDependencies = [
         'babel-core',
         'babel-loader',
+        'babel-preset-es2015',
         'bower-webpack-plugin',
         'browser-sync',
         'css-loader',
