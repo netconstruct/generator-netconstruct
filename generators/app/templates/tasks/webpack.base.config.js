@@ -29,7 +29,7 @@
         },
         {
           test: /\.html$/,
-          loader: 'raw'
+          loader: 'html'
         },
         {
           test: /\.js$/,
@@ -45,6 +45,10 @@
           loader: ExtractTextPlugin.extract('css?sourceMap!sass?sourceMap')
         },
 
+        { 
+          test: /angular\.js$/, 
+          loader: 'exports?window.angular'
+        },
         {
           test: /jquery\.js$/,
           loader: 'expose?$'
@@ -52,6 +56,10 @@
         {
           test: /jquery\.js$/,
           loader: 'expose?jQuery'
+        },
+        { 
+          test: /underscore\.js$/, 
+          loader: 'expose?_'
         }
       ]
     },

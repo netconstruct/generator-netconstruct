@@ -17,7 +17,7 @@
 
     entry: [
       'webpack/hot/dev-server',
-      'webpack-hot-middleware/client',
+      'webpack-hot-middleware/client?reload=true',
       'sass/main.scss',
       'js/main'
     ],
