@@ -251,6 +251,7 @@ module.exports = yeoman.generators.Base.extend({
       ];
 
       var npmDevDependencies = [
+        'autoprefixer',
         'babel-core',
         'babel-loader',
         'babel-preset-es2015',
@@ -272,6 +273,8 @@ module.exports = yeoman.generators.Base.extend({
         'lodash',
         'ng-annotate-loader',
         'node-sass',
+        'postcss-loader',
+        'postcss-pseudoelements',
         'raw-loader',
         'require-dir',
         'sass-loader',

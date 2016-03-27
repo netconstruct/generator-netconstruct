@@ -1,5 +1,7 @@
 ﻿(function () {
+  var autoprefixer = require('autoprefixer');
   var path = require('path');
+  var pseudoelements = require('postcss-pseudoelements');
   var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
   var exclude = /(bower_components|node_modules|web_modules)/;
@@ -21,7 +23,7 @@
       loaders: [
         {
           test: /\.css$/,
-          loader: ExtractTextPlugin.extract('css?sourceMap')
+          loader: 'css?-autoprefixer!postcss'
         },
         {
           test: /\.(eot|ttf|woff)$/,
@@ -42,11 +44,11 @@
         },
         {
           test: /\.scss$/,
-          loader: ExtractTextPlugin.extract('css?sourceMap!sass?sourceMap')
+          loader: ExtractTextPlugin.extract('css?-autoprefixer!postcss!sass')
         },
 
-        { 
-          test: /angular\.js$/, 
+        {
+          test: /angular\.js$/,
           loader: 'exports?window.angular'
         },
         {
@@ -57,8 +59,8 @@
           test: /jquery\.js$/,
           loader: 'expose?jQuery'
         },
-        { 
-          test: /underscore\.js$/, 
+        {
+          test: /underscore\.js$/,
           loader: 'expose?_'
         }
       ]
@@ -70,6 +72,13 @@
       path: path.join(__root, '../dist'),
       publicPath: '/sitefiles/dist/',
     },
+
+    postcss: [
+      autoprefixer({
+        browsers: ['ie 10', 'ie 11', 'last 2 versions']
+      }),
+      pseudoelements()
+    ],
 
     resolve: {
       alias: {

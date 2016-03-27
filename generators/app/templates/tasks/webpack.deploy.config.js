@@ -13,7 +13,7 @@
   config = extend(true, {}, config, {
     cache: false,
     debug: false,
-    devtool: '#source-map',
+    devtool: '',
 
     entry: [
       'sass/main.scss',
