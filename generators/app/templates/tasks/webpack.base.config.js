@@ -26,7 +26,7 @@
           loader: 'css?-autoprefixer!postcss'
         },
         {
-          test: /\.(eot|ttf|woff)$/,
+          test: /\.(eot|ttf|woff|woff2)(\?.+)?$/,
           loader: 'url?limit=100000'
         },
         {
