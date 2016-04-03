@@ -27,7 +27,7 @@
         },
         {
           test: /\.(eot|ttf|woff|woff2)(\?.+)?$/,
-          loader: 'url?limit=32000'
+          loader: 'url?limit=32768'
         },
         {
           test: /\.html$/,
@@ -40,7 +40,7 @@
         },
         {
           test: /\.(jpeg|jpg|gif|png|svg)(\?.+)?$/,
-          loader: 'url?limit=32000!image-webpack'
+          loader: 'url?limit=32768!image-webpack'
         },
         {
           test: /\.scss$/,
