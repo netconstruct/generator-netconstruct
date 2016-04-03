@@ -27,7 +27,7 @@
         },
         {
           test: /\.(eot|ttf|woff|woff2)(\?.+)?$/,
-          loader: 'url?limit=100000'
+          loader: 'url?limit=32000'
         },
         {
           test: /\.html$/,
@@ -39,8 +39,8 @@
           exclude: exclude
         },
         {
-          test: /\.(gif|jpeg|jpg|png|svg)$/,
-          loader: 'file!image-webpack'
+          test: /\.(jpeg|jpg|gif|png|svg)(\?.+)?$/,
+          loader: 'url?limit=32000!image-webpack'
         },
         {
           test: /\.scss$/,
