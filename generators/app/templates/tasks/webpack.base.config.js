@@ -44,7 +44,7 @@
         },
         {
           test: /\.scss$/,
-          loader: ExtractTextPlugin.extract('css?-autoprefixer!postcss!sass')
+          loader: ExtractTextPlugin.extract('css?root=../../../..&-autoprefixer!postcss!sass')
         },
 
         {
