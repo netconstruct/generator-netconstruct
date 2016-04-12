@@ -161,6 +161,7 @@ AppPackages/
 *.dbproj.schemaview
 *.pfx
 *.publishsettings
+bower_components/
 node_modules/
 orleans.codegen.cs
 
@@ -209,11 +210,8 @@ CMS/.sass-cache
 CMS/.grunt
 CMS/App_Data/CMSModules/DeviceProfile/
 CMS/App_Data/CMSModules/SmartSearch/
-CMS/App_Data/CMSModules/WinServices/
 CMS/App_Data/CMSTemp/
 CMS/App_Data/Persistent/
-CMS/bower_components
-CMS/node_modules
 CMS/CMSFiles/
 CMS/CMSSiteUtils/Export/
 CMS/SiteFiles/dist/*
