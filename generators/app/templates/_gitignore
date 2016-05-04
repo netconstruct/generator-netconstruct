@@ -3,7 +3,7 @@
 
 # User-specific files
 *.suo
-*.user
+*.csproj.user
 *.userosscache
 *.sln.docstates
 
@@ -208,8 +208,8 @@ _Pvt_Extensions
 # Custom Ignores
 CMS/.sass-cache
 CMS/.grunt
-CMS/App_Data/CMSModules/DeviceProfile/
-CMS/App_Data/CMSModules/SmartSearch/
+CMS/App_Data/CMSModules/DeviceProfile/51Degrees.dat
+CMS/App_Data/CMSModules/DeviceProfile/logFiftyOne.txt
 CMS/App_Data/CMSTemp/
 CMS/App_Data/Persistent/
 CMS/CMSFiles/
