@@ -197,7 +197,7 @@ module.exports = yeoman.generators.Base.extend({
     /** Create templated sass files. */
     sass: function() {
       this.fs.copyTpl(
-        this.templatePath('sass/*'),
+        this.templatePath('sass/**/*'),
         this.destinationPath(this.sassPath)
       );
     },
@@ -247,7 +247,10 @@ module.exports = yeoman.generators.Base.extend({
         'angular-sanitize',
         'angular-ui-router',
         'gridle',
-        'jquery'
+        'jquery',
+				'sass-rem',
+				'slick-carousel',
+				'titon-toolkit'
       ];
 
       var npmDevDependencies = [
