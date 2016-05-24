@@ -1,5 +1,6 @@
 ﻿(function () {
   var extend = require('extend');
+  var path = require('path');
   var webpack = require('webpack');
 
   // Load webpack plugins.
@@ -9,31 +10,25 @@
   // Clone base.
   var config = Object.create(require('./webpack.base.config'));
 
+  var __root = path.resolve(__dirname, '../');
+
   // Load base configuration.
   config = extend(true, {}, config, {
     cache: true,
     debug: true,
     devtool: '#cheap-source-map',
 
-    entry: [
-      'webpack/hot/dev-server',
-      'webpack-hot-middleware/client?reload=true',
-      'sass/main.scss',
-      'js/main'
-    ],
-
-    jshint: {
-      debug: true,
-      emitErrors: false,
-      esnext: true,
-      failOnHint: false
+    entry: {
+      'head': ['modernizr'],
+      'main': [
+        'webpack/hot/dev-server',
+        'webpack-hot-middleware/client?reload=true',
+        'sass/main.scss',
+        'js/main'
+      ]
     },
 
     plugins: [
-      new BowerWebpackPlugin({
-        includes: /.*\.js/,
-        searchResolveModulesDirectories: false
-      }),
       new ExtractTextPlugin('main.css'),
       new webpack.DefinePlugin({
         DEBUG: true

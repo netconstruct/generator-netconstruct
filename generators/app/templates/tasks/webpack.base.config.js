@@ -4,18 +4,27 @@
   var pseudoelements = require('postcss-pseudoelements');
   var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-  var exclude = /(bower_components|node_modules|web_modules)/;
+  var exclude = [
+    /bower_components/,
+    /node_modules/,
+    /vendor/,
+    /web_modules/,
+  ];
 
   var __root = path.resolve(__dirname, '../');
 
   module.exports = {
     context: __root,
 
+    eslint: {
+      ignorePath: path.join(__root, '.eslintignore'),
+    },
+
     module: {
       preLoaders: [
         {
           test: /\.js$/,
-          loader: 'jshint',
+          loader: 'eslint',
           exclude: exclude
         }
       ],
@@ -60,6 +69,11 @@
           loader: 'expose?jQuery'
         },
         {
+          test: /\.js$/,
+          loader: 'imports?this=>window!exports?window.Modernizr',
+          include: /modernizr/
+        },
+        {
           test: /underscore\.js$/,
           loader: 'expose?_'
         }
@@ -85,7 +99,10 @@
         'fonts': path.join(__root, 'ui/fonts'),
         'img': path.join(__root, 'ui/img'),
         'js': path.join(__root, 'ui/js'),
-        'sass': path.join(__root, 'ui/sass')
+        'sass': path.join(__root, 'ui/sass'),
+        'vendor': path.join(__root, 'ui/js/vendor'),
+
+        'modernizr': 'vendor/modernizr.custom.js',
       },
       modulesDirectories: ['web_modules', 'node_modules', 'bower_components']
     }

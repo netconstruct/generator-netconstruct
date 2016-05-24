@@ -9,7 +9,7 @@
   var webpackConfig = require('./webpack.dev.config.js');
   var bundler = webpack(webpackConfig);
 
-  module.exports = gulp.task('serve:default', [], function () {
+  module.exports = gulp.task('serve:default', ['build:modernizr'], function () {
     browserSync.create().init({
 
       middleware: [

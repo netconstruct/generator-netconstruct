@@ -58,7 +58,7 @@ module.exports = yeoman.generators.Base.extend({
         type: 'input',
         name: 'msvs',
         message: 'Which Visual Studio version is installed?',
-        default: '2012'
+        default: '2015'
       }
     ];
 
@@ -135,13 +135,38 @@ module.exports = yeoman.generators.Base.extend({
       this.fs.writeJSON(this.destinationPath(path.join(this.root, 'SiteFiles/src/bower.json')), bowerJson);
     },
 
-    /** Create bower.json file. */
-    babelRc: function() {
-      var babelRcJson = {
+    /** Create babelrc file. */
+    babelrc: function() {
+      var babelrc = {
         presets: ['es2015']
       };
 
-      this.fs.writeJSON(this.destinationPath(path.join(this.root, 'SiteFiles/src/.babelrc')), babelRcJson);
+      this.fs.writeJSON(this.destinationPath(path.join(this.root, 'SiteFiles/src/.babelrc')), babelrc);
+    },
+
+    /** Create eslintignore file. */
+    eslintignore: function() {
+      this.fs.copy(
+        this.templatePath('_eslintignore'),
+        this.destinationPath(path.join(this.root, 'SiteFiles/src/.eslintignore'))
+      );
+    },
+
+    /** Create eslintrc file. */
+    eslintrc: function() {
+      var eslintrc = {
+        extends: ['airbnb-base'],
+        globals: {
+          'angular': false,
+          'DEBUG': false,
+        },
+        rules: {
+          'global-require': 'off',
+          'no-use-before-define': ['error', { 'functions': false, 'classes': true }],
+        },
+      };
+
+      this.fs.writeJSON(this.destinationPath(path.join(this.root, 'SiteFiles/src/.eslintrc')), eslintrc);
     },
 
     /** Create git files. */
@@ -162,14 +187,6 @@ module.exports = yeoman.generators.Base.extend({
       this.fs.copy(
         this.templatePath('gulpfile.js'),
         this.destinationPath(path.join(this.root, 'SiteFiles/src/gulpfile.js'))
-      );
-    },
-
-    /** Create jshint config file. */
-    jshint: function() {
-      this.fs.copy(
-        this.templatePath('_jshintrc'),
-        this.destinationPath('.jshintrc')
       );
     },
 
@@ -257,19 +274,24 @@ module.exports = yeoman.generators.Base.extend({
         'babel-preset-es2015',
         'bower-webpack-plugin',
         'browser-sync',
+        'clean-webpack-plugin',
         'css-loader',
         'del',
+        'eslint',
+        'eslint-loader',
+        'eslint-config-airbnb-base',
+        'eslint-plugin-import',
         'exports-loader',
         'expose-loader',
         'extend',
         'extract-text-webpack-plugin',
         'file-loader',
         'gulp',
+        'gulp-modernizr',
         'gulp-util',
         'html-loader',
         'image-webpack-loader',
-        'jshint',
-        'jshint-loader',
+        'imports-loader',
         'lodash',
         'ng-annotate-loader',
         'node-sass',
@@ -308,7 +330,7 @@ module.exports = yeoman.generators.Base.extend({
     /** Run default gulp task. */
     serve: function() {
       this.log('Running gulp.');
-      this.spawnCommand('gulp');
+      this.spawnCommand('gulp', ['build']);
     }
   }
 });
