@@ -1,5 +1,6 @@
 'use strict';
 
+var extend = require('extend');
 var yeoman = require('yeoman-generator');
 
 module.exports = yeoman.generators.Base.extend({
@@ -17,9 +18,27 @@ module.exports = yeoman.generators.Base.extend({
 
   /** Set generator prompts. */
   prompting: function() {
+    var done = this.async();
+
     if (this.props) {
       this.log('Using saved configuration.');
     }
+
+    var prompts = [
+      // Hotfix name
+      {
+        type: 'input',
+        name: 'hotfixName',
+        message: 'What is the hotfix name?',
+        default: 'example-hotfix'
+      }
+    ];
+
+    this.prompt(prompts, function (props) {
+      this.props = extend({}, this.props, props);
+
+      done();
+    }.bind(this));
   },
 
   configuring: {
@@ -35,12 +54,10 @@ module.exports = yeoman.generators.Base.extend({
   writing: {
     /** Create default branches. */
     createDefaultBranches: function() {
-      // Create and push preview branch.
-      this.spawnCommandSync('git', ['checkout', '-b', 'release/preview', 'master']);
-      this.spawnCommandSync('git', ['push', 'origin', 'release/preview']);
+      var branchName = 'hotfix/' + this.props.hotfixName;
 
-      // Change to master branch.
-      this.spawnCommandSync('git', ['checkout', 'master']);
+      // Create and push preview branch.
+      this.spawnCommandSync('git', ['checkout', '-b', branchName, 'master']);
     }
   }
 });
