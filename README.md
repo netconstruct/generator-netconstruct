@@ -6,7 +6,14 @@ First, install [Yeoman](http://yeoman.io) and generator-netconstruct using [npm]
 
 ```bash
 npm install -g yo
-npm install -g generator-netconstruct
+```
+
+Then clone generator-netconstruct and link the directory using [npm](https://www.npmjs.com/).
+
+```bash
+git clone https://github.com/netconstruct/generator-netconstruct.git
+cd generator-netconstruct
+npm link
 ```
 
 Then generate your new project:
@@ -21,6 +28,14 @@ The generator can create the default Git branches for a project, this assumes th
 
 ```bash
 yo netconstruct:git
+```
+
+The generator can also create branches from the master for features, hotfixes and releases:
+
+```bash
+yo netconstruct:git-feature
+yo netconstruct:git-hotfix
+yo netconstruct:git-release
 ```
 
 ## Angular JS Generators
