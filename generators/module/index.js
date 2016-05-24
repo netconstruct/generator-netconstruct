@@ -89,7 +89,7 @@ module.exports = yeoman.generators.Base.extend({
       var modulePath = path.join(this.jsPath, this.props.moduleDashedName, moduleFileName);
 
       this.fs.copyTpl(
-        this.templatePath('module.template.js'),
+        this.templatePath(this.props.es6 ? 'module.template.es6.js' : 'module.template.js'),
         this.destinationPath(modulePath),
         this.props
       );

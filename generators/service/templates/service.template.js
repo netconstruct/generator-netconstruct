@@ -5,7 +5,7 @@
    * <%= serviceName %> service.
    * @ngInject
    */
-  function <%= serviceClassName %>() {
+  function <%= serviceClassName %>Service() {
     var self = this;
 
     self.getAll = getAll;

@@ -100,7 +100,7 @@ module.exports = yeoman.generators.Base.extend({
       var filterPath = path.join(this.jsPath, this.props.moduleDashedName, this.props.filterDashedName, filterFileName);
 
       this.fs.copyTpl(
-        this.templatePath('filter.template.js'),
+        this.templatePath(this.props.es6 ? 'filter.template.es6.js' : 'filter.template.js'),
         this.destinationPath(filterPath),
         this.props
       );

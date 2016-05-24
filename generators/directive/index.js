@@ -109,7 +109,7 @@ module.exports = yeoman.generators.Base.extend({
       var directivePath = path.join(this.jsPath, this.props.moduleDashedName, this.props.directiveDashedName, directiveFileName);
 
       this.fs.copyTpl(
-        this.templatePath('directive.template.js'),
+        this.templatePath(this.props.es6 ? 'directive.template.es6.js' : 'directive.template.js'),
         this.destinationPath(directivePath),
         this.props
       );

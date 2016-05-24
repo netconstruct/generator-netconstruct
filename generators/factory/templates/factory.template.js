@@ -5,7 +5,7 @@
    * <%= factoryName %> factory.
    * @ngInject
    */
-  function <%= factoryCamelCaseName %>() {
+  function <%= factoryCamelCaseName %>Factory() {
     var self = {
       getAll: getAll,
       getItem: getItem

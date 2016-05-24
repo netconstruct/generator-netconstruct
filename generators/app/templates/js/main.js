@@ -1,9 +1,11 @@
-require('angular');
-require('angular-animate');
-require('angular-loading-bar');
-require('angular-sanitize');
-require('angular-ui-router');
-require('jquery');
+import 'babel-polyfill';
+
+import 'angular';
+import 'angular-animate';
+import 'angular-loading-bar';
+import 'angular-sanitize';
+import 'angular-ui-router';
+import 'jquery';
 
 angular
   .module('<%= appnameSlug %>', [

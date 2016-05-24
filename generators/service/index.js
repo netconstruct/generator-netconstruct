@@ -100,7 +100,7 @@ module.exports = yeoman.generators.Base.extend({
       var servicePath = path.join(this.jsPath, this.props.moduleDashedName, this.props.serviceDashedName, serviceFileName);
 
       this.fs.copyTpl(
-        this.templatePath('service.template.js'),
+        this.templatePath(this.props.es6 ? 'service.template.es6.js' : 'service.template.js'),
         this.destinationPath(servicePath),
         this.props
       );

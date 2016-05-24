@@ -59,6 +59,14 @@ module.exports = yeoman.generators.Base.extend({
         name: 'msvs',
         message: 'Which Visual Studio version is installed?',
         default: '2015'
+      },
+
+      // ES6?
+      {
+        type: 'confirm',
+        name: 'es6',
+        message: 'Would you like to use ES6?',
+        default: true
       }
     ];
 
@@ -271,6 +279,7 @@ module.exports = yeoman.generators.Base.extend({
         'autoprefixer',
         'babel-core',
         'babel-loader',
+        'babel-polyfill',
         'babel-preset-es2015',
         'bower-webpack-plugin',
         'browser-sync',
