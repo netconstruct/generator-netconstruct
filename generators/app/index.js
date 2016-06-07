@@ -171,6 +171,7 @@ module.exports = yeoman.generators.Base.extend({
         rules: {
           'global-require': 'off',
           'no-use-before-define': ['error', { 'functions': false, 'classes': true }],
+          "import/no-unresolved": "off"
         },
       };
 
