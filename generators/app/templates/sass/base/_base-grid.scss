@@ -1,8 +1,54 @@
 /**
- * Add z-index values in this file. E.g.
- *
- * $layer-lightbox: 10;
- * $layer-modal: 20;
- * $layer-overlay: 50;
+ * Add grid layouts in this partial.
  *
  */
+
+.site-wide {
+	@include rem(max-width, $site-width);
+	margin: 0 auto;
+	padding-left: $site-wide-padding;
+	padding-right: $site-wide-padding;
+	overflow: visible;
+}
+
+.grid-container {
+	@include gridle(row);
+}
+
+.grid-container--bottom {
+ @include gridle(row);
+  @include gridle_row_align ( bottom );
+}
+
+.grid-container--no-gutter {
+	margin-left: 0;
+	margin-right: 0;
+}
+
+.grid-container--half {
+	.grid-column {
+		@include gridle_grid ( 12 );
+		margin-left: 0;
+		margin-right: 0;
+
+		@include gridle_state ( tablet desktop ) {
+			@include gridle_grid ( 6 );
+		}
+	}
+}
+
+// // Add support for gutter
+// @mixin grid-gutters($gutter-spacing) {
+// 	//.grid--gutter-#{strip-unit($gutter-spacing)} {
+// 		// Apply this to row
+// 		@include rem('margin-left', -$gutter-spacing);
+//
+// 		.grid-item {
+// 			@include rem('padding-left', $gutter-spacing);
+// 		}
+// 	//}
+// }
+//
+// @each $gutter in $grid-gutters-list {
+// 	@include grid-gutters($gutter);
+// }
