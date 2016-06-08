@@ -17,6 +17,7 @@ $grid-gutters-list: (
     65px
 );
 
+// Setup Gridle
 @include gridle_setup($settings);
 @include gridle_register_default_mobile_first_states();
 @include gridle_generate_classes ();
@@ -34,10 +35,6 @@ $grid-gutters-list: (
 ) ) ;
 @include gridle_register_state ( small-tablet , (
     min-width : $small-tablet
-) ) ;
-@include gridle_register_state ( mobile-to-small-tablet , (
-    min-width : $mobile,
-    max-width : $small-tablet,
 ) ) ;
 
 @include gridle_init();
@@ -73,32 +70,14 @@ html {
 	margin-right: 0;
 }
 
-.grid-container--one-third {
-	> .grid-column {
+.grid-container--half {
+	.grid-column {
 		@include gridle_grid ( 12 );
 		margin-left: 0;
 		margin-right: 0;
 
 		@include gridle_state ( tablet desktop ) {
-			@include gridle_grid ( 4 );
-		}
-	}
-}
-
-.grid-container--two-third-left {
-	> .grid-column {
-		@include gridle_grid ( 12 );
-		margin-left: 0;
-		margin-right: 0;
-
-		@include gridle_state ( tablet desktop ) {
-			@include gridle_grid ( 4 );
-		}
-
-		&:first-child {
-			@include gridle_state ( tablet desktop ) {
-				@include gridle_grid ( 8 );
-			}
+			@include gridle_grid ( 6 );
 		}
 	}
 }
