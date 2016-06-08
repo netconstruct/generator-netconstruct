@@ -1,17 +1,17 @@
-@mixin reset-button {
+@mixin helpers-reset-button {
 	border: 0;
 	background: transparent;
 	font-weight: bold;
 	padding: 0;
 }
 
-@mixin reset-hover-link {
+@mixin helpers-reset-hover-link {
 	&:hover {
 		text-decoration: none;
 	}
 }
 
-@mixin burger($width: 30px, $height: 5px, $gutter: 3px, $color: #000, $border-radius: 0, $transition-duration: .3s) {
+@mixin helpers-burger($width: 30px, $height: 5px, $gutter: 3px, $color: #000, $border-radius: 0, $transition-duration: .3s) {
     $burger-height: $height !global;
     $burger-gutter: $gutter !global;
 
@@ -19,7 +19,9 @@
     margin-top: $height + $gutter;
     margin-bottom: $height + $gutter;
 
-    &, &:before, &:after {
+    &,
+    &:before,
+    &:after {
         display: block;
         width: $width;
         height: $height;
@@ -28,14 +30,7 @@
             border-radius: $border-radius;
         }
 
-        -webkit-transition-property: background-color, -webkit-transform;
-        -moz-transition-property: background-color, -moz-transform;
-        -o-transition-property: background-color, -o-transform;
         transition-property: background-color, transform;
-
-        -webkit-transition-duration: $transition-duration;
-        -moz-transition-duration: $transition-duration;
-        -o-transition-duration: $transition-duration;
         transition-duration: $transition-duration;
     }
 
@@ -53,27 +48,20 @@
     }
 }
 
-@mixin burger-to-cross {
+@mixin helpers-burger-to-cross {
     & {
         background-color: transparent;
     }
+
     &:before {
-        -webkit-transform: translateY($burger-gutter + $burger-height) rotate(45deg);
-        -moz-transform: translateY($burger-gutter + $burger-height) rotate(45deg);
-        -ms-transform: translateY($burger-gutter + $burger-height) rotate(45deg);
-        -o-transform: translateY($burger-gutter + $burger-height) rotate(45deg);
         transform: translateY($burger-gutter + $burger-height) rotate(45deg);
     }
     &:after {
-        -webkit-transform: translateY(-($burger-gutter + $burger-height)) rotate(-45deg);
-        -moz-transform: translateY(-($burger-gutter + $burger-height)) rotate(-45deg);
-        -ms-transform: translateY(-($burger-gutter + $burger-height)) rotate(-45deg);
-        -o-transform: translateY(-($burger-gutter + $burger-height)) rotate(-45deg);
         transform: translateY(-($burger-gutter + $burger-height)) rotate(-45deg);
     }
 }
 
-@mixin netc-fa-icon($icon-var) {
+@mixin helpers-fa-icon($icon-var) {
     @include fa-icon();
 
     &:before {
