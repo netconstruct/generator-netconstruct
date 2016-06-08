@@ -1,3 +1,111 @@
 /**
- * Add common mixins in this file.
+ * This is a CORE file.
+ * Add CORE mixins in this file.
+ * For project specific mixins use /helpers/_mixin.scss
  */
+
+@mixin netc-arrow-position {
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+
+// Set `top` and `left` positions from the caller
+@mixin netc-arrow-north($color: black, $size: 5px) {
+  @include netc-arrow-position;
+  border-left: $size solid transparent;
+  border-right: $size solid transparent;
+  border-bottom: $size solid $color;
+  margin-left: -$size;
+}
+
+// Set `bottom` and `left` positions from the caller
+@mixin netc-arrow-south($color: black, $size: 5px) {
+  @include netc-arrow-position;
+  border-left: $size solid transparent;
+  border-right: $size solid transparent;
+  border-top: $size solid $color;
+  margin-left: -$size;
+}
+
+// Set `top` and `right` positions from the caller
+@mixin netc-arrow-east($color: black, $size: 5px) {
+  @include netc-arrow-position;
+  border-top: $size solid transparent;
+  border-bottom: $size solid transparent;
+  border-left: $size solid $color;
+  margin-top: -$size;
+}
+
+// Set `top` and `left` positions from the caller
+@mixin netc-arrow-west($color: black, $size: 5px) {
+  @include netc-arrow-position;
+  border-top: $size solid transparent;
+  border-bottom: $size solid transparent;
+  border-right: $size solid $color;
+  margin-top: -$size;
+}
+
+@mixin netc-reset-list() {
+	list-style-type: none;
+	margin-top: 0;
+	padding-left: 0;
+}
+
+@mixin netc-input-placeholder($color: #000) {
+	::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+	  color: $color;
+	}
+	::-moz-placeholder { /* Firefox 19+ */
+	  color: $color;
+	}
+	:-ms-input-placeholder { /* IE 10+ */
+	  color: $color;
+	}
+	:-moz-placeholder { /* Firefox 18- */
+	  color: $color;
+	}
+}
+
+@mixin netc-property-placeholder() {
+	&::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+		@content;
+	}
+	&::-moz-placeholder { /* Firefox 19+ */
+		@content;
+	}
+	&:-ms-input-placeholder { /* IE 10+ */
+		@content;
+	}
+	&:-moz-placeholder { /* Firefox 18- */
+	  @content;
+	}
+}
+
+@mixin netc-clearfix() {
+	&:before,
+	&:after {
+	    content: " ";
+	    display: table;
+	}
+}
+
+@mixin netc-reset-chrome() {
+	input:-webkit-autofill,
+	textarea:-webkit-autofill,
+	select:-webkit-autofill {
+		background-color: transparent;
+		-webkit-box-shadow: 0 0 0px 1000px white inset;
+	}
+}
+
+@mixin netc-visuallyhidden() {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	padding: 0;
+	overflow: hidden;
+	clip: rect(0,0,0,0);
+	border: 0;
+}
