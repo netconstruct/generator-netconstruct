@@ -1,0 +1,10 @@
+/*
+ * Add breakpoints variables
+ */
+
+$mobile: 767px;
+$tablet-min: $mobile + 1px;
+$tablet-max: 1199px;
+$tablet: $tablet-min $tablet-max;
+$desktop: $tablet-max + 1px;
+$small-tablet: 880px;

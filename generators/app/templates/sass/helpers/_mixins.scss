@@ -1,0 +1,70 @@
+@mixin helpers-reset-button {
+	border: 0;
+	background: transparent;
+	font-weight: bold;
+	padding: 0;
+}
+
+@mixin helpers-reset-hover-link {
+	&:hover {
+		text-decoration: none;
+	}
+}
+
+@mixin helpers-burger($width: 30px, $height: 5px, $gutter: 3px, $color: #000, $border-radius: 0, $transition-duration: .3s) {
+    $burger-height: $height !global;
+    $burger-gutter: $gutter !global;
+
+    position: relative;
+    margin-top: $height + $gutter;
+    margin-bottom: $height + $gutter;
+
+    &,
+    &:before,
+    &:after {
+        display: block;
+        width: $width;
+        height: $height;
+        background-color: $color;
+        @if $border-radius != 0 {
+            border-radius: $border-radius;
+        }
+
+        transition-property: background-color, transform;
+        transition-duration: $transition-duration;
+    }
+
+    &:before, &:after {
+        position: absolute;
+        content: "";
+    }
+
+    &:before {
+        top: -($height + $gutter);
+    }
+
+    &:after {
+        top: $height + $gutter;
+    }
+}
+
+@mixin helpers-burger-to-cross {
+    & {
+        background-color: transparent;
+    }
+
+    &:before {
+        transform: translateY($burger-gutter + $burger-height) rotate(45deg);
+    }
+    &:after {
+        transform: translateY(-($burger-gutter + $burger-height)) rotate(-45deg);
+    }
+}
+
+@mixin helpers-fa-icon($icon-var) {
+    @include fa-icon();
+
+    &:before {
+        content: $icon-var;
+    }
+}

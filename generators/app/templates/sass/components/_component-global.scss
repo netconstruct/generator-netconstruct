@@ -1,0 +1,16 @@
+/**
+ * Add global styles in this file.
+ */
+
+html {
+	color: $brand-text;
+}
+
+p {
+	font-family: $base-font-family;
+}
+
+// @note: override margin-top from Titon and add a margin-bottom
+ul, ol, p {
+	@include rem(margin, 0 0 16px 0);
+}

@@ -1,26 +1,45 @@
+$slick-font-path: "~slick-carousel/slick/fonts/";
+$slick-loader-path: "~slick-carousel/slick/";
+//$fa-font-path: "~font-awesome/fonts";
+
 // libs
-@import '~gridle/sass/gridle/gridle';
+@import '~gridle/sass/gridle/gridle-flex';
+@import '~sass-rem/rem';
+@import '~slick-carousel/slick/slick';
+//@import '~font-awesome/scss/font-awesome.scss';
+
+// override Titon variables
+@import 'settings/settings-framework';
+@import 'framework-imports';
 
 // settings
-@import 'settings-brand';
-@import 'settings-grid';
-@import 'settings-layers';
-@import 'settings-type';
+@import 'settings/settings-brand';
+@import 'settings/settings-breakpoint';
+@import 'settings/settings-grid';
+@import 'settings/settings-layers';
+@import 'settings/settings-type';
+@import 'settings/settings-global';
 
 // tools
-@import 'tools-functions';
-@import 'tools-mixins';
+@import 'core/tools-functions';
+@import 'core/tools-mixins';
 
 // base
-@import 'base-fonts';
-@import 'base-grid';
+@import 'base/base-fonts';
+@import 'base/base-grid';
+
+// helpers
+@import 'helpers/helpers';
+@import 'helpers/mixins';
+@import 'helpers/list-inputs';
 
 // components
-@import 'component-header';
-@import 'component-footer';
+@import 'components/component-global';
+@import 'components/component-header';
+@import 'components/component-footer';
 
 // templates
-@import 'template-home';
+@import 'template/template-home';
 
 // overrides
-@import 'overrides-common';
+@import 'fixes/overrides-common';

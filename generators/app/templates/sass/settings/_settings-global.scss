@@ -1,0 +1,13 @@
+$image-path: '~img/';
+
+$burger-gutter: 3px;
+$burger-height: 5px;
+
+$main-mb: 40px;
+
+// used by rem mixin
+$rem-baseline: 16px;
+
+html {
+	@include rem-baseline; // Default zoom to 100%
+}

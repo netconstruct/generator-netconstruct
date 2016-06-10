@@ -1,0 +1,43 @@
+/**
+ * Add grid variables in this file.
+ */
+
+$settings : (
+    context : 12,
+    gutter-width : 40px,
+    direction : ltr,
+    name-multiplicator : 1
+);
+
+$grid-gutters-list: (
+    25px,
+    35px,
+    45px,
+    55px,
+    65px
+);
+
+// Setup Gridle
+@include gridle_setup($settings);
+@include gridle_register_default_mobile_first_states();
+@include gridle_generate_classes ();
+
+// Register breakpoints
+@include gridle_register_state ( mobile , (
+    max-width : $mobile
+) );
+@include gridle_register_state ( tablet , (
+    min-width : $tablet-min,
+    max-width : $tablet-max
+) ) ;
+@include gridle_register_state ( desktop , (
+    min-width : $desktop
+) ) ;
+@include gridle_register_state ( small-tablet , (
+    min-width : $small-tablet
+) ) ;
+
+@include gridle_init();
+
+$site-wide-padding: 30px;
+$site-width: $desktop + $site-wide-padding * 2;
