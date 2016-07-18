@@ -163,6 +163,10 @@ module.exports = yeoman.generators.Base.extend({
     /** Create eslintrc file. */
     eslintrc: function() {
       var eslintrc = {
+        env: {
+          browser: true,
+          es6: true
+        },
         extends: ['airbnb-base'],
         globals: {
           'angular': false,
