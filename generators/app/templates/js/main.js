@@ -14,7 +14,8 @@ angular
     'angular-loading-bar',
     'ui.router',
   ])
-  .config(configureModule);
+  .config(configureModule)
+  .run(runModule);
 
 const deferredBootstrapper = require('angular-deferred-bootstrap');
 
@@ -32,4 +33,18 @@ function configureModule($compileProvider, $httpProvider, $locationProvider) {
   $compileProvider.debugInfoEnabled(DEBUG);
   $httpProvider.useApplyAsync(true);
   $locationProvider.html5Mode(false).hashPrefix('!');
+}
+
+/**
+ * Run the module.
+ * @ngInject
+ */
+function runModule($rootScope) {
+  // eslint-disable-next-line max-len
+  if (process.env.NODE_ENV === 'development') {
+    // Prevent errors being swallowed by ui-router in dev environments.
+    $rootScope.$on('$stateChangeError', (event, toState, toParams, fromState, fromParams, error) => {
+      console.error('$stateChangeError', error);
+    });
+  }
 }
