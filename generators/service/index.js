@@ -94,7 +94,6 @@ module.exports = yeoman.Base.extend({
       const servicePath = path.join(
         this.jsPath,
         this.props.moduleDashedName,
-        this.props.serviceDashedName,
         serviceFileName
       );
 
