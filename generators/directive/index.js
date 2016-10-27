@@ -1,38 +1,36 @@
 'use strict';
 
-var _s = require('underscore.string');
-var extend = require('extend');
-var path = require('path');
-var yeoman = require('yeoman-generator');
+const _s = require('underscore.string');
+const extend = require('extend');
+const path = require('path');
+const yeoman = require('yeoman-generator');
 
-module.exports = yeoman.generators.Base.extend({
+module.exports = yeoman.Base.extend({
 
   /** Generator constructor. */
-  constructor: function () {
-    yeoman.generators.Base.apply(this, arguments);
+  constructor: function constructor() {
+    yeoman.Base.apply(this, arguments); // eslint-disable-line
   },
 
   /** Initialise generator. */
-  initializing: function () {
+  initializing: function initializing() {
     this.pkg = require('../../package.json');
     this.props = this.config.get('props');
   },
 
   /** Set generator prompts. */
-  prompting: function () {
-    var done = this.async();
-
+  prompting: function prompting() {
     if (this.props) {
       this.log('Using saved configuration.');
     }
 
-    var prompts = [
+    const prompts = [
       // Directive name
       {
         type: 'input',
         name: 'directivePrefix',
         message: 'What is the directive prefix?',
-        default: 'netc'
+        default: 'netc',
       },
 
       // Directive name
@@ -40,7 +38,7 @@ module.exports = yeoman.generators.Base.extend({
         type: 'input',
         name: 'directiveName',
         message: 'What is the directive name?',
-        default: 'Example'
+        default: 'Example',
       },
 
       // Module name
@@ -48,33 +46,30 @@ module.exports = yeoman.generators.Base.extend({
         type: 'input',
         name: 'moduleName',
         message: 'What is the module name?',
-        default: 'Example'
-      }
+        default: 'Example',
+      },
     ];
 
-    this.prompt(prompts, function (props) {
+    return this.prompt(prompts).then((props) => {
       this.props = extend({}, this.props, props);
-
-      done();
-    }.bind(this));
+    });
   },
 
   configuring: {
 
     /** Save user configuration. */
-    saveConfig: function () {
+    saveConfig: function saveConfig() {
       this.config.set({
-        props: this.props
+        props: this.props,
       });
     },
 
     /** Set path properties. */
-    setPaths: function () {
+    setPaths: function setPaths() {
       // Set root path.
       this.root = this.destinationRoot();
 
       if (this.props.destinationRoot && this.props.destinationRoot.length) {
-
         if (this.root.substring(this.root.length - 1) === '/') {
           this.props.destinationRoot = this.props.destinationRoot.substring(0, this.root.length - 2);
         }
@@ -92,27 +87,31 @@ module.exports = yeoman.generators.Base.extend({
     },
 
     /** Set name properties. */
-    setNames: function () {
+    setNames: function setNames() {
       this.props.directivePrefix = _s.camelize(this.props.directivePrefix, true);
       this.props.directiveClassName = _s.classify(this.props.directiveName, true);
       this.props.directiveDashedName = _s.ltrim(_s.dasherize(this.props.directiveName), '-');
       this.props.moduleDashedName = _s.ltrim(_s.dasherize(this.props.moduleName), '-');
-    }
+    },
   },
 
   writing: {
 
     /** Create directive file. */
-    createDirective: function () {
-
-      var directiveFileName = this.props.directiveDashedName + '.directive.js';
-      var directivePath = path.join(this.jsPath, this.props.moduleDashedName, this.props.directiveDashedName, directiveFileName);
+    createDirective: function createDirective() {
+      const directiveFileName = `${this.props.directiveDashedName}.directive.js`;
+      const directivePath = path.join(
+        this.jsPath,
+        this.props.moduleDashedName,
+        this.props.directiveDashedName,
+        directiveFileName
+      );
 
       this.fs.copyTpl(
         this.templatePath(this.props.es6 ? 'directive.template.es6.js' : 'directive.template.js'),
         this.destinationPath(directivePath),
         this.props
       );
-    }
-  }
+    },
+  },
 });

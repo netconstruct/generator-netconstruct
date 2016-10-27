@@ -1,8 +1,7 @@
 {
   "env": {
     "es6": true,
-    "mocha": true,
-    "node": true,
+    "browser": true,
   },
   "extends": [
     "eslint:recommended",
@@ -31,7 +30,6 @@
     "max-len": ["warn", 100],
     "no-debugger": "warn",
     "no-restricted-syntax": "warn",
-    "no-underscore-dangle": "off",
     "no-use-before-define": [
       "error",
       {

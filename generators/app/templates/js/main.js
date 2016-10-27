@@ -43,8 +43,10 @@ function runModule($rootScope) {
   // eslint-disable-next-line max-len
   if (process.env.NODE_ENV === 'development') {
     // Prevent errors being swallowed by ui-router in dev environments.
-    $rootScope.$on('$stateChangeError', (event, toState, toParams, fromState, fromParams, error) => {
-      console.error('$stateChangeError', error);
-    });
+    $rootScope.$on('$stateChangeError',
+      (event, toState, toParams, fromState, fromParams, error) => {
+        console.error('$stateChangeError', error); // eslint-disable-line no-console
+      }
+    );
   }
 }

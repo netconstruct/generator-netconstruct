@@ -1,40 +1,37 @@
 'use strict';
 
-var _s = require('underscore.string');
-var mkdirp = require('mkdirp');
-var path = require('path');
-var yeoman = require('yeoman-generator');
+const _s = require('underscore.string');
+const mkdirp = require('mkdirp');
+const path = require('path');
+const yeoman = require('yeoman-generator');
 
-module.exports = yeoman.generators.Base.extend({
+module.exports = yeoman.Base.extend({
 
   /** Generator constructor. */
-  constructor: function() {
-    yeoman.generators.Base.apply(this, arguments);
+  constructor: function constructor() {
+    yeoman.Base.apply(this, arguments); // eslint-disable-line
   },
 
   /** Initialise generator. */
-  initializing: function() {
+  initializing: function initializing() {
     this.pkg = require('../../package.json');
     this.props = this.config.get('props');
   },
 
   /** Set generator prompts. */
-  prompting: function() {
-    var done = this.async();
-
+  prompting: function prompting() {
     if (this.props) {
       this.log('Using saved configuration.');
-      done();
-      return;
+      return Promise.resolve();
     }
 
-    var prompts = [
+    const prompts = [
       // Application name?
       {
         type: 'input',
         name: 'appname',
         message: 'What is the application name?',
-        default: 'Example'
+        default: 'Example',
       },
 
       // Root path?
@@ -42,7 +39,7 @@ module.exports = yeoman.generators.Base.extend({
         type: 'input',
         name: 'destinationRoot',
         message: 'What is the web project root path?',
-        default: 'CMS'
+        default: 'CMS',
       },
 
       // Create folder structure?
@@ -50,7 +47,7 @@ module.exports = yeoman.generators.Base.extend({
         type: 'confirm',
         name: 'createFolderStructure',
         message: 'Would you like to create the standard folder structure?',
-        default: true
+        default: true,
       },
 
       // Visual Studio version?
@@ -58,7 +55,7 @@ module.exports = yeoman.generators.Base.extend({
         type: 'input',
         name: 'msvs',
         message: 'Which Visual Studio version is installed?',
-        default: '2015'
+        default: '2015',
       },
 
       // ES6?
@@ -66,36 +63,33 @@ module.exports = yeoman.generators.Base.extend({
         type: 'confirm',
         name: 'es6',
         message: 'Would you like to use ES6?',
-        default: true
-      }
+        default: true,
+      },
     ];
 
-    this.prompt(prompts, function(props) {
+    return this.prompt(prompts).then((props) => {
       this.props = props;
 
       // Set app name.
       this.props.appname = this.props.appname || this.appname;
-
-      done();
-    }.bind(this));
+    });
   },
 
   configuring: {
 
     /** Save user configuration. */
-    saveConfig: function() {
+    saveConfig: function saveConfig() {
       this.config.set({
-        props: this.props
+        props: this.props,
       });
     },
 
     /** Set path properties. */
-    setPaths: function() {
+    setPaths: function setPaths() {
       // Set root path.
       this.root = this.destinationRoot();
 
       if (this.props.destinationRoot && this.props.destinationRoot.length) {
-
         if (this.root.substring(this.root.length - 1) === '/') {
           this.props.destinationRoot = this.props.destinationRoot.substring(0, this.root.length - 2);
         }
@@ -113,15 +107,15 @@ module.exports = yeoman.generators.Base.extend({
     },
 
     /** Set app name properties. */
-    setAppName: function() {
+    setAppName: function setPaths() {
       this.props.appnameSlug = _s.slugify(this.props.appname);
-    }
+    },
   },
 
   writing: {
 
     /** Create folder structure. */
-    createFolderStructure: function() {
+    createFolderStructure: function createFolderStructure() {
       if (this.props.createFolderStructure) {
         mkdirp(this.fontsPath);
         mkdirp(this.imgPath);
@@ -132,28 +126,28 @@ module.exports = yeoman.generators.Base.extend({
     },
 
     /** Create bower.json file. */
-    bowerJson: function() {
-      var bowerJson = {
+    bowerJson: function bowerJson() {
+      const contents = {
         name: this.props.appnameSlug,
         private: true,
         dependencies: {},
-        devDependencies: {}
+        devDependencies: {},
       };
 
-      this.fs.writeJSON(this.destinationPath(path.join(this.root, 'SiteFiles/src/bower.json')), bowerJson);
+      this.fs.writeJSON(this.destinationPath(path.join(this.root, 'SiteFiles/src/bower.json')), contents);
     },
 
     /** Create babelrc file. */
-    babelrc: function() {
-      var babelrc = {
-        presets: ['es2015']
+    babelrc: function babelrc() {
+      const contents = {
+        presets: ['es2015'],
       };
 
-      this.fs.writeJSON(this.destinationPath(path.join(this.root, 'SiteFiles/src/.babelrc')), babelrc);
+      this.fs.writeJSON(this.destinationPath(path.join(this.root, 'SiteFiles/src/.babelrc')), contents);
     },
 
     /** Create eslintignore file. */
-    eslintignore: function() {
+    eslintignore: function eslintignore() {
       this.fs.copy(
         this.templatePath('_eslintignore'),
         this.destinationPath(path.join(this.root, 'SiteFiles/src/.eslintignore'))
@@ -161,29 +155,15 @@ module.exports = yeoman.generators.Base.extend({
     },
 
     /** Create eslintrc file. */
-    eslintrc: function() {
-      var eslintrc = {
-        env: {
-          browser: true,
-          es6: true
-        },
-        extends: ['airbnb-base'],
-        globals: {
-          'angular': false,
-          'DEBUG': false,
-        },
-        rules: {
-          'global-require': 'off',
-          'no-use-before-define': ['error', { 'functions': false, 'classes': true }],
-          "import/no-unresolved": "off"
-        },
-      };
-
-      this.fs.writeJSON(this.destinationPath(path.join(this.root, 'SiteFiles/src/.eslintrc')), eslintrc);
+    eslintrc: function eslintrc() {
+      this.fs.copy(
+        this.templatePath('_eslintrc'),
+        this.destinationPath(path.join(this.root, 'SiteFiles/src/.eslintrc'))
+      );
     },
 
     /** Create git files. */
-    git: function() {
+    git: function git() {
       this.fs.copy(
         this.templatePath('_gitignore'),
         this.destinationPath('.gitignore')
@@ -196,7 +176,7 @@ module.exports = yeoman.generators.Base.extend({
     },
 
     /** Create gulpfile. */
-    gulpfile: function() {
+    gulpfile: function gulpfile() {
       this.fs.copy(
         this.templatePath('gulpfile.js'),
         this.destinationPath(path.join(this.root, 'SiteFiles/src/gulpfile.js'))
@@ -204,19 +184,20 @@ module.exports = yeoman.generators.Base.extend({
     },
 
     /** Create package.json file. */
-    packageJson: function() {
-      var packageJson = {
+    packageJson: function packageJson() {
+      const contents = {
         name: this.props.appnameSlug,
+        version: '0.1.0',
         private: true,
         dependencies: {},
-        devDependencies: {}
+        devDependencies: {},
       };
 
-      this.fs.writeJSON(this.destinationPath(path.join(this.root, 'SiteFiles/src/package.json')), packageJson);
+      this.fs.writeJSON(this.destinationPath(path.join(this.root, 'SiteFiles/src/package.json')), contents);
     },
 
     /** Create templated js files. */
-    js: function() {
+    js: function js() {
       this.fs.copyTpl(
         this.templatePath('js/*'),
         this.destinationPath(this.jsPath),
@@ -225,7 +206,7 @@ module.exports = yeoman.generators.Base.extend({
     },
 
     /** Create templated sass files. */
-    sass: function() {
+    sass: function sass() {
       this.fs.copyTpl(
         this.templatePath('sass/**/*'),
         this.destinationPath(this.sassPath)
@@ -233,43 +214,41 @@ module.exports = yeoman.generators.Base.extend({
     },
 
     /** Create templated task files. */
-    tasks: function() {
+    tasks: function tasks() {
       this.fs.copyTpl(
         this.templatePath('tasks/*'),
         this.destinationPath(this.tasksPath)
       );
-    }
+    },
   },
 
   install: {
 
     /** Change folder to bower/package.json location. */
-    changeToSrcPath: function() {
+    changeToSrcPath: function changeToSrcPath() {
       process.chdir(this.srcPath);
     },
 
     /** Install bower dependencies. */
-    bowerInstall: function() {
-
+    bowerInstall: function bowerInstall() {
       // Install dependencies.
-      var bowerDependencies = [];
+      const bowerDependencies = [];
 
       // Install dev dependencies.
-      var bowerDevDependencies = [];
+      const bowerDevDependencies = [];
 
       this.bowerInstall(bowerDependencies, {
-        'save': true
+        save: true,
       });
 
       this.bowerInstall(bowerDevDependencies, {
-        'saveDev': true
+        saveDev: true,
       });
     },
 
     /** Install npm dependencies. */
-    npmInstall: function() {
-
-      var npmDependencies = [
+    npmInstall: function npmInstall() {
+      const npmDependencies = [
         'angular',
         'angular-animate',
         'angular-deferred-bootstrap',
@@ -279,14 +258,15 @@ module.exports = yeoman.generators.Base.extend({
         'babel-polyfill',
         'gridle',
         'jquery',
-				'sass-rem',
-				'slick-carousel',
-				'titon-toolkit'
+        'sass-rem',
+        'slick-carousel',
+        'titon-toolkit',
       ];
 
-      var npmDevDependencies = [
+      const npmDevDependencies = [
         'autoprefixer',
         'babel-core',
+        'babel-eslint',
         'babel-loader',
         'babel-preset-es2015',
         'bower-webpack-plugin',
@@ -320,34 +300,34 @@ module.exports = yeoman.generators.Base.extend({
         'url-loader',
         'webpack',
         'webpack-dev-middleware',
-        'webpack-hot-middleware'
+        'webpack-hot-middleware',
       ];
 
       // Install dependencies.
       this.npmInstall(npmDependencies, {
-        'msvs_version': this.props.msvs,
-        'save': true
+        msvs_version: this.props.msvs,
+        save: true,
       });
 
       // Install dev dependencies.
       this.npmInstall(npmDevDependencies, {
-        'msvs_version': this.props.msvs,
-        'saveDev': true
+        msvs_version: this.props.msvs,
+        saveDev: true,
       });
-    }
+    },
   },
 
   end: {
 
     /** Display completion message. */
-    complete: function() {
+    complete: function complete() {
       this.log('Application initialisation completed.');
     },
 
     /** Run default gulp task. */
-    serve: function() {
+    serve: function serve() {
       this.log('Running gulp.');
       this.spawnCommand('gulp', ['build']);
-    }
-  }
+    },
+  },
 });
