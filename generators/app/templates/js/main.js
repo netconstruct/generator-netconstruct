@@ -46,7 +46,7 @@ function runModule($rootScope) {
     $rootScope.$on('$stateChangeError',
       (event, toState, toParams, fromState, fromParams, error) => {
         console.error('$stateChangeError', error); // eslint-disable-line no-console
-      }
+      },
     );
   }
 }
