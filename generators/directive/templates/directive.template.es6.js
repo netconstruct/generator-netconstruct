@@ -1,35 +1,33 @@
 /**
+ * <%= controllerName %> controller.
+ * @description The <%= controllerName %> controller
+ */
+class <%= directiveClassName %>Controller {
+  /* @ngInject */
+  constructor($element) {
+    this.$element = $element;
+  }
+}
+
+/**
  * <%= directiveName %> directive.
  * @description The <%= directiveName %> directive
  */
-const <%= directivePrefix %><%= directiveClassName %> = /*@ngInject*/ () => {
+const <%= directivePrefix %><%= directiveClassName %> = /* @ngInject */ () => {
   return {
     bindToController: true,
     controller: <%= directiveClassName %>Controller,
     controllerAs: 'vm',
-    link: link,
+    link,
     replace: true,
     restrict: 'AE',
-    scope: {}
+    scope: {},
   };
 
   /** Initialise directive. */
-  function link(scope, element, attrs, ctrl) {}
-}
+  function link($scope, $element, $attrs, $ctrl) {
+    // handle dom interactions
+  }
+};
 
-/**
- * <%= directiveName %> controller.
- * @ngInject
- */
-function <%= directiveClassName %>Controller() {
-  var vm = this;
-
-  vm.value = 'some value';
-
-  activate();
-
-  /** Activate the controller. */
-  function activate() {}
-}
-
-export { <%= directivePrefix %><%= directiveClassName %> };
+export default <%= directivePrefix %><%= directiveClassName %>;

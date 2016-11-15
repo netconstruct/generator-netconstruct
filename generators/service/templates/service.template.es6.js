@@ -3,16 +3,10 @@
  * @description The <%= serviceName %> service
  */
 class <%= serviceClassName %>Service {
-  /*@ngInject*/
-  constructor() {
-    // assign dependencies
-  }
-  getAll() {
-    // body...
-  }
-  getItem() {
-    // body...
+  /* @ngInject */
+  constructor($http) {
+    this.$http = $http;
   }
 }
 
-export { <%= serviceClassName %>Controller };
+export default <%= serviceClassName %>Service;

@@ -2,23 +2,23 @@
  * <%= factoryName %> factory.
  * @description The <%= factoryName %> factory
  */
-const <%= factoryCamelCaseName %>Factory = /*@ngInject*/ () => {
-  var self = {
-    getAll: getAll,
-    getItem: getItem
+const <%= factoryCamelCaseName %>Factory = /* @ngInject */ () => {
+  const self = {
+    getAll,
+    getItem,
   };
 
   return self;
 
   /** Get all. */
-  function getAll () {
+  function getAll() {
     // body...
   }
 
   /** Get item. */
-  function getItem () {
+  function getItem() {
     // body...
   }
-}
+};
 
-export { <%= factoryCamelCaseName %> };
+export default <%= factoryCamelCaseName %>Factory;

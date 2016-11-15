@@ -21,4 +21,4 @@ function run() {
 
 }
 
-export { <%= moduleDashedName %> };
+export default <%= moduleDashedName %>;

@@ -2,8 +2,6 @@
  * <%= filterName %> filter.
  * @description The <%= filterName %> filter
  */
-const <%= filterCamelCaseName %> = /*@ngInject*/ () => (input) => {
-  return input;
-}
+const <%= filterCamelCaseName %> = /* @ngInject */ () => input => input;
 
-export { <%= filterCamelCaseName %> };
+export default <%= filterCamelCaseName %>;

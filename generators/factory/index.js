@@ -94,7 +94,6 @@ module.exports = yeoman.Base.extend({
       const factoryPath = path.join(
         this.jsPath,
         this.props.moduleDashedName,
-        this.props.factoryDashedName,
         factoryFileName
       );
 

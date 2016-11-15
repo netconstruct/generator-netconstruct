@@ -3,16 +3,10 @@
  * @description The <%= controllerName %> controller
  */
 class <%= controllerClassName %>Controller {
-  /*@ngInject*/
-  constructor() {
-    // assign dependencies
-  }
-  handleClick() {
-    // body...
-  }
-  handleSubmit() {
-    // body...
+  /* @ngInject */
+  constructor($element) {
+    this.$element = $element;
   }
 }
 
-export { <%= controllerClassName %>Controller };
+export default <%= controllerClassName %>Controller;
