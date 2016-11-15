@@ -1,7 +1,7 @@
 import 'angular';
 
-const <%= moduleDashedName %> = angular
-  .module('<%= moduleDashedName %>', [])
+const <%= moduleClassName %>Module = angular
+  .module('<%= appnameSlug %>.<%= moduleDashedName %>', [])
   .config(configure)
   .run(run);
 
@@ -21,4 +21,4 @@ function run() {
 
 }
 
-export default <%= moduleDashedName %>;
+export default <%= moduleClassName %>Module;

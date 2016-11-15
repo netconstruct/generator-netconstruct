@@ -72,6 +72,8 @@ module.exports = yeoman.Base.extend({
 
     /** Set name properties. */
     setNames: function setNames() {
+      this.props.appnameSlug = _s.slugify(this.props.appname);
+      this.props.moduleClassName = _s.classify(this.props.moduleName, true);
       this.props.moduleDashedName = _s.ltrim(_s.dasherize(this.props.moduleName), '-');
     },
   },
