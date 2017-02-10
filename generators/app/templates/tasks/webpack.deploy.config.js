@@ -1,61 +1,73 @@
-﻿(function () {
-  var extend = require('extend');
-  var path = require('path');
-  var webpack = require('webpack');
+const merge = require('webpack-merge');
 
-  // Load webpack plugins.
-  var BowerWebpackPlugin = require('bower-webpack-plugin');
-  var CleanWebpackPlugin = require('clean-webpack-plugin');
-  var ExtractTextPlugin = require('extract-text-webpack-plugin');
+// Load webpack plugins.
+const CleanWebpackPlugin = require('clean-webpack-plugin');
+const DefinePlugin = require('webpack/lib/DefinePlugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const LoaderOptionsPlugin = require('webpack/lib/LoaderOptionsPlugin');
+const UglifyJsPlugin = require('webpack/lib/optimize/UglifyJsPlugin');
 
-  // Clone base.
-  var config = Object.create(require('./webpack.base.config'));
+const paths = require('../core/paths');
+const baseConfig = Object.create(require('./webpack.base.config'));
 
-  var __root = path.resolve(__dirname, '../');
+// Load base configuration.
+const config = merge.smart(baseConfig, {
+  cache: false,
+  devtool: '#source-map',
 
-  // Load base configuration.
-  config = extend(true, {}, config, {
-    cache: false,
-    debug: false,
-    devtool: '',
+  entry: {
+    head: ['modernizr'],
+    main: [
+      'sass/main.scss',
+      'js/main',
+    ],
+  },
 
-    entry: {
-      'head': ['modernizr'],
-      'main': [
-        'sass/main.scss',
-        'js/main'
-      ]
-    },
+  module: {
+    rules: [{
+      test: /\.(eot|ttf|woff|woff2)(\?.+)?$/,
+      use: ['file-loader?name=fonts/[name].[ext]'],
+      exclude: paths.fonts,
+    }, {
+      test: /\.(jpeg|jpg|gif|png|svg)(\?.+)?$/,
+      use: ['file-loader?name=img/[name].[ext]'],
+      exclude: paths.fonts,
+    }, {
+      test: /\.(eot|svg|ttf|woff|woff2)(\?.+)?$/,
+      use: ['file-loader?name=fonts/[name].[ext]'],
+      include: paths.fonts,
+    }],
+  },
 
-    jshint: {
-      debug: false,
-      emitErrors: true,
-      esnext: true,
-      failOnHint: true
-    },
+  output: {
+    chunkFilename: '[name]-[hash].js',
+    filename: '[name]-[hash].js',
+    path: paths.dist,
+    publicPath: '/sitefiles/dist/',
+  },
 
-    plugins: [
-      new CleanWebpackPlugin([path.join(__root, '../dist')]),
-      new ExtractTextPlugin('main.css'),
-      new webpack.DefinePlugin({
-        DEBUG: false
-      }),
-      new webpack.ProvidePlugin({
-        $: 'jquery',
-        jQuery: 'jquery',
-        'window.jQuery': 'jquery'
-      }),
-      new webpack.optimize.UglifyJsPlugin({
-        compress: {
-          warnings: false
-        },
-        output: {
-          comments: false
-        }
-      }),
-      new webpack.optimize.OccurenceOrderPlugin()
-    ]
-  });
+  plugins: [
+    new CleanWebpackPlugin([paths.dist], { root: paths.sitefiles }),
+    new DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify('production'),
+    }),
+    new ExtractTextPlugin({ allChunks: true, disable: false, filename: '[name]-[hash].css' }),
+    new LoaderOptionsPlugin({
+      context: paths.root,
+      debug: true,
+      eslint: {
+        ignorePath: paths.eslintIgnore,
+      },
+    }),
+    new UglifyJsPlugin({
+      compress: {
+        warnings: false,
+      },
+      output: {
+        comments: false,
+      },
+    }),
+  ],
+});
 
-  module.exports = config;
-})();
+module.exports = config;

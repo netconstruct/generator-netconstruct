@@ -1,110 +1,108 @@
-﻿(function () {
-  var autoprefixer = require('autoprefixer');
-  var path = require('path');
-  var pseudoelements = require('postcss-pseudoelements');
-  var ExtractTextPlugin = require('extract-text-webpack-plugin');
+/* eslint-disable func-names, object-shorthand */
 
-  var exclude = [
-    /bower_components/,
-    /node_modules/,
-    /vendor/,
-    /web_modules/,
-  ];
+// Load webpack plugins.
+const AssetsPlugin = require('assets-webpack-plugin');
+const ChunkManifestPlugin = require('chunk-manifest-webpack-plugin');
+const CommonsChunkPlugin = require('webpack/lib/optimize/CommonsChunkPlugin');
+const ContextReplacementPlugin = require('webpack/lib/ContextReplacementPlugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const Md5HashPlugin = require('webpack-md5-hash');
 
-  var __root = path.resolve(__dirname, '../');
+const paths = require('../core/paths');
 
-  module.exports = {
-    context: __root,
+const baseConfig = {
+  externals: {
+    jquery: 'jQuery',
+  },
 
-    eslint: {
-      ignorePath: path.join(__root, '.eslintignore'),
-    },
-
-    module: {
-      preLoaders: [
-        {
-          test: /\.js$/,
-          loader: 'eslint',
-          exclude: exclude
-        }
-      ],
-
-      loaders: [
-        {
-          test: /\.css$/,
-          loader: 'css?-autoprefixer!postcss'
-        },
-        {
-          test: /\.(eot|ttf|woff|woff2)(\?.+)?$/,
-          loader: 'url?limit=32768'
-        },
-        {
-          test: /\.html$/,
-          loader: 'html'
-        },
-        {
-          test: /\.js$/,
-          loader: 'ng-annotate!babel',
-          exclude: exclude
-        },
-        {
-          test: /\.(jpeg|jpg|gif|png|svg)(\?.+)?$/,
-          loader: 'url?limit=32768!image-webpack'
-        },
-        {
-          test: /\.scss$/,
-          loader: ExtractTextPlugin.extract('css?root=../../../..&-autoprefixer!postcss!sass')
-        },
-
-        {
-          test: /angular\.js$/,
-          loader: 'exports?window.angular'
-        },
-        {
-          test: /jquery\.js$/,
-          loader: 'expose?$'
-        },
-        {
-          test: /jquery\.js$/,
-          loader: 'expose?jQuery'
-        },
-        {
-          test: /\.js$/,
-          loader: 'imports?this=>window!exports?window.Modernizr',
-          include: /modernizr/
-        },
-        {
-          test: /underscore\.js$/,
-          loader: 'expose?_'
-        }
-      ]
-    },
-
-    output: {
-      chunkFilename: '[name].bundle.js',
-      filename: '[name].bundle.js',
-      path: path.join(__root, '../dist'),
-      publicPath: '/sitefiles/dist/',
-    },
-
-    postcss: [
-      autoprefixer({
-        browsers: ['ie 10', 'ie 11', 'last 2 versions']
+  module: {
+    rules: [{
+      test: /\.html$/,
+      use: ['html-loader'],
+    }, {
+      test: /\.js$/,
+      use: ['eslint-loader'],
+      enforce: 'pre',
+      include: [paths.ui],
+      exclude: [paths.vendor],
+    }, {
+      test: /\.js$/,
+      use: ['ng-annotate-loader', 'babel-loader'],
+      include: [paths.ui],
+      exclude: [paths.vendor],
+    }, {
+      test: /\.(css|scss)$/,
+      // eslint-disable-next-line max-len
+      use: ExtractTextPlugin.extract({
+        fallback: 'style-loader',
+        use: ['css-loader?-autoprefixer', 'postcss-loader', 'sass-loader'],
+        publicPath: '/sitefiles/dist/',
       }),
-      pseudoelements()
-    ],
+    }, {
+      test: /\.js$/,
+      use: ['imports-loader?this=>window', 'exports-loader?window.Modernizr'],
+      include: /modernizr/,
+    }],
+  },
 
-    resolve: {
-      alias: {
-        'fonts': path.join(__root, 'ui/fonts'),
-        'img': path.join(__root, 'ui/img'),
-        'js': path.join(__root, 'ui/js'),
-        'sass': path.join(__root, 'ui/sass'),
-        'vendor': path.join(__root, 'ui/js/vendor'),
+  output: {
+    chunkFilename: '[name].js',
+    filename: '[name].js',
+    path: paths.dist,
+    publicPath: '/sitefiles/dist/',
+  },
 
-        'modernizr': 'vendor/modernizr.custom.js',
+  plugins: [
+    new AssetsPlugin({
+      filename: 'assets.json',
+      path: paths.dist,
+    }),
+    new CommonsChunkPlugin({
+      names: ['vendor'],
+      minChunks: function (module) {
+        return isExternal(module);
       },
-      modulesDirectories: ['web_modules', 'node_modules', 'bower_components']
-    }
-  };
-})();
+    }),
+    new ChunkManifestPlugin({
+      filename: 'manifest.json',
+      manifestVariable: 'webpackManifest',
+    }),
+    // eslint-disable-next-line no-useless-escape
+    new ContextReplacementPlugin(/moment[\/\\]locale$/, /en-gb/),
+    new HtmlWebpackPlugin({
+      filename: 'offline.html',
+      inject: false,
+      template: paths.offline,
+    }),
+    new Md5HashPlugin(),
+  ],
+
+  resolve: {
+    alias: {
+      fonts: paths.fonts,
+      img: paths.img,
+      js: paths.js,
+      sass: paths.sass,
+      ui: paths.ui,
+      vendor: paths.vendor,
+
+      modernizr: 'vendor/modernizr.custom.js',
+    },
+  },
+};
+
+module.exports = baseConfig;
+
+/** Check if module is external. */
+function isExternal(module) {
+  const userRequest = module.userRequest;
+
+  if (typeof userRequest !== 'string') {
+    return false;
+  }
+
+  return userRequest.indexOf('bower_components') >= 0 ||
+         userRequest.indexOf('node_modules') >= 0 ||
+         userRequest.indexOf('vendor/') >= 0;
+}
