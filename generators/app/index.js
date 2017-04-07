@@ -1,4 +1,4 @@
-/* eslint-disable max-len */
+/* eslint-disable max-len, prefer-template */
 
 'use strict';
 
@@ -108,6 +108,7 @@ module.exports = yeoman.Base.extend({
       this.offlinePath = path.join(this.root, 'SiteFiles/src/offline.ejs');
       this.sassPath = path.join(this.root, 'SiteFiles/src/ui/sass');
       this.tasksPath = path.join(this.root, 'SiteFiles/src/tasks');
+      this.wppTargetsPath = path.join(this.root, this.props.appname + '.Web.wpp.targets');
     },
 
     /** Set app name properties. */
@@ -246,6 +247,14 @@ module.exports = yeoman.Base.extend({
       this.fs.copyTpl(
         this.templatePath('tasks/*'),
         this.destinationPath(this.tasksPath)
+      );
+    },
+
+    /** Create templated targets files. */
+    wppTargets: function wppTargets() {
+      this.fs.copy(
+        this.templatePath('template.wpp.targets'),
+        this.destinationPath(this.wppTargetsPath)
       );
     },
   },
