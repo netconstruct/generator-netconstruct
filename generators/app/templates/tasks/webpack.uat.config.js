@@ -1,3 +1,5 @@
+/* eslint-disable func-names, no-useless-escape, object-shorthand */
+
 // modules
 const merge = require('webpack-merge');
 const path = require('path');
@@ -69,7 +71,6 @@ module.exports = merge.smart(baseConfig, {
       filename: 'assets.json',
       path: paths.dist,
     }),
-    // eslint-disable-next-line no-useless-escape
     new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en-gb/),
     new ChunkManifestPlugin({
       filename: 'manifest.json',
@@ -81,7 +82,6 @@ module.exports = merge.smart(baseConfig, {
         return bundleByName(module, [
           'bower_components',
           'node_modules',
-          // eslint-disable-next-line no-useless-escape
           'vendor\/',
         ]);
       },

@@ -1,3 +1,5 @@
+/* eslint-disable func-names, no-useless-escape, object-shorthand */
+
 // modules
 const merge = require('webpack-merge');
 const path = require('path');
@@ -61,7 +63,6 @@ module.exports = merge.smart(baseConfig, {
       filename: 'assets.json',
       path: paths.dist,
     }),
-    // eslint-disable-next-line no-useless-escape
     new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en-gb/),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify('development'),
