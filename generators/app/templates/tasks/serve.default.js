@@ -6,7 +6,7 @@
   var webpackDevMiddleware = require('webpack-dev-middleware');
 
   // Initialise webpack bundler.
-  var webpackConfig = require('./webpack.dev.config.js');
+  var webpackConfig = require('./webpack.hmr.config.js');
   var bundler = webpack(webpackConfig);
 
   module.exports = gulp.task('serve:default', ['build:modernizr'], function () {
@@ -14,6 +14,7 @@
 
       middleware: [
         webpackDevMiddleware(bundler, {
+          noInfo: true,
           publicPath: webpackConfig.output.publicPath,
           stats: {
             colors: true
@@ -23,7 +24,7 @@
       ],
 
       open: false,
-      proxy: 'localhost'
+      proxy: 'site.netconstruct.local'
     });
   });
 })();

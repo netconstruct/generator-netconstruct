@@ -284,6 +284,7 @@ module.exports = yeoman.Base.extend({
         'angular-sanitize',
         'angular-ui-router',
         'babel-polyfill',
+        'fg-loadcss',
         'gridle',
         'jquery',
         'sass-rem',
@@ -310,7 +311,7 @@ module.exports = yeoman.Base.extend({
         'eslint-plugin-import',
         'exports-loader',
         'expose-loader',
-        'extract-text-webpack-plugin@beta',
+        'extract-text-webpack-plugin',
         'file-loader',
         'gulp',
         'gulp-modernizr',
@@ -322,6 +323,7 @@ module.exports = yeoman.Base.extend({
         'lodash',
         'ng-annotate-loader',
         'node-sass',
+        'offline-plugin',
         'postcss-loader',
         'postcss-pseudoelements',
         'raw-loader',
@@ -335,6 +337,7 @@ module.exports = yeoman.Base.extend({
         'webpack-hot-middleware',
         'webpack-md5-hash',
         'webpack-merge',
+        'webpack-stats-plugin',
       ];
 
       // Install dev dependencies.
@@ -361,7 +364,7 @@ module.exports = yeoman.Base.extend({
     /** Run default gulp task. */
     serve: function serve() {
       this.log('Running gulp.');
-      this.spawnCommand('gulp', ['build']);
+      this.spawnCommand('gulp', ['build-dev']);
     },
   },
 });

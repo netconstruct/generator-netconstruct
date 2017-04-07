@@ -1,14 +1,8 @@
-import 'babel-polyfill';
-import 'loadcss-core';
-import 'loadcss-polyfill';
-
-import * as OfflinePluginRuntime from 'offline-plugin/runtime';
-
-OfflinePluginRuntime.install();
-
-require.ensure(['./app'], () => {
-  require('./app');
-});
+import 'angular';
+import 'angular-animate';
+import 'angular-loading-bar';
+import 'angular-sanitize';
+import 'angular-ui-router';
 
 angular
   .module('<%= appnameSlug %>', [
