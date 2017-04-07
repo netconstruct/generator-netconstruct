@@ -1,7 +1,7 @@
 {
   "env": {
-    "es6": true,
     "browser": true,
+    "es6": true
   },
   "extends": [
     "eslint:recommended",
@@ -9,9 +9,15 @@
   ],
   "globals": {
     "angular": false,
+    "jQuery": false,
     "Modernizr": false,
+    "ScrollMagic": false,
     "DEBUG": false,
-    "Toolkit": false
+    "Toolkit": false,
+    "TimelineMax": false,
+    "TweenMax": false,
+    "TweenLite": false,
+    "videojs": false
   },
   "parser": "babel-eslint",
   "parserOptions": {
@@ -23,6 +29,7 @@
   "rules": {
     "arrow-body-style": ["error", "as-needed"],
     "global-require": "off",
+    "import/extensions": "off",
     "import/no-unresolved": "off",
     "import/no-extraneous-dependencies": "off",
     "import/prefer-default-export": "off",

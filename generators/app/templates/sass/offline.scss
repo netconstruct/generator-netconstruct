@@ -1,10 +1,6 @@
-$slick-font-path: "~slick-carousel/slick/fonts/";
-$slick-loader-path: "~slick-carousel/slick/";
-
 // libs
 @import '~gridle/sass/gridle/gridle-flex';
 @import '~sass-rem/rem';
-@import '~slick-carousel/slick/slick';
 
 // override Titon variables
 @import 'settings/settings-framework';
@@ -37,7 +33,7 @@ $slick-loader-path: "~slick-carousel/slick/";
 @import 'components/component-footer';
 
 // templates
-@import 'template/template-home';
+@import 'template/template-offline';
 
 // overrides
 @import 'fixes/overrides-common';

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Offline</title>
+    <meta name="description" content="Offline" />
+    <meta charset="UTF-8" />
+    <meta name="keywords" content="Offline" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+
+    <% if (htmlWebpackPlugin.files.chunks['offline'].css.length) { %>
+      <style>
+      <%= compilation.assets[htmlWebpackPlugin.files.chunks['offline'].css[0].substr(htmlWebpackPlugin.files.publicPath.length)].source() %>
+      </style>
+    <% } %>
+  </head>
+  <body>
+    <h1>We Are Offline!</h1>
+    <p>Please try again later.</p>
+  </body>
+</html>
