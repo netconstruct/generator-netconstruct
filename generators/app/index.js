@@ -108,6 +108,7 @@ module.exports = yeoman.Base.extend({
       this.offlinePath = path.join(this.root, 'SiteFiles/src/offline.ejs');
       this.sassPath = path.join(this.root, 'SiteFiles/src/ui/sass');
       this.tasksPath = path.join(this.root, 'SiteFiles/src/tasks');
+      this.docsPath = path.join(this.root, 'SiteFiles/src/docs');
       this.wppTargetsPath = path.join(this.root, this.props.appname + '.Web.wpp.targets');
     },
 
@@ -127,6 +128,7 @@ module.exports = yeoman.Base.extend({
         mkdirp(this.jsPath);
         mkdirp(this.sassPath);
         mkdirp(this.tasksPath);
+        mkdirp(this.docsPath);
       }
     },
 
@@ -164,6 +166,14 @@ module.exports = yeoman.Base.extend({
       this.fs.copy(
         this.templatePath('_eslintrc'),
         this.destinationPath(path.join(this.root, 'SiteFiles/src/.eslintrc'))
+      );
+    },
+
+    /** Create stylelintrc file. */
+    stylelintrc: function eslintrc() {
+      this.fs.copy(
+        this.templatePath('_stylelintrc'),
+        this.destinationPath(path.join(this.root, 'SiteFiles/src/.stylelintrc'))
       );
     },
 
@@ -250,6 +260,14 @@ module.exports = yeoman.Base.extend({
       );
     },
 
+    /** Create templated docs files. */
+    docs: function docs() {
+      this.fs.copyTpl(
+        this.templatePath('docs/*'),
+        this.destinationPath(this.docsPath)
+      );
+    },
+
     /** Create templated targets files. */
     wppTargets: function wppTargets() {
       this.fs.copy(
@@ -302,6 +320,8 @@ module.exports = yeoman.Base.extend({
       ];
 
       const npmDevDependencies = [
+        '@frctl/fractal',
+        '@frctl/mandelbrot',
         'assets-webpack-plugin',
         'autoprefixer',
         'babel-core',
@@ -339,6 +359,8 @@ module.exports = yeoman.Base.extend({
         'require-dir',
         'sass-loader',
         'style-loader',
+        'stylelint-config-standard',
+        'stylelint-webpack-plugin',
         'url-loader',
         'webpack',
         'webpack-bundle-analyzer',
