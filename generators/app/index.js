@@ -102,11 +102,11 @@ module.exports = yeoman.Base.extend({
       // Set useful paths.
       this.srcPath = path.join(this.root, 'SiteFiles/src');
       this.corePath = path.join(this.root, 'SiteFiles/src/core');
-      this.fontsPath = path.join(this.root, 'SiteFiles/src/ui/fonts');
-      this.imgPath = path.join(this.root, 'SiteFiles/src/ui/img');
-      this.jsPath = path.join(this.root, 'SiteFiles/src/ui/js');
+      this.fontsPath = path.join(this.root, 'SiteFiles/src/fonts');
+      this.imgPath = path.join(this.root, 'SiteFiles/src/img');
+      this.jsPath = path.join(this.root, 'SiteFiles/src/js');
       this.offlinePath = path.join(this.root, 'SiteFiles/src/offline.ejs');
-      this.sassPath = path.join(this.root, 'SiteFiles/src/ui/sass');
+      this.sassPath = path.join(this.root, 'SiteFiles/src/sass');
       this.tasksPath = path.join(this.root, 'SiteFiles/src/tasks');
       this.docsPath = path.join(this.root, 'SiteFiles/src/docs');
       this.wppTargetsPath = path.join(this.root, this.props.appname + '.Web.wpp.targets');
