@@ -22,7 +22,7 @@ const baseConfig = {
         options: { ignorePath: paths.eslintIgnore },
       }],
       enforce: 'pre',
-      include: [paths.ui],
+      include: [paths.js],
       exclude: [paths.vendor],
     }, {
       test: /\.js$/,
@@ -30,7 +30,7 @@ const baseConfig = {
         'ng-annotate-loader',
         'babel-loader',
       ],
-      include: [paths.ui],
+      include: [paths.js],
       exclude: [paths.vendor],
     }, {
       test: /\.(css|scss)$/,
@@ -53,7 +53,7 @@ const baseConfig = {
     }, {
       test: /angular\.js$/,
       use: ['exports-loader?window.angular'],
-      exclude: [paths.ui],
+      exclude: [paths.js],
       include: /angular/,
     }, {
       test: /loadcss\.js$/,
@@ -61,17 +61,17 @@ const baseConfig = {
         'imports-loader?exports=>undefined',
         'exports-loader?window.loadCSS',
       ],
-      exclude: [paths.ui],
+      exclude: [paths.js],
       include: /fg-loadcss/,
     }, {
       test: /cssrelpreload\.js$/,
       use: ['imports-loader?this=>window'],
-      exclude: [paths.ui],
+      exclude: [paths.js],
       include: /fg-loadcss/,
     }, {
       test: /\.js$/,
       use: ['babel-loader'],
-      exclude: [paths.ui],
+      exclude: [paths.js],
       include: /lodash-es/,
     }, {
       test: /\.js$/,
@@ -79,27 +79,27 @@ const baseConfig = {
         'imports-loader?this=>window',
         'exports-loader?window.Modernizr',
       ],
-      exclude: [paths.ui],
+      exclude: [paths.js],
       include: /modernizr/,
     }, {
       test: /\.js$/,
       use: ['imports-loader?define=>false'],
-      exclude: [paths.ui],
+      exclude: [paths.js],
       include: /scrollmagic/,
     }, {
       test: /underscore\.js$/,
       use: ['expose-loader?_'],
-      exclude: [paths.ui],
+      exclude: [paths.js],
       include: /underscore/,
     }, {
       test: /\.js$/,
       use: ['imports-loader?this=>window&exports=>false&define=>false'],
-      exclude: [paths.ui],
+      exclude: [paths.js],
       include: /video\.js/,
     }, {
       test: /\.js$/,
       use: ['imports-loader?this=>window&exports=>false&define=>false'],
-      exclude: [paths.ui],
+      exclude: [paths.js],
       include: /videojs-youtube/,
     }],
 
@@ -117,10 +117,8 @@ const baseConfig = {
       img: paths.img,
       js: paths.js,
       sass: paths.sass,
-      ui: paths.ui,
       vendor: paths.vendor,
 
-      'countup-core': 'countup.js/dist/countUp.js',
       'loadcss-core': 'fg-loadcss/src/loadcss',
       'loadcss-polyfill': 'fg-loadcss/src/cssrelpreload',
       modernizr: 'vendor/modernizr.custom.js',

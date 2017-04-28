@@ -19,8 +19,7 @@ $slick-loader-path: "~slick-carousel/slick/";
 @import 'settings/settings-global';
 
 // tools
-@import 'core/tools-functions';
-@import 'core/tools-mixins';
+@import '~@netc/core/src/sass/main';
 
 // base
 @import 'base/base-fonts';

@@ -102,12 +102,13 @@ module.exports = yeoman.Base.extend({
       // Set useful paths.
       this.srcPath = path.join(this.root, 'SiteFiles/src');
       this.corePath = path.join(this.root, 'SiteFiles/src/core');
-      this.fontsPath = path.join(this.root, 'SiteFiles/src/ui/fonts');
-      this.imgPath = path.join(this.root, 'SiteFiles/src/ui/img');
-      this.jsPath = path.join(this.root, 'SiteFiles/src/ui/js');
+      this.fontsPath = path.join(this.root, 'SiteFiles/src/fonts');
+      this.imgPath = path.join(this.root, 'SiteFiles/src/img');
+      this.jsPath = path.join(this.root, 'SiteFiles/src/js');
       this.offlinePath = path.join(this.root, 'SiteFiles/src/offline.ejs');
-      this.sassPath = path.join(this.root, 'SiteFiles/src/ui/sass');
+      this.sassPath = path.join(this.root, 'SiteFiles/src/sass');
       this.tasksPath = path.join(this.root, 'SiteFiles/src/tasks');
+      this.docsPath = path.join(this.root, 'SiteFiles/src/docs');
       this.wppTargetsPath = path.join(this.root, this.props.appname + '.Web.wpp.targets');
     },
 
@@ -127,6 +128,7 @@ module.exports = yeoman.Base.extend({
         mkdirp(this.jsPath);
         mkdirp(this.sassPath);
         mkdirp(this.tasksPath);
+        mkdirp(this.docsPath);
       }
     },
 
@@ -167,6 +169,14 @@ module.exports = yeoman.Base.extend({
       );
     },
 
+    /** Create stylelintrc file. */
+    stylelintrc: function eslintrc() {
+      this.fs.copy(
+        this.templatePath('_stylelintrc'),
+        this.destinationPath(path.join(this.root, 'SiteFiles/src/.stylelintrc'))
+      );
+    },
+
     /** Create git files. */
     git: function git() {
       this.fs.copy(
@@ -192,7 +202,7 @@ module.exports = yeoman.Base.extend({
     npm: function npm() {
       this.fs.copy(
         this.templatePath('_npmrc'),
-        this.destinationPath('.npmrc')
+        this.destinationPath(path.join(this.root, 'SiteFiles/src/.npmrc'))
       );
     },
 
@@ -202,6 +212,13 @@ module.exports = yeoman.Base.extend({
         name: this.props.appnameSlug,
         version: '0.1.0',
         private: true,
+        scripts: {
+      	'build-dev': 'gulp build-dev',
+      	'build-hmr': 'gulp build-hmr',
+      	'build-uat': 'gulp build-uat',
+      	'build-prd': 'gulp build-prd',
+        'styleguide': 'gulp styleguide',
+        },
         dependencies: {},
         devDependencies: {},
       };
@@ -250,6 +267,14 @@ module.exports = yeoman.Base.extend({
       );
     },
 
+    /** Create templated docs files. */
+    docs: function docs() {
+      this.fs.copyTpl(
+        this.templatePath('docs/*'),
+        this.destinationPath(this.docsPath)
+      );
+    },
+
     /** Create templated targets files. */
     wppTargets: function wppTargets() {
       this.fs.copy(
@@ -286,6 +311,7 @@ module.exports = yeoman.Base.extend({
     /** Install npm dependencies. */
     npmInstall: function npmInstall() {
       const npmDependencies = [
+        '@netc/core',
         'angular',
         'angular-animate',
         'angular-deferred-bootstrap',
@@ -302,6 +328,8 @@ module.exports = yeoman.Base.extend({
       ];
 
       const npmDevDependencies = [
+        '@frctl/fractal',
+        '@frctl/mandelbrot',
         'assets-webpack-plugin',
         'autoprefixer',
         'babel-core',
@@ -339,6 +367,8 @@ module.exports = yeoman.Base.extend({
         'require-dir',
         'sass-loader',
         'style-loader',
+        'stylelint-config-standard',
+        'stylelint-webpack-plugin',
         'url-loader',
         'webpack',
         'webpack-bundle-analyzer',

@@ -27,7 +27,7 @@ deferredBootstrapper.bootstrap({
  * @ngInject
  */
 function configureModule($compileProvider, $httpProvider, $locationProvider) {
-  $compileProvider.debugInfoEnabled(DEBUG);
+  $compileProvider.debugInfoEnabled(process.env.NODE_ENV !== 'production');
   $httpProvider.useApplyAsync(true);
   $locationProvider.html5Mode(false).hashPrefix('!');
 }
