@@ -10,7 +10,7 @@ require('../core/fractal.setup')(fractal);
 var __root = path.resolve(__dirname, '../');
 
 // Initialise webpack bundler.
-var webpackConfig = require('./webpack.dev.config.js');
+var webpackConfig = require('./webpack.hmr.config.js');
 
 module.exports = gulp.task('serve:styleguide', [/* 'build:modernizr' */], function () {
   var bundler = webpack(webpackConfig);

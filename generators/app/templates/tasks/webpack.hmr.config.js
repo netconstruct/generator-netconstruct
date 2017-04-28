@@ -80,6 +80,6 @@ module.exports = merge.smart(baseConfig, {
       },
     }),
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoErrorsPlugin(),
+    new webpack.NoEmitOnErrorsPlugin(),
   ],
 });

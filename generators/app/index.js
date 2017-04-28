@@ -202,7 +202,7 @@ module.exports = yeoman.Base.extend({
     npm: function npm() {
       this.fs.copy(
         this.templatePath('_npmrc'),
-        this.destinationPath('.npmrc')
+        this.destinationPath(path.join(this.root, 'SiteFiles/src/.npmrc'))
       );
     },
 
@@ -212,6 +212,13 @@ module.exports = yeoman.Base.extend({
         name: this.props.appnameSlug,
         version: '0.1.0',
         private: true,
+        scripts: {
+      	'build-dev': 'gulp build-dev',
+      	'build-hmr': 'gulp build-hmr',
+      	'build-uat': 'gulp build-uat',
+      	'build-prd': 'gulp build-prd',
+        'styleguide': 'gulp styleguide',
+        },
         dependencies: {},
         devDependencies: {},
       };
@@ -304,6 +311,7 @@ module.exports = yeoman.Base.extend({
     /** Install npm dependencies. */
     npmInstall: function npmInstall() {
       const npmDependencies = [
+        '@netc/core',
         'angular',
         'angular-animate',
         'angular-deferred-bootstrap',
