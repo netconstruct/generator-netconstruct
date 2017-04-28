@@ -1,0 +1,13 @@
+title: Button classes
+context:
+    text: This is an example component!
+notes:  "Multiple sizes of buttons are generated:<br>
+        .btn--small<br>
+        .btn--medium<br>
+        .btn--large<br>
+        .btn--xlarge<br>
+        By default 4 variations of buttons are generated:<br>
+        .btn--primary<br>
+        .btn--secondary<br>
+        .btn--cta<br>
+        .btn--disabled"
