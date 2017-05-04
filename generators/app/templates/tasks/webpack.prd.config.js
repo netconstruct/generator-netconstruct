@@ -46,7 +46,10 @@ module.exports = merge.smart(baseConfig, {
       test: /\.(jpeg|jpg|gif|png|svg)(\?.+)?$/,
       use: [
         'url-loader?limit=10000',
-        'image-webpack-loader',
+        {
+          loader: 'image-webpack-loader',
+          options: {}
+        },
       ],
     }],
   },
