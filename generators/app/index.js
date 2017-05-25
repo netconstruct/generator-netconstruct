@@ -170,7 +170,7 @@ module.exports = yeoman.Base.extend({
     },
 
     /** Create stylelintrc file. */
-    stylelintrc: function eslintrc() {
+    stylelintrc: function stylelintrc() {
       this.fs.copy(
         this.templatePath('_stylelintrc'),
         this.destinationPath(path.join(this.root, 'SiteFiles/src/.stylelintrc'))
