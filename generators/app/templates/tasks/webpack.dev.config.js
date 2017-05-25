@@ -170,7 +170,7 @@ module.exports = merge.smart(baseConfig, {
       publicPath: '/sitefiles/dist/',
       version: '[hash]',
     }),
-    new styleLintPlugin({
+    new StyleLintPlugin({
       configFile: '.stylelintrc',
       context: './',
       files: '**/*.scss',
