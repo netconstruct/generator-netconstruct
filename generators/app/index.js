@@ -210,7 +210,7 @@ module.exports = yeoman.Base.extend({
     packageJson: function packageJson() {
       const contents = {
         name: this.props.appnameSlug,
-        version: '0.1.0',
+        version: '2.0.1',
         private: true,
         scripts: {
       	'build-dev': 'gulp build-dev',
