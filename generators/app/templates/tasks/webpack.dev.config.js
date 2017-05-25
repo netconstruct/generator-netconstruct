@@ -13,6 +13,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const OfflinePlugin = require('offline-plugin');
 const StatsWriterPlugin = require('webpack-stats-plugin').StatsWriterPlugin;
+const StyleLintPlugin = require('stylelint-webpack-plugin');
 
 // load base configuration.
 const baseConfig = require('./webpack.config');
@@ -168,6 +169,14 @@ module.exports = merge.smart(baseConfig, {
       excludes: ['**/.*', '**/*.json', '**/*.map'],
       publicPath: '/sitefiles/dist/',
       version: '[hash]',
+    }),
+    new StyleLintPlugin({
+      configFile: '.stylelintrc',
+      context: './',
+      files: '**/*.scss',
+      failOnError: false,
+      quiet: false,
+      syntax: 'scss',
     }),
   ],
 });
