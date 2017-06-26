@@ -1,6 +1,6 @@
 {
   "name": "@netc/generator-netconstruct",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "description": "NetConstruct generator.",
   "homepage": "http://www.netconstruct.co.uk",
   "author": {
@@ -45,6 +45,5 @@
   "scripts": {
     "prepublish": "gulp prepublish",
     "test": "gulp"
-  },
-  "private": true
+  }
 }

@@ -26,6 +26,9 @@ module.exports = merge.smart(baseConfig, {
     critical: [
       'sass/critical.scss',
     ],
+    styleguide: [
+      'sass/styleguide.scss',
+    ],
     main: [
       'webpack/hot/dev-server',
       'webpack-hot-middleware/client?reload=true',

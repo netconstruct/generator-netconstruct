@@ -146,11 +146,10 @@ module.exports = yeoman.Base.extend({
 
     /** Create babelrc file. */
     babelrc: function babelrc() {
-      const contents = {
-        presets: ['es2015'],
-      };
-
-      this.fs.writeJSON(this.destinationPath(path.join(this.root, 'SiteFiles/src/.babelrc')), contents);
+      this.fs.copy(
+        this.templatePath('_babelrc'),
+        this.destinationPath(path.join(this.root, 'SiteFiles/src/.babelrc'))
+      );
     },
 
     /** Create eslintignore file. */
@@ -210,9 +209,10 @@ module.exports = yeoman.Base.extend({
     packageJson: function packageJson() {
       const contents = {
         name: this.props.appnameSlug,
-        version: '2.0.4',
+        version: '2.0.5',
         private: true,
         scripts: {
+      	'build-styleguide': 'gulp build-styleguide',
       	'build-dev': 'gulp build-dev',
       	'build-hmr': 'gulp build-hmr',
       	'build-uat': 'gulp build-uat',
@@ -321,6 +321,7 @@ module.exports = yeoman.Base.extend({
         'babel-polyfill',
         'fg-loadcss',
         'gridle',
+        'gulp-svg-sprite',
         'jquery',
         'sass-rem',
         'slick-carousel',
@@ -336,6 +337,8 @@ module.exports = yeoman.Base.extend({
         'babel-eslint',
         'babel-loader',
         'babel-plugin-transform-class-properties',
+        'babel-plugin-transform-object-rest-spread',
+        'babel-preset-env',
         'babel-preset-latest',
         'browser-sync',
         'chunk-manifest-webpack-plugin',
