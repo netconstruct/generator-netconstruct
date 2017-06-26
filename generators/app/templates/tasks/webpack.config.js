@@ -75,6 +75,11 @@ const baseConfig = {
       include: /lodash-es/,
     }, {
       test: /\.js$/,
+      use: ['babel-loader'],
+      exclude: [paths.js],
+      include: /@netc/,
+    }, {
+      test: /\.js$/,
       use: [
         'imports-loader?this=>window',
         'exports-loader?window.Modernizr',

@@ -29,6 +29,9 @@ module.exports = merge.smart(baseConfig, {
     critical: [
       'sass/critical.scss',
     ],
+    styleguide: [
+      'sass/styleguide.scss',
+    ],
     main: [
       'sass/main.scss',
       'js/main',

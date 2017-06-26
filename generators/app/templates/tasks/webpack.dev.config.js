@@ -13,7 +13,6 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const OfflinePlugin = require('offline-plugin');
 const StatsWriterPlugin = require('webpack-stats-plugin').StatsWriterPlugin;
-const StyleLintPlugin = require('stylelint-webpack-plugin');
 
 // load base configuration.
 const baseConfig = require('./webpack.config');
@@ -29,6 +28,9 @@ module.exports = merge.smart(baseConfig, {
   entry: {
     critical: [
       'sass/critical.scss',
+    ],
+    styleguide: [
+      'sass/styleguide.scss',
     ],
     main: [
       'sass/main.scss',
@@ -163,21 +165,7 @@ module.exports = merge.smart(baseConfig, {
         const stats = opts.compiler.getStats().toJson({ chunkModules: true });
         return JSON.stringify(stats, null, 2);
       },
-    }),
-    new OfflinePlugin({
-      AppCache: false,
-      excludes: ['**/.*', '**/*.json', '**/*.map'],
-      publicPath: '/sitefiles/dist/',
-      version: '[hash]',
-    }),
-    new StyleLintPlugin({
-      configFile: '.stylelintrc',
-      context: './',
-      files: '**/*.scss',
-      failOnError: false,
-      quiet: false,
-      syntax: 'scss',
-    }),
+    })
   ],
 });
 
