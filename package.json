@@ -43,7 +43,7 @@
   },
   "repository": "netconstruct/generator-netconstruct",
   "scripts": {
-    "prepublish": "gulp prepublish",
+    "prepare": "gulp prepublish",
     "test": "gulp"
   }
 }

@@ -67,6 +67,14 @@ module.exports = yeoman.Base.extend({
         message: 'Would you like to use ES6?',
         default: true,
       },
+
+      // NPM Packages?
+      {
+        type: 'confirm',
+        name: 'installPackages',
+        message: 'Would you like to install packages?',
+        default: true,
+      },
     ];
 
     return this.prompt(prompts).then((props) => {
@@ -109,6 +117,7 @@ module.exports = yeoman.Base.extend({
       this.styleguidePath = path.join(this.root, 'SiteFiles/src/styleguide');
       this.tasksPath = path.join(this.root, 'SiteFiles/src/tasks');
       this.offlinePath = path.join(this.root, 'SiteFiles/src/offline.ejs');
+      this.postcssConfigPath = path.join(this.root, 'SiteFiles/src/postcss.config.js');
       this.wppTargetsPath = path.join(this.root, this.props.appname + '.Web.wpp.targets');
     },
 
@@ -218,6 +227,14 @@ module.exports = yeoman.Base.extend({
     },
 
     /** Create templated targets files. */
+    postcssConfig: function postcssConfig() {
+      this.fs.copy(
+        this.templatePath('postcss.config.js'),
+        this.destinationPath(this.postcssConfigPath)
+      );
+    },
+
+    /** Create templated targets files. */
     wppTargets: function wppTargets() {
       this.fs.copy(
         this.templatePath('template.wpp.targets'),
@@ -247,7 +264,7 @@ module.exports = yeoman.Base.extend({
     /** Create templated task files. */
     core: function core() {
       this.fs.copyTpl(
-        this.templatePath('core/*'),
+        this.templatePath('core/**/*'),
         this.destinationPath(this.corePath)
       );
     },
@@ -255,7 +272,7 @@ module.exports = yeoman.Base.extend({
     /** Create templated js files. */
     js: function js() {
       this.fs.copyTpl(
-        this.templatePath('js/*'),
+        this.templatePath('js/**/*'),
         this.destinationPath(this.jsPath),
         this.props
       );
@@ -272,7 +289,7 @@ module.exports = yeoman.Base.extend({
     /** Create templated task files. */
     styleguide: function styleguide() {
       this.fs.copyTpl(
-        this.templatePath('styleguide/*'),
+        this.templatePath('styleguide/**/*'),
         this.destinationPath(this.styleguidePath)
       );
     },
@@ -280,7 +297,7 @@ module.exports = yeoman.Base.extend({
     /** Create templated task files. */
     tasks: function tasks() {
       this.fs.copyTpl(
-        this.templatePath('tasks/*'),
+        this.templatePath('tasks/**/*'),
         this.destinationPath(this.tasksPath)
       );
     },
@@ -336,6 +353,8 @@ module.exports = yeoman.Base.extend({
         'babel-plugin-transform-object-rest-spread',
         'babel-plugin-transform-runtime',
         'babel-preset-env',
+        // 'babel-preset-latest' is included for @netc/core and should be removed asap
+        'babel-preset-latest',
         'babel-preset-react',
         'browser-sync',
         'chunk-manifest-webpack-plugin',
@@ -388,17 +407,19 @@ module.exports = yeoman.Base.extend({
         'workbox-webpack-plugin',
       ];
 
-      // Install dev dependencies.
-      this.npmInstall(npmDevDependencies, {
-        msvs_version: this.props.msvs,
-        saveDev: true,
-      });
+      if (this.props.installPackages) {
+        // Install dev dependencies.
+        this.npmInstall(npmDevDependencies, {
+          msvs_version: this.props.msvs,
+          saveDev: true,
+        });
 
-      // Install dependencies.
-      this.npmInstall(npmDependencies, {
-        msvs_version: this.props.msvs,
-        save: true,
-      });
+        // Install dependencies.
+        this.npmInstall(npmDependencies, {
+          msvs_version: this.props.msvs,
+          save: true,
+        });
+      }
     },
   },
 
