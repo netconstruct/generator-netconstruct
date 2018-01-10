@@ -1,10 +1,19 @@
 {
   "presets": [
-    ["env", {
-      "targets": {
-        "browsers": ["last 2 versions"]
+    "react",
+    [
+      "env",
+      {
+        "modules": false,
+        "targets": {
+          "browsers": ["last 2 versions"]
+        }
       }
-    }]
+    ]
   ],
-  "plugins": ["transform-object-rest-spread"]
+  "plugins": [
+    "syntax-dynamic-import",
+    "transform-class-properties",
+    "transform-object-rest-spread"
+  ]
 }

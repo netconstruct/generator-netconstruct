@@ -5,7 +5,7 @@
   },
   "extends": [
     "eslint:recommended",
-    "airbnb-base"
+    "airbnb"
   ],
   "globals": {
     "angular": false,
@@ -28,6 +28,8 @@
   },
   "rules": {
     "arrow-body-style": ["error", "as-needed"],
+    "class-methods-use-this": "off",
+    "function-paren-newline": "off",
     "global-require": "off",
     "import/extensions": "off",
     "import/no-unresolved": "off",

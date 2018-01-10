@@ -57,7 +57,7 @@ module.exports = yeoman.Base.extend({
         type: 'input',
         name: 'msvs',
         message: 'Which Visual Studio version is installed?',
-        default: '2015',
+        default: '2017',
       },
 
       // ES6?
@@ -105,10 +105,10 @@ module.exports = yeoman.Base.extend({
       this.fontsPath = path.join(this.root, 'SiteFiles/src/fonts');
       this.imgPath = path.join(this.root, 'SiteFiles/src/img');
       this.jsPath = path.join(this.root, 'SiteFiles/src/js');
-      this.offlinePath = path.join(this.root, 'SiteFiles/src/offline.ejs');
       this.sassPath = path.join(this.root, 'SiteFiles/src/sass');
+      this.styleguidePath = path.join(this.root, 'SiteFiles/src/styleguide');
       this.tasksPath = path.join(this.root, 'SiteFiles/src/tasks');
-      this.docsPath = path.join(this.root, 'SiteFiles/src/docs');
+      this.offlinePath = path.join(this.root, 'SiteFiles/src/offline.ejs');
       this.wppTargetsPath = path.join(this.root, this.props.appname + '.Web.wpp.targets');
     },
 
@@ -127,9 +127,22 @@ module.exports = yeoman.Base.extend({
         mkdirp(this.imgPath);
         mkdirp(this.jsPath);
         mkdirp(this.sassPath);
+        mkdirp(this.styleguidePath);
         mkdirp(this.tasksPath);
-        mkdirp(this.docsPath);
       }
+    },
+
+    /** Create git files. */
+    git: function git() {
+      this.fs.copy(
+        this.templatePath('_gitignore'),
+        this.destinationPath('.gitignore')
+      );
+
+      this.fs.copy(
+        this.templatePath('_gitattributes'),
+        this.destinationPath('.gitattributes')
+      );
     },
 
     /** Create babelrc file. */
@@ -137,6 +150,14 @@ module.exports = yeoman.Base.extend({
       this.fs.copy(
         this.templatePath('_babelrc'),
         this.destinationPath(path.join(this.root, 'SiteFiles/src/.babelrc'))
+      );
+    },
+
+    /** Create editorconfig file. */
+    editorconfig: function editorconfig() {
+      this.fs.copy(
+        this.templatePath('_editorconfig'),
+        this.destinationPath(path.join(this.root, 'SiteFiles/src/.editorconfig'))
       );
     },
 
@@ -156,24 +177,27 @@ module.exports = yeoman.Base.extend({
       );
     },
 
+    /** Create git files. */
+    npmrc: function npmrc() {
+      this.fs.copy(
+        this.templatePath('_npmrc'),
+        this.destinationPath(path.join(this.root, 'SiteFiles/src/.npmrc'))
+      );
+    },
+
+    /** Create prettierrc file. */
+    prettierrc: function prettierrc() {
+      this.fs.copy(
+        this.templatePath('_prettierrc'),
+        this.destinationPath(path.join(this.root, 'SiteFiles/src/.prettierrc'))
+      );
+    },
+
     /** Create stylelintrc file. */
     stylelintrc: function stylelintrc() {
       this.fs.copy(
         this.templatePath('_stylelintrc'),
         this.destinationPath(path.join(this.root, 'SiteFiles/src/.stylelintrc'))
-      );
-    },
-
-    /** Create git files. */
-    git: function git() {
-      this.fs.copy(
-        this.templatePath('_gitignore'),
-        this.destinationPath('.gitignore')
-      );
-
-      this.fs.copy(
-        this.templatePath('_gitattributes'),
-        this.destinationPath('.gitattributes')
       );
     },
 
@@ -185,11 +209,19 @@ module.exports = yeoman.Base.extend({
       );
     },
 
-    /** Create git files. */
-    npm: function npm() {
+    /** Create gulpfile. */
+    offline: function offline() {
       this.fs.copy(
-        this.templatePath('_npmrc'),
-        this.destinationPath(path.join(this.root, 'SiteFiles/src/.npmrc'))
+        this.templatePath('offline.ejs'),
+        this.destinationPath(this.offlinePath)
+      );
+    },
+
+    /** Create templated targets files. */
+    wppTargets: function wppTargets() {
+      this.fs.copy(
+        this.templatePath('template.wpp.targets'),
+        this.destinationPath(this.wppTargetsPath)
       );
     },
 
@@ -197,14 +229,12 @@ module.exports = yeoman.Base.extend({
     packageJson: function packageJson() {
       const contents = {
         name: this.props.appnameSlug,
-        version: '2.0.5',
+        version: '0.1.0',
         private: true,
         scripts: {
+          start: 'gulp default',
+          build: 'gulp build',
           'build-styleguide': 'gulp build-styleguide',
-          'build-dev': 'gulp build-dev',
-          'build-hmr': 'gulp build-hmr',
-          'build-uat': 'gulp build-uat',
-          'build-prd': 'gulp build-prd',
           styleguide: 'gulp styleguide',
         },
         dependencies: {},
@@ -231,14 +261,6 @@ module.exports = yeoman.Base.extend({
       );
     },
 
-    /** Create gulpfile. */
-    offline: function offline() {
-      this.fs.copy(
-        this.templatePath('offline.ejs'),
-        this.destinationPath(this.offlinePath)
-      );
-    },
-
     /** Create templated sass files. */
     sass: function sass() {
       this.fs.copyTpl(
@@ -248,26 +270,18 @@ module.exports = yeoman.Base.extend({
     },
 
     /** Create templated task files. */
+    styleguide: function styleguide() {
+      this.fs.copyTpl(
+        this.templatePath('styleguide/*'),
+        this.destinationPath(this.styleguidePath)
+      );
+    },
+
+    /** Create templated task files. */
     tasks: function tasks() {
       this.fs.copyTpl(
         this.templatePath('tasks/*'),
         this.destinationPath(this.tasksPath)
-      );
-    },
-
-    /** Create templated docs files. */
-    docs: function docs() {
-      this.fs.copyTpl(
-        this.templatePath('docs/*'),
-        this.destinationPath(this.docsPath)
-      );
-    },
-
-    /** Create templated targets files. */
-    wppTargets: function wppTargets() {
-      this.fs.copy(
-        this.templatePath('template.wpp.targets'),
-        this.destinationPath(this.wppTargetsPath)
       );
     },
   },
@@ -279,41 +293,34 @@ module.exports = yeoman.Base.extend({
       process.chdir(this.srcPath);
     },
 
-    /** Install bower dependencies. */
-    bowerInstall: function bowerInstall() {
-      // Install dependencies.
-      const bowerDependencies = [];
-
-      // Install dev dependencies.
-      const bowerDevDependencies = [];
-
-      this.bowerInstall(bowerDependencies, {
-        save: true,
-      });
-
-      this.bowerInstall(bowerDevDependencies, {
-        saveDev: true,
-      });
-    },
-
     /** Install npm dependencies. */
     npmInstall: function npmInstall() {
       const npmDependencies = [
         '@netc/core',
         'angular',
-        'angular-animate',
         'angular-deferred-bootstrap',
-        'angular-loading-bar',
         'angular-sanitize',
-        'angular-ui-router',
         'babel-polyfill',
         'fg-loadcss',
         'gridle',
-        'gulp-svg-sprite',
+        'history',
         'jquery',
+        'picturefill',
+        'react',
+        'react-dom',
+        'react-habitat',
+        'react-habitat-redux',
+        'react-redux',
+        'redux',
+        'redux-first-router',
+        'redux-logger',
+        'redux-promise',
+        'redux-thunk',
         'sass-rem',
         'slick-carousel',
         'titon-toolkit',
+        'webfontloader',
+        'whatwg-fetch',
       ];
 
       const npmDevDependencies = [
@@ -324,24 +331,33 @@ module.exports = yeoman.Base.extend({
         'babel-core',
         'babel-eslint',
         'babel-loader',
+        'babel-plugin-syntax-dynamic-import',
         'babel-plugin-transform-class-properties',
         'babel-plugin-transform-object-rest-spread',
+        'babel-plugin-transform-runtime',
         'babel-preset-env',
+        'babel-preset-react',
         'browser-sync',
         'chunk-manifest-webpack-plugin',
         'clean-webpack-plugin',
+        'copy-webpack-plugin',
         'css-loader',
         'del',
         'eslint',
+        'eslint-config-airbnb',
         'eslint-config-airbnb-base',
         'eslint-loader',
         'eslint-plugin-import',
+        'eslint-plugin-jsx-a11y',
+        'eslint-plugin-react',
         'exports-loader',
         'expose-loader',
+        'extract-loader',
         'extract-text-webpack-plugin',
         'file-loader',
         'gulp',
         'gulp-modernizr',
+        'gulp-svg-sprite',
         'gulp-util',
         'html-loader',
         'html-webpack-plugin',
@@ -349,6 +365,7 @@ module.exports = yeoman.Base.extend({
         'imports-loader',
         'lodash',
         'ng-annotate-loader',
+        'ng-annotate-patched',
         'node-sass',
         'offline-plugin',
         'postcss-loader',
@@ -357,6 +374,7 @@ module.exports = yeoman.Base.extend({
         'require-dir',
         'sass-loader',
         'style-loader',
+        'stylelint',
         'stylelint-config-standard',
         'stylelint-webpack-plugin',
         'url-loader',
@@ -367,6 +385,7 @@ module.exports = yeoman.Base.extend({
         'webpack-md5-hash',
         'webpack-merge',
         'webpack-stats-plugin',
+        'workbox-webpack-plugin',
       ];
 
       // Install dev dependencies.
@@ -392,8 +411,8 @@ module.exports = yeoman.Base.extend({
 
     /** Run default gulp task. */
     serve: function serve() {
-      this.log('Running gulp.');
-      this.spawnCommand('gulp', ['build-dev']);
+      this.log('Building assets...');
+      this.spawnCommand('yarn', ['build']);
     },
   },
 });
