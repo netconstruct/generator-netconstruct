@@ -9,10 +9,11 @@ const webpack = require('webpack');
 const AssetsPlugin = require('assets-webpack-plugin');
 const ChunkManifestPlugin = require('chunk-manifest-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const OfflinePlugin = require('offline-plugin');
 const StatsWriterPlugin = require('webpack-stats-plugin').StatsWriterPlugin;
+const WorkboxPlugin = require('workbox-webpack-plugin');
 
 // load base configuration.
 const baseConfig = require('./webpack.config');
@@ -65,6 +66,9 @@ module.exports = merge.smart(baseConfig, {
   },
 
   plugins: [
+    new CopyWebpackPlugin([
+      { from: require.resolve('workbox-sw'), to: 'workbox-sw.js' },
+    ]),
     new webpack.LoaderOptionsPlugin({
       minimize: true,
       debug: false,
@@ -86,8 +90,8 @@ module.exports = merge.smart(baseConfig, {
       name: 'vendor',
       minChunks(module) {
         return bundleByName(module, [
-          'bower_components',
           'node_modules',
+          'lib\/',
           'vendor\/',
         ]);
       },
@@ -120,7 +124,42 @@ module.exports = merge.smart(baseConfig, {
       async: 'angular-ui',
       children: true,
       minChunks(module) {
-        return bundleByName(module, ['angular-ui']);
+        return bundleByName(module, ['angular-ui', '@uirouter']);
+      },
+    }),
+    new webpack.optimize.CommonsChunkPlugin({
+      async: 'fancybox',
+      children: true,
+      minChunks(module) {
+        return bundleByName(module, ['fancybox']);
+      },
+    }),
+    new webpack.optimize.CommonsChunkPlugin({
+      async: 'moment',
+      children: true,
+      minChunks(module) {
+        return bundleByName(module, ['moment']);
+      },
+    }),
+    new webpack.optimize.CommonsChunkPlugin({
+      async: 'react',
+      children: true,
+      minChunks(module) {
+        return bundleByName(module, ['react']);
+      },
+    }),
+    new webpack.optimize.CommonsChunkPlugin({
+      async: 'redux',
+      children: true,
+      minChunks(module) {
+        return bundleByName(module, ['redux']);
+      },
+    }),
+    new webpack.optimize.CommonsChunkPlugin({
+      async: 'titon',
+      children: true,
+      minChunks(module) {
+        return bundleByName(module, ['titon']);
       },
     }),
     new webpack.optimize.CommonsChunkPlugin({
@@ -129,10 +168,6 @@ module.exports = merge.smart(baseConfig, {
       minChunks(module) {
         return bundleByName(module, ['video.js', 'videojs-youtube']);
       },
-    }),
-    new webpack.optimize.CommonsChunkPlugin({
-      async: 'shared',
-      minChunks: 2,
     }),
     new webpack.DefinePlugin({
       'process.env': {
@@ -166,22 +201,26 @@ module.exports = merge.smart(baseConfig, {
         return JSON.stringify(stats, null, 2);
       },
     }),
-    new OfflinePlugin({
-      AppCache: false,
-      excludes: ['**/.*', '**/*.json', '**/*.map'],
-      publicPath: '/sitefiles/dist/',
-      version: '[hash]',
+    new WorkboxPlugin({
+      globDirectory: paths.dist,
+      globPatterns: ['**/*.{html,js,css}'],
+      swSrc: paths.sw,
+      // swDest: path.join(paths.wwwroot, 'sw.js'),
     }),
   ],
 });
 
 /** Check if module name contains the specified names. */
 function bundleByName(module, names) {
-  const userRequest = module.userRequest;
-
-  if (typeof userRequest !== 'string') {
+  if (!module.resource) {
     return false;
   }
 
-  return names.some(name => userRequest.indexOf(name) >= 0);
+  // This prevents stylesheet resources with the .css or .scss extension
+  // from being moved from their original chunk to the vendor chunk
+  if ((/^.*\.(css|scss)$/).test(module.resource)) {
+    return false;
+  }
+
+  return names.some(name => module.resource.indexOf(name) >= 0 && module.resource.indexOf('node_modules') >= 0);
 }

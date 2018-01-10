@@ -51,8 +51,8 @@ module.exports = merge.smart(baseConfig, {
   },
 
   output: {
-    chunkFilename: '[name].bundle.js',
-    filename: '[name].bundle.js',
+    chunkFilename: '[name].js',
+    filename: '[name].js',
     path: paths.dist,
     publicPath: '/sitefiles/dist/',
   },
