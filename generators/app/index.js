@@ -132,18 +132,6 @@ module.exports = yeoman.Base.extend({
       }
     },
 
-    /** Create bower.json file. */
-    bowerJson: function bowerJson() {
-      const contents = {
-        name: this.props.appnameSlug,
-        private: true,
-        dependencies: {},
-        devDependencies: {},
-      };
-
-      this.fs.writeJSON(this.destinationPath(path.join(this.root, 'SiteFiles/src/bower.json')), contents);
-    },
-
     /** Create babelrc file. */
     babelrc: function babelrc() {
       this.fs.copy(
