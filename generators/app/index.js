@@ -261,11 +261,20 @@ module.exports = yeoman.Base.extend({
       this.fs.writeJSON(this.destinationPath(path.join(this.root, 'SiteFiles/src/package.json')), contents);
     },
 
-    /** Create templated task files. */
+    /** Create templated core files. */
     core: function core() {
       this.fs.copyTpl(
         this.templatePath('core/**/*'),
         this.destinationPath(this.corePath)
+      );
+    },
+
+    /** Create templated fonts files. */
+    fonts: function fonts() {
+      this.fs.copy(
+        this.templatePath('fonts/**/*'),
+        this.destinationPath(this.fontsPath),
+        this.props
       );
     },
 
@@ -286,7 +295,7 @@ module.exports = yeoman.Base.extend({
       );
     },
 
-    /** Create templated task files. */
+    /** Create templated styleguide files. */
     styleguide: function styleguide() {
       this.fs.copyTpl(
         this.templatePath('styleguide/**/*'),
