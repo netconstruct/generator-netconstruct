@@ -9,4 +9,22 @@
       </FilesForPackagingFromProject>
     </ItemGroup>
   </Target>
+  <Target Name="AddStyleguide" BeforeTargets="CopyAllFilesToSingleFolderForPackage;CopyAllFilesToSingleFolderForMsdeploy">
+    <Message Text="Adding styleguide to deployment package" Importance="high"/>
+    <ItemGroup>
+      <AddStyleguide Include="SiteFiles\styleguide\**\*" />
+      <FilesForPackagingFromProject Include="%(AddStyleguide.Identity)">
+        <DestinationRelativePath>SiteFiles\styleguide\%(RecursiveDir)%(Filename)%(Extension)</DestinationRelativePath>
+      </FilesForPackagingFromProject>
+    </ItemGroup>
+  </Target>
+  <Target Name="AddImages" BeforeTargets="CopyAllFilesToSingleFolderForPackage;CopyAllFilesToSingleFolderForMsdeploy">
+    <Message Text="Adding Images to deployment package" Importance="high"/>
+    <ItemGroup>
+      <AddImages Include="SiteFiles\src\img\**\*" />
+      <FilesForPackagingFromProject Include="%(AddImages.Identity)">
+        <DestinationRelativePath>SiteFiles\src\img\%(RecursiveDir)%(Filename)%(Extension)</DestinationRelativePath>
+      </FilesForPackagingFromProject>
+    </ItemGroup>
+  </Target>
 </Project>

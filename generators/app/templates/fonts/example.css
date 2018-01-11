@@ -1,0 +1,8 @@
+/**
+ * Actual @font-face should be added to CSS files in this folder.
+ * They are then loaded in init-webfonts.js.
+ */
+@font-face {
+  font-family: "Arial";
+  src: local("Arial");
+}

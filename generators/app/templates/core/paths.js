@@ -6,7 +6,6 @@ const paths = {
 };
 
 // Define additional paths.
-paths.bowerComponents = path.join(paths.root, 'bower_components');
 paths.dist = path.join(paths.root, '../dist');
 paths.eslintIgnore = path.join(paths.root, '.eslintignore');
 paths.fonts = path.join(paths.root, 'fonts');
@@ -18,5 +17,6 @@ paths.sass = path.join(paths.root, 'sass');
 paths.sitefiles = path.join(paths.root, '../');
 paths.sw = path.join(paths.root, 'js/sw.js');
 paths.vendor = path.join(paths.root, 'js/vendor');
+paths.wwwroot = path.join(paths.root, '../../');
 
 module.exports = paths;

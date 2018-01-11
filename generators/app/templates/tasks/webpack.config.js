@@ -1,4 +1,5 @@
 /* eslint-disable func-names, no-useless-escape, object-shorthand */
+const path = require('path');
 
 // webpack plugins
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
@@ -16,7 +17,7 @@ const baseConfig = {
       test: /\.html$/,
       use: ['html-loader'],
     }, {
-      test: /\.js$/,
+      test: /\.(js|jsx)$/,
       use: [{
         loader: 'eslint-loader',
         options: { ignorePath: paths.eslintIgnore },
@@ -25,36 +26,52 @@ const baseConfig = {
       include: [paths.js],
       exclude: [paths.vendor],
     }, {
-      test: /\.js$/,
-      use: [
-        'ng-annotate-loader',
-        'babel-loader',
-      ],
+      test: /\.(js|jsx)$/,
+      use: ['babel-loader'],
       include: [paths.js],
       exclude: [paths.vendor],
+    }, {
+      test: /\.(css|scss)$/,
+      use: [
+        {
+          loader: 'file-loader',
+          options: {
+            name: '[name]-[hash].css',
+          },
+        },
+        'extract-loader',
+        {
+          loader: 'css-loader',
+          options: {
+            autoprefixer: false,
+          },
+        },
+        'postcss-loader',
+        'sass-loader',
+      ],
+      include: [paths.fonts],
     }, {
       test: /\.(css|scss)$/,
       use: ExtractTextPlugin.extract({
         fallback: 'style-loader',
         use: [
-          'css-loader?-autoprefixer',
+          {
+            loader: 'css-loader',
+            options: {
+              autoprefixer: false,
+            },
+          },
           'postcss-loader',
           'sass-loader',
         ],
         publicPath: '/sitefiles/dist/',
       }),
+      exclude: [paths.fonts],
     }, {
       test: /\.js$/,
-      use: [
-        'imports-loader?this=>window',
-        'exports-loader?window.Modernizr',
-      ],
-      include: /modernizr/,
-    }, {
-      test: /angular\.js$/,
-      use: ['exports-loader?window.angular'],
+      use: ['babel-loader'],
       exclude: [paths.js],
-      include: /angular/,
+      include: /@netc/,
     }, {
       test: /loadcss\.js$/,
       use: [
@@ -76,16 +93,17 @@ const baseConfig = {
     }, {
       test: /\.js$/,
       use: ['babel-loader'],
-      exclude: [paths.js],
-      include: /@netc/,
+      include: /ng\-redux/,
     }, {
       test: /\.js$/,
-      use: [
-        'imports-loader?this=>window',
-        'exports-loader?window.Modernizr',
-      ],
+      use: ['babel-loader'],
       exclude: [paths.js],
-      include: /modernizr/,
+      include: /aos/,
+    }, {
+      test: /\.js$/,
+      use: ['babel-loader'],
+      exclude: [paths.js],
+      include: /@netc/,
     }, {
       test: /\.js$/,
       use: ['imports-loader?define=>false'],
@@ -118,17 +136,25 @@ const baseConfig = {
 
   resolve: {
     alias: {
+      // Alias common src folders.
       fonts: paths.fonts,
       img: paths.img,
       js: paths.js,
       sass: paths.sass,
       vendor: paths.vendor,
 
+      // Alias redux folders.
+      actions: path.join(paths.js, 'redux/actions'),
+      reducers: path.join(paths.js, 'redux/reducers'),
+      middleware: path.join(paths.js, 'redux/middleware'),
+      routes: path.join(paths.js, 'redux/routes'),
+
+      // Alias node modules.
       'loadcss-core': 'fg-loadcss/src/loadcss',
       'loadcss-polyfill': 'fg-loadcss/src/cssrelpreload',
-      modernizr: 'vendor/modernizr.custom.js',
       'scrollmagic-core': 'scrollmagic/scrollmagic/uncompressed/ScrollMagic',
       'scrollmagic-gsap': 'scrollmagic/scrollmagic/uncompressed/plugins/animation.gsap',
+      select2: path.resolve(path.join(paths.root, 'node_modules', 'select2')),
       TweenMax: 'gsap/TweenMax',
       TweenLite: 'gsap/TweenLite',
       TimelineMax: 'gsap/TimelineMax',
@@ -136,6 +162,7 @@ const baseConfig = {
       'videojs-core': 'video.js/dist/video.js',
       'videojs-youtube': 'videojs-youtube/dist/Youtube',
     },
+    extensions: ['.js', '.jsx', '.json']
   },
 };
 
