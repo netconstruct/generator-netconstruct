@@ -1,0 +1,5 @@
+// Convert the Adobe XD character spacing value to CSS units.
+@function netc-character-spacing($value) {
+  $emValue: $value / 1000;
+  @return $emValue + 0em;
+}

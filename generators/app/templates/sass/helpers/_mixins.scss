@@ -1,70 +1,157 @@
 @mixin helpers-reset-button {
-	border: 0;
-	background: transparent;
-	font-weight: bold;
-	padding: 0;
+  border: 0;
+  background: transparent;
+  font-weight: bold;
+  padding: 0;
 }
 
 @mixin helpers-reset-hover-link {
-	&:hover {
-		text-decoration: none;
-	}
+  &:hover {
+    text-decoration: none;
+  }
 }
 
-@mixin helpers-burger($width: 30px, $height: 5px, $gutter: 3px, $color: #000, $border-radius: 0, $transition-duration: .3s) {
-    $burger-height: $height !global;
-    $burger-gutter: $gutter !global;
+@mixin helpers-burger(
+  $width: 30px, 
+  $height: 5px, 
+  $gutter: 3px, 
+  $color: #000, 
+  $border-radius: 0, 
+  $transition-duration: 0.3s
+  ) {
+  $burger-height: $height !global;
+  $burger-gutter: $gutter !global;
 
-    position: relative;
-    margin-top: $height + $gutter;
-    margin-bottom: $height + $gutter;
+  position: relative;
+  margin-top: $height + $gutter;
+  margin-bottom: $height + $gutter;
 
-    &,
-    &:before,
-    &:after {
-        display: block;
-        width: $width;
-        height: $height;
-        background-color: $color;
-        @if $border-radius != 0 {
-            border-radius: $border-radius;
-        }
+  &,
+  &:before,
+  &:after {
+    display: block;
+    width: $width;
+    height: $height;
+    background-color: $color;
 
-        transition-property: background-color, transform;
-        transition-duration: $transition-duration;
+    @if $border-radius != 0 {
+      border-radius: $border-radius;
     }
 
-    &:before, &:after {
-        position: absolute;
-        content: "";
-    }
+    transition-property: background-color, transform;
+    transition-duration: $transition-duration;
+  }
 
-    &:before {
-        top: -($height + $gutter);
-    }
+  &:before,
+  &:after {
+    position: absolute;
+    content: '';
+  }
 
-    &:after {
-        top: $height + $gutter;
-    }
+  &:before {
+    top: -($height + $gutter);
+  }
+
+  &:after {
+    top: $height + $gutter;
+  }
 }
 
 @mixin helpers-burger-to-cross {
-    & {
-        background-color: transparent;
-    }
+  & {
+    background-color: transparent;
+  }
 
-    &:before {
-        transform: translateY($burger-gutter + $burger-height) rotate(45deg);
-    }
-    &:after {
-        transform: translateY(-($burger-gutter + $burger-height)) rotate(-45deg);
-    }
+  &:before {
+    transform: translateY($burger-gutter + $burger-height) rotate(45deg);
+  }
+  &:after {
+    transform: translateY(-($burger-gutter + $burger-height)) rotate(-45deg);
+  }
 }
 
 @mixin helpers-fa-icon($icon-var) {
-    @include fa-icon();
+  @include fa-icon();
 
-    &:before {
-        content: $icon-var;
-    }
+  &:before {
+    content: $icon-var;
+  }
+}
+
+// Register mobile first breakpoint (min only).
+@mixin register-mobile-first($name, $breakpoint) {
+  $min: map-get($breakpoint, 'min');
+  $gutter: map-get($breakpoint, 'gutter');
+
+  @include gridle_register_state( $name, (
+    min-width: $min,
+    gutter-width : map-get($gridle-gutters, $gutter),
+    gutter-bottom : map-get($gridle-gutters, $gutter),
+  ));
+}
+
+// Register desktop first breakpoint (max only).
+@mixin register-desktop-first($name, $breakpoint) {
+  $max: map-get($breakpoint, 'max');
+  $gutter: map-get($breakpoint, 'gutter');
+
+  @include gridle_register_state( $name, (
+    max-width: $max,
+    gutter-width : map-get($gridle-gutters, $gutter),
+    gutter-bottom : map-get($gridle-gutters, $gutter),
+  ));
+}
+
+// Register exact breakpoint (min and max).
+@mixin register-exact($name, $breakpoint) {
+  $min: map-get($breakpoint, 'min');
+  $max: map-get($breakpoint, 'max');
+  $gutter: map-get($breakpoint, 'gutter');
+
+  @include gridle_register_state( $name, (
+    min-width: $min,
+    max-width: $max,
+    gutter-width : map-get($gridle-gutters, $gutter),
+    gutter-bottom : map-get($gridle-gutters, $gutter),
+  ));
+}
+
+// Set font weight value.
+@mixin font-weight($weight) {
+  font-weight: map-get($font-weight, $weight);
+}
+
+// Reset list styles.
+@mixin helpers-reset-list($mb: null) {
+	list-style: none;
+  padding: 0;
+  @if $mb != null {
+    margin-bottom: rem($mb);
+  } @else {
+    margin: 0;
+  }
+}
+
+// Inline list.
+@mixin helpers-inline-list($va: top) {
+	li {
+		display: inline-block;
+		vertical-align: $va;
+	}
+}
+
+// Set letter-spacing based on Adobe XD character spacing value.
+@mixin letter-spacing($value) {
+  letter-spacing: netc-character-spacing($value);
+}
+
+@mixin reste-ms-input {
+  &::-ms-clear {
+    display: none;
+  }
+}
+
+@mixin netc-font-smooth {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
