@@ -4,3 +4,10 @@
 
 $brand-font: 'Arial'; // @note: font usually used for title elements
 $base-font-family: 'Century Gothic', CenturyGothic, AppleGothic, sans-serif; // @note: font usuaaly used for paragraph
+
+// Font weight map
+$font-weight: (
+  light: 300,
+  bold: 500,
+  heavy: 700,
+);

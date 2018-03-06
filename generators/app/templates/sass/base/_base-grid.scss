@@ -1,8 +1,68 @@
+// Setup Gridle - gridle_setup needs to be run in order for Gridle to work.
+@include gridle_setup($gridle-settings);
+
+// gridle_generate_classes generates the CSS classes defined in /base/_base.scss and other one used by Gridle
+@include gridle_generate_classes( all , -default -helpers -debug -push -pull -prefix -suffix -float -clear -gutter -no-gutter -hide -show -visible );
+
+// Register breakpoints.
+// Each breakpoint created in /settings/_settings-breapoint.scss need to be call by gridle_register_state in order to work
+// If a new breakpoint is added to the list, we need to register it here
+@each $name, $breakpoint in $gridle-breakpoints {
+  @if map-has-key($breakpoint, 'min') and map-has-key($breakpoint, 'max') {
+    @include register-exact($name, $breakpoint);
+  }
+  @else if map-has-key($breakpoint, 'max') {
+    @include register-desktop-first($name, $breakpoint);
+  }
+  @else if map-has-key($breakpoint, 'min') {
+    @include register-mobile-first($name, $breakpoint);
+  }
+}
+
+// Responsive grid inner
+// Uncomment the following and tweak it as you need to use responsive padding on grid inner 
+/*
+.grid-inner {
+  padding-left: map-get($grid-inner-padding, 'p-xsmall');
+  padding-right: map-get($grid-inner-padding, 'p-xsmall');
+
+  @include gridle_state ( tablet ) {
+    padding-left: map-get($grid-inner-padding, 'p-small');
+    padding-right: map-get($grid-inner-padding, 'p-small');
+  }
+
+  @include gridle_state ( desktop-small ) {
+    padding-left: map-get($grid-inner-padding, 'p-medium');
+    padding-right: map-get($grid-inner-padding, 'p-medium');
+  }
+
+  @include gridle_state ( desktop ) {
+    padding-left: map-get($grid-inner-padding, 'p-medium');
+    padding-right: map-get($grid-inner-padding, 'p-medium');
+  }
+
+  @include gridle_state ( desktop-lg ) {
+    padding-left: map-get($grid-inner-padding, 'p-large');
+    padding-right: map-get($grid-inner-padding, 'p-large');
+  }
+}
+*/
+
+
+.grid-color-debug {
+  .grid-column,
+  .site-wide,
+  .site-wide--responsive-padding {
+    background-color: rgba(blue, .4);
+  }
+}
+
 /**
  * Add grid layouts in this partial.
  *
  */
 
+// Site-wide is used as a container for the grid or components
 .site-wide {
 	@include rem(max-width, $site-width);
 	margin: 0 auto;
@@ -11,12 +71,45 @@
 	overflow: visible;
 }
 
+// site-wide--responsive-padding is used when there is no grid inside it.
+// It has different padding depending on the breakpoint
+// Uncomment the following and tweak it as you need to use responsive site-wide when responsive gutter are used
+// Update the max-width to match the design requirement
+/* 
+.site-wide--responsive-padding {
+  @include rem(max-width, 1552px);
+  margin: 0 auto;
+  padding-left: rem((map-get($gridle-gutters, g-xsmall))/2);
+  padding-right: rem((map-get($gridle-gutters, g-xsmall))/2);
+  overflow: visible;
+
+  @include gridle_state ( tablet ) {
+    padding-left: rem((map-get($gridle-gutters, g-small))/2);
+    padding-right: rem((map-get($gridle-gutters, g-small))/2);
+  }
+
+  @include gridle_state ( desktop-small ) {
+    padding-left: rem((map-get($gridle-gutters, g-medium))/2);
+    padding-right: rem((map-get($gridle-gutters, g-medium))/2);
+  }
+
+  @include gridle_state ( desktop ) {
+    padding-left: rem((map-get($gridle-gutters, g-medium))/2);
+    padding-right: rem((map-get($gridle-gutters, g-medium))/2);
+  }
+
+  @include gridle_state ( desktop-lg ) {
+    padding-left: rem((map-get($gridle-gutters, g-large))/2);
+    padding-right: rem((map-get($gridle-gutters, g-large))/2);
+  }
+}
+*/
+
 .grid-container {
-	@include gridle(row);
+	@include gridle( row );
 }
 
 .grid-container--bottom {
- @include gridle(row);
   @include gridle_row_align ( bottom );
 }
 
@@ -36,19 +129,3 @@
 		}
 	}
 }
-
-// // Add support for gutter
-// @mixin grid-gutters($gutter-spacing) {
-// 	//.grid--gutter-#{strip-unit($gutter-spacing)} {
-// 		// Apply this to row
-// 		@include rem('margin-left', -$gutter-spacing);
-//
-// 		.grid-item {
-// 			@include rem('padding-left', $gutter-spacing);
-// 		}
-// 	//}
-// }
-//
-// @each $gutter in $grid-gutters-list {
-// 	@include grid-gutters($gutter);
-// }

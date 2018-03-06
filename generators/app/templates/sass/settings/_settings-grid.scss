@@ -1,43 +1,39 @@
-/**
- * Add grid variables in this file.
- */
-
-$settings : (
-    context : 12,
-    gutter-width : 40px,
-    direction : ltr,
-    name-multiplicator : 1
+// Gridle configuration.
+// Defines the Gridle options in a sass map
+// For more options or documentation please see http://gridle.org/documentation
+$gridle-settings: (
+  context: 12,
+  gutter-width : 40px,
+  direction : ltr,
+  name-multiplicator : 1
 );
 
-$grid-gutters-list: (
-    25px,
-    35px,
-    45px,
-    55px,
-    65px
+// Gridle gutter sizes.
+// Defines the different gutter across the grid and breakpoints in a sass map
+// This is use for the grid and also for spacing elements like cards
+$gridle-gutters: (
+  g-xsmall: 24px,
+  g-small: 24px,
+  g-medium: 32px,
+  g-large: 40px
 );
 
-// Setup Gridle
-@include gridle_setup($settings);
-@include gridle_register_default_mobile_first_states();
-@include gridle_generate_classes ();
+// Gridle breakpoints.
+$gridle-breakpoints: (
+  mobile-small:        ( gutter: 'g-xsmall',   max: 480px ),
+  mobile:              ( gutter: 'g-xsmall',   max: 767px ),
+  tablet:              ( gutter: 'g-small',    min: 768px ),
+  tablet-exact:        ( gutter: 'g-small',    min: 768px,  max: 991px ),
+  desktop-small:       ( gutter: 'g-medium',   min: 992px ),
+  desktop-small-exact: ( gutter: 'g-medium',   min: 992px,  max: 1239px ),
+  desktop:             ( gutter: 'g-medium',   min: 1240px ),
+  desktop-exact:       ( gutter: 'g-medium',   min: 1240px, max: 1471px ),
+  desktop-lg:          ( gutter: 'g-large',    min: 1472px ),
+);
 
-// Register breakpoints
-@include gridle_register_state ( mobile , (
-    max-width : $mobile
-) );
-@include gridle_register_state ( tablet , (
-    min-width : $tablet-min,
-    max-width : $tablet-max
-) ) ;
-@include gridle_register_state ( desktop , (
-    min-width : $desktop
-) ) ;
-@include gridle_register_state ( small-tablet , (
-    min-width : $small-tablet
-) ) ;
-
-@include gridle_init();
-
+// Padding on either side of the main container.
 $site-wide-padding: 30px;
-$site-width: $desktop + $site-wide-padding * 2;
+
+// Width of the main container.
+$desktop-width: map-get(map-get($gridle-breakpoints, 'desktop'), 'min');
+$site-width: $desktop-width + ( $site-wide-padding * 2 );

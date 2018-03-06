@@ -6,17 +6,23 @@ $slick-loader-path: "~slick-carousel/slick/";
 @import '~sass-rem/rem';
 @import '~slick-carousel/slick/slick';
 
-// override Titon variables
-@import 'settings/settings-framework';
-@import 'framework-imports';
+// functions
+@import 'helpers/functions';
+
+// helpers
+@import 'helpers/mixins';
+@import 'helpers/list-inputs';
 
 // settings
 @import 'settings/settings-brand';
-@import 'settings/settings-breakpoint';
 @import 'settings/settings-grid';
 @import 'settings/settings-layers';
 @import 'settings/settings-type';
 @import 'settings/settings-global';
+
+// override Titon variables
+@import 'settings/settings-framework';
+@import 'framework-imports';
 
 // tools
 @import '~@netc/core/src/sass/main';
@@ -27,8 +33,6 @@ $slick-loader-path: "~slick-carousel/slick/";
 
 // helpers
 @import 'helpers/helpers';
-@import 'helpers/mixins';
-@import 'helpers/list-inputs';
 
 // components
 @import 'components/component-global';
