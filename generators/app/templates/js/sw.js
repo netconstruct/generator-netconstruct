@@ -1,20 +1,9 @@
-/*
-  global
-  importScripts:false
-  WorkboxSW:false
-*/
-importScripts('/sitefiles/dist/workbox-sw.js');
+/* eslint-disable no-underscore-dangle, no-restricted-globals */
+/* global self:false workbox:false */
 
-const workboxSW = new WorkboxSW({ clientsClaim: true, skipWaiting: true });
-workboxSW.precache([]);
+// Ensure service worker is updated immediately.
+workbox.skipWaiting();
+workbox.clientsClaim();
 
-const apiCacheStrategy = workboxSW.strategies.staleWhileRevalidate({
-  cacheableResponse: {
-    statuses: [0, 200],
-  },
-});
-
-workboxSW.router.registerRoute(
-  /\/api.+$/,
-  apiCacheStrategy,
-);
+// Ensure webpack assets are precached and handled by service worker.
+workbox.precaching.precacheAndRoute(self.__precacheManifest);

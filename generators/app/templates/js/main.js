@@ -14,7 +14,6 @@ if ('serviceWorker' in navigator) {
     });
 }
 
-import(/* webpackChunkName: "netc-core" */ '@netc/core/src/js/index');
 import(/* webpackChunkName: "components" */ './components');
 
 // Load react only if we have components on the page.

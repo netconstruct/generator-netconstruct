@@ -1,6 +1,6 @@
 {
   "name": "@netc/generator-netconstruct",
-  "version": "2.0.5",
+  "version": "3.0.0",
   "description": "NetConstruct generator.",
   "homepage": "http://www.netconstruct.co.uk",
   "author": {
@@ -21,7 +21,7 @@
     "mkdirp": "^0.5.1",
     "underscore.string": "^3.2.2",
     "wiredep": "^4.0.0",
-    "yeoman-generator": "^0.24.1",
+    "yeoman-generator": "^2.0.3",
     "yosay": "^1.0.2"
   },
   "devDependencies": {
@@ -45,5 +45,8 @@
   "scripts": {
     "prepare": "gulp prepublish",
     "test": "gulp"
+  },
+  "publishConfig": {
+    "registry": "https://netconstruct.pkgs.visualstudio.com/_packaging/NetConstruct/npm/registry/"
   }
 }

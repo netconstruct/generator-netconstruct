@@ -149,6 +149,13 @@ const baseConfig = {
       middleware: path.join(paths.js, 'redux/middleware'),
       routes: path.join(paths.js, 'redux/routes'),
 
+      // Alias lodash.
+      lodash: 'lodash-es',
+
+      // Alias preact.
+      react: 'preact-compat',
+      'react-dom': 'preact-compat',
+
       // Alias node modules.
       'loadcss-core': 'fg-loadcss/src/loadcss',
       'loadcss-polyfill': 'fg-loadcss/src/cssrelpreload',
@@ -162,7 +169,7 @@ const baseConfig = {
       'videojs-core': 'video.js/dist/video.js',
       'videojs-youtube': 'videojs-youtube/dist/Youtube',
     },
-    extensions: ['.js', '.jsx', '.json']
+    extensions: ['.js', '.jsx', '.json'],
   },
 };
 

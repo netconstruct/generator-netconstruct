@@ -13,7 +13,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const StatsWriterPlugin = require('webpack-stats-plugin').StatsWriterPlugin;
-const WorkboxPlugin = require('workbox-webpack-plugin');
+const { InjectManifest } = require('workbox-webpack-plugin');
 
 // load base configuration.
 const baseConfig = require('./webpack.config');
@@ -27,35 +27,29 @@ module.exports = merge.smart(baseConfig, {
   devtool: '#source-map',
 
   entry: {
-    critical: [
-      'sass/critical.scss',
-    ],
-    styleguide: [
-      'sass/styleguide.scss',
-    ],
-    main: [
-      'sass/main.scss',
-      'js/main',
-    ],
-    offline: [
-      'sass/offline.scss',
-    ],
+    critical: ['sass/critical.scss'],
+    styleguide: ['sass/styleguide.scss'],
+    main: ['sass/main.scss', 'js/main'],
+    offline: ['sass/offline.scss'],
   },
 
   module: {
-    rules: [{
-      test: /\.(eot|ttf|woff|woff2)(\?.+)?$/,
-      use: ['file-loader'],
-    }, {
-      test: /\.(jpeg|jpg|gif|png|svg)(\?.+)?$/,
-      use: [
-        'url-loader?limit=10000',
-        {
-          loader: 'image-webpack-loader',
-          options: {}
-        },
-      ],
-    }],
+    rules: [
+      {
+        test: /\.(eot|ttf|woff|woff2)(\?.+)?$/,
+        use: ['file-loader'],
+      },
+      {
+        test: /\.(jpeg|jpg|gif|png|svg)(\?.+)?$/,
+        use: [
+          'url-loader?limit=10000',
+          {
+            loader: 'image-webpack-loader',
+            options: {},
+          },
+        ],
+      },
+    ],
   },
 
   output: {
@@ -89,11 +83,7 @@ module.exports = merge.smart(baseConfig, {
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
       minChunks(module) {
-        return bundleByName(module, [
-          'node_modules',
-          'lib\/',
-          'vendor\/',
-        ]);
+        return bundleByName(module, ['node_modules', 'lib/', 'vendor/']);
       },
     }),
     new webpack.optimize.CommonsChunkPlugin({
@@ -174,7 +164,11 @@ module.exports = merge.smart(baseConfig, {
         NODE_ENV: JSON.stringify('production'),
       },
     }),
-    new ExtractTextPlugin({ allChunks: true, disable: false, filename: '[name]-[chunkhash].css' }),
+    new ExtractTextPlugin({
+      allChunks: true,
+      disable: false,
+      filename: '[name]-[chunkhash].css',
+    }),
     new HtmlWebpackPlugin({
       filename: 'offline.html',
       inject: false,
@@ -201,11 +195,9 @@ module.exports = merge.smart(baseConfig, {
         return JSON.stringify(stats, null, 2);
       },
     }),
-    new WorkboxPlugin({
-      globDirectory: paths.dist,
-      globPatterns: ['**/*.{html,js,css}'],
+    new InjectManifest({
+      exclude: [/\.map$/, /^manifest.*\.js(?:on)?$/, /stats\.json/],
       swSrc: paths.sw,
-      // swDest: path.join(paths.wwwroot, 'sw.js'),
     }),
   ],
 });
@@ -218,9 +210,13 @@ function bundleByName(module, names) {
 
   // This prevents stylesheet resources with the .css or .scss extension
   // from being moved from their original chunk to the vendor chunk
-  if ((/^.*\.(css|scss)$/).test(module.resource)) {
+  if (/^.*\.(css|scss)$/.test(module.resource)) {
     return false;
   }
 
-  return names.some(name => module.resource.indexOf(name) >= 0 && module.resource.indexOf('node_modules') >= 0);
+  return names.some(
+    name =>
+      module.resource.indexOf(name) >= 0 &&
+      module.resource.indexOf('node_modules') >= 0
+  );
 }
