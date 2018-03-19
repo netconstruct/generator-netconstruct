@@ -186,14 +186,6 @@ module.exports = yeoman.Base.extend({
       );
     },
 
-    /** Create git files. */
-    npmrc: function npmrc() {
-      this.fs.copy(
-        this.templatePath('_npmrc'),
-        this.destinationPath(path.join(this.root, 'SiteFiles/src/.npmrc'))
-      );
-    },
-
     /** Create prettierrc file. */
     prettierrc: function prettierrc() {
       this.fs.copy(
