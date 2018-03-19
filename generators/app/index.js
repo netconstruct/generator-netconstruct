@@ -331,6 +331,8 @@ module.exports = yeoman.Base.extend({
         'gridle',
         'history',
         'jquery',
+        'lodash',
+        'lodash-es',
         'picturefill',
         'react',
         'react-dom',
@@ -357,13 +359,13 @@ module.exports = yeoman.Base.extend({
         'babel-core',
         'babel-eslint',
         'babel-loader',
+        'babel-plugin-lodash',
         'babel-plugin-syntax-dynamic-import',
         'babel-plugin-transform-class-properties',
         'babel-plugin-transform-object-rest-spread',
         'babel-plugin-transform-runtime',
         'babel-preset-env',
-        // 'babel-preset-latest' is included for @netc/core and should be removed asap
-        'babel-preset-latest',
+        'babel-preset-latest', // todo: remove 'babel-preset-latest' (included for @netc/core)
         'babel-preset-react',
         'browser-sync',
         'chunk-manifest-webpack-plugin',
@@ -406,9 +408,9 @@ module.exports = yeoman.Base.extend({
         'stylelint-config-standard',
         'stylelint-webpack-plugin',
         'url-loader',
-        'webpack',
+        'webpack@^3.0.0', // todo: upgrade to webpack@^4.0.0
         'webpack-bundle-analyzer',
-        'webpack-dev-middleware',
+        'webpack-dev-middleware@^2.0.0', // todo: upgrade to webpack-dev-middleware@^3.0.0
         'webpack-hot-middleware',
         'webpack-md5-hash',
         'webpack-merge',
