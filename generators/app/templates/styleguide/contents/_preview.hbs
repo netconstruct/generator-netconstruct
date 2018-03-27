@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html class="no-js" lang="">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -16,17 +17,25 @@
     <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
     <meta name="theme-color" content="#ffffff">
 
-    <link media="all" rel="stylesheet" href="{{ path '/sitefiles/dist/main.css' }}">
+    <!-- Used when the stylesheet is generated using the "build-styleguide" task. -->
+    <link rel="stylesheet" type="text/css" href="{{ path (asset 'main' 'css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ path (asset 'styleguide' 'css') }}">
 
-    <script async src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
-    <script async src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <!-- Used when the stylesheet is loaded in dev mode using the "styleguide" task. -->
+    <script defer type="text/javascript" src="{{ path (asset 'styleguide' 'js') }}"></script>
+
+    <!-- Vendors hosted on CDN, should be amended to match Kentico site. -->
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    <!-- The main webpack entrypoint. -->
+    <script defer type="text/javascript" src="{{ path (asset 'main' 'js') }}"></script>
 </head>
-    <body>
-      <div class="viewport-wide">
 
-      {{{ yield }}}
+<body>
+    <div class="viewport-wide">
+        {{{ yield }}}
+    </div>
+</body>
 
-      <script type="text/javascript" src="{{ path '/sitefiles/dist/main.bundle.js' }}"></script>
-      </div>
-    </body>
 </html>

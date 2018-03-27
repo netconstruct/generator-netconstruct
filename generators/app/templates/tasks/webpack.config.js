@@ -1,9 +1,6 @@
 /* eslint-disable func-names, no-useless-escape, object-shorthand */
 const path = require('path');
 
-// webpack plugins
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-
 // Get paths.
 const paths = require('../core/paths');
 
@@ -13,48 +10,39 @@ const baseConfig = {
   },
 
   module: {
-    rules: [{
-      test: /\.html$/,
-      use: ['html-loader'],
-    }, {
-      test: /\.(js|jsx)$/,
-      use: [{
-        loader: 'eslint-loader',
-        options: { ignorePath: paths.eslintIgnore },
-      }],
-      enforce: 'pre',
-      include: [paths.js],
-      exclude: [paths.vendor],
-    }, {
-      test: /\.(js|jsx)$/,
-      use: ['babel-loader'],
-      include: [paths.js],
-      exclude: [paths.vendor],
-    }, {
-      test: /\.(css|scss)$/,
-      use: [
-        {
-          loader: 'file-loader',
-          options: {
-            name: '[name]-[hash].css',
-          },
-        },
-        'extract-loader',
-        {
-          loader: 'css-loader',
-          options: {
-            autoprefixer: false,
-          },
-        },
-        'postcss-loader',
-        'sass-loader',
-      ],
-      include: [paths.fonts],
-    }, {
-      test: /\.(css|scss)$/,
-      use: ExtractTextPlugin.extract({
-        fallback: 'style-loader',
+    rules: [
+      {
+        test: /\.html$/,
+        use: ['html-loader'],
+      },
+      {
+        test: /\.(js|jsx)$/,
         use: [
+          {
+            loader: 'eslint-loader',
+            options: { ignorePath: paths.eslintIgnore },
+          },
+        ],
+        enforce: 'pre',
+        include: [paths.js],
+        exclude: [paths.vendor],
+      },
+      {
+        test: /\.(js|jsx)$/,
+        use: ['babel-loader'],
+        include: [paths.js],
+        exclude: [paths.vendor],
+      },
+      {
+        test: /\.(css|scss)$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[name]-[hash].css',
+            },
+          },
+          'extract-loader',
           {
             loader: 'css-loader',
             options: {
@@ -64,67 +52,77 @@ const baseConfig = {
           'postcss-loader',
           'sass-loader',
         ],
-        publicPath: '/sitefiles/dist/',
-      }),
-      exclude: [paths.fonts],
-    }, {
-      test: /\.js$/,
-      use: ['babel-loader'],
-      exclude: [paths.js],
-      include: /@netc/,
-    }, {
-      test: /loadcss\.js$/,
-      use: [
-        'imports-loader?exports=>undefined',
-        'exports-loader?window.loadCSS',
-      ],
-      exclude: [paths.js],
-      include: /fg-loadcss/,
-    }, {
-      test: /cssrelpreload\.js$/,
-      use: ['imports-loader?this=>window'],
-      exclude: [paths.js],
-      include: /fg-loadcss/,
-    }, {
-      test: /\.js$/,
-      use: ['babel-loader'],
-      exclude: [paths.js],
-      include: /lodash-es/,
-    }, {
-      test: /\.js$/,
-      use: ['babel-loader'],
-      include: /ng\-redux/,
-    }, {
-      test: /\.js$/,
-      use: ['babel-loader'],
-      exclude: [paths.js],
-      include: /aos/,
-    }, {
-      test: /\.js$/,
-      use: ['babel-loader'],
-      exclude: [paths.js],
-      include: /@netc/,
-    }, {
-      test: /\.js$/,
-      use: ['imports-loader?define=>false'],
-      exclude: [paths.js],
-      include: /scrollmagic/,
-    }, {
-      test: /underscore\.js$/,
-      use: ['expose-loader?_'],
-      exclude: [paths.js],
-      include: /underscore/,
-    }, {
-      test: /\.js$/,
-      use: ['imports-loader?this=>window&exports=>false&define=>false'],
-      exclude: [paths.js],
-      include: /video\.js/,
-    }, {
-      test: /\.js$/,
-      use: ['imports-loader?this=>window&exports=>false&define=>false'],
-      exclude: [paths.js],
-      include: /videojs-youtube/,
-    }],
+        include: [paths.fonts],
+      },
+      {
+        test: /\.js$/,
+        use: ['babel-loader'],
+        exclude: [paths.js],
+        include: /@netc/,
+      },
+      {
+        test: /loadcss\.js$/,
+        use: [
+          'imports-loader?exports=>undefined',
+          'exports-loader?window.loadCSS',
+        ],
+        exclude: [paths.js],
+        include: /fg-loadcss/,
+      },
+      {
+        test: /cssrelpreload\.js$/,
+        use: ['imports-loader?this=>window'],
+        exclude: [paths.js],
+        include: /fg-loadcss/,
+      },
+      {
+        test: /\.js$/,
+        use: ['babel-loader'],
+        exclude: [paths.js],
+        include: /lodash-es/,
+      },
+      {
+        test: /\.js$/,
+        use: ['babel-loader'],
+        include: /ng\-redux/,
+      },
+      {
+        test: /\.js$/,
+        use: ['babel-loader'],
+        exclude: [paths.js],
+        include: /aos/,
+      },
+      {
+        test: /\.js$/,
+        use: ['babel-loader'],
+        exclude: [paths.js],
+        include: /@netc/,
+      },
+      {
+        test: /\.js$/,
+        use: ['imports-loader?define=>false'],
+        exclude: [paths.js],
+        include: /scrollmagic/,
+      },
+      {
+        test: /underscore\.js$/,
+        use: ['expose-loader?_'],
+        exclude: [paths.js],
+        include: /underscore/,
+      },
+      {
+        test: /\.js$/,
+        use: ['imports-loader?this=>window&exports=>false&define=>false'],
+        exclude: [paths.js],
+        include: /video\.js/,
+      },
+      {
+        test: /\.js$/,
+        use: ['imports-loader?this=>window&exports=>false&define=>false'],
+        exclude: [paths.js],
+        include: /videojs-youtube/,
+      },
+    ],
 
     noParse: [
       // Ignore prebuilt warning for videojs

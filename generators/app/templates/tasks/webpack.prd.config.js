@@ -7,11 +7,9 @@ const webpack = require('webpack');
 
 // webpack plugins
 const AssetsPlugin = require('assets-webpack-plugin');
-const ChunkManifestPlugin = require('chunk-manifest-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const StatsWriterPlugin = require('webpack-stats-plugin').StatsWriterPlugin;
 const { InjectManifest } = require('workbox-webpack-plugin');
 
@@ -25,6 +23,7 @@ const paths = require('../core/paths');
 module.exports = merge.smart(baseConfig, {
   cache: false,
   devtool: '#source-map',
+  mode: 'production',
 
   entry: {
     critical: ['sass/critical.scss'],
@@ -35,6 +34,32 @@ module.exports = merge.smart(baseConfig, {
 
   module: {
     rules: [
+      {
+        test: /\.(css|scss)$/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          {
+            loader: 'css-loader',
+            options: {
+              autoprefixer: false,
+              sourceMap: true,
+            },
+          },
+          {
+            loader: 'postcss-loader',
+            options: {
+              sourceMap: true,
+            },
+          },
+          {
+            loader: 'sass-loader',
+            options: {
+              sourceMap: true,
+            },
+          },
+        ],
+        exclude: [paths.fonts],
+      },
       {
         test: /\.(eot|ttf|woff|woff2)(\?.+)?$/,
         use: ['file-loader'],
@@ -59,9 +84,18 @@ module.exports = merge.smart(baseConfig, {
     publicPath: '/sitefiles/dist/',
   },
 
+  optimization: {
+    concatenateModules: true,
+    minimize: true,
+    runtimeChunk: true,
+  },
+
   plugins: [
     new CopyWebpackPlugin([
-      { from: require.resolve('workbox-sw'), to: 'workbox-sw.js' },
+      {
+        from: path.join(paths.sitefiles, 'src/js/webforms/combined.min.js'),
+        to: 'webforms-combined.min.js',
+      },
     ]),
     new webpack.LoaderOptionsPlugin({
       minimize: true,
@@ -71,123 +105,19 @@ module.exports = merge.smart(baseConfig, {
       exclude: path.join(paths.dist, '.gitignore'),
       root: paths.sitefiles,
     }),
+    // note: https://github.com/kossnocorp/assets-webpack-plugin/issues/86
     new AssetsPlugin({
       filename: 'assets.json',
       path: paths.dist,
     }),
     new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en-gb/),
-    new ChunkManifestPlugin({
-      filename: 'manifest.json',
-      manifestVariable: 'webpackManifest',
-    }),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendor',
-      minChunks(module) {
-        return bundleByName(module, ['node_modules', 'lib/', 'vendor/']);
-      },
-    }),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'loadcss',
-      minChunks(module) {
-        return bundleByName(module, ['fg-loadcss']);
-      },
-    }),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'manifest',
-      minChunks: Infinity,
-    }),
-    new webpack.optimize.CommonsChunkPlugin({
-      async: 'angular',
-      children: true,
-      minChunks(module) {
-        return bundleByName(module, ['angular']);
-      },
-    }),
-    new webpack.optimize.CommonsChunkPlugin({
-      async: 'angular-translate',
-      children: true,
-      minChunks(module) {
-        return bundleByName(module, ['angular-translate']);
-      },
-    }),
-    new webpack.optimize.CommonsChunkPlugin({
-      async: 'angular-ui',
-      children: true,
-      minChunks(module) {
-        return bundleByName(module, ['angular-ui', '@uirouter']);
-      },
-    }),
-    new webpack.optimize.CommonsChunkPlugin({
-      async: 'fancybox',
-      children: true,
-      minChunks(module) {
-        return bundleByName(module, ['fancybox']);
-      },
-    }),
-    new webpack.optimize.CommonsChunkPlugin({
-      async: 'moment',
-      children: true,
-      minChunks(module) {
-        return bundleByName(module, ['moment']);
-      },
-    }),
-    new webpack.optimize.CommonsChunkPlugin({
-      async: 'react',
-      children: true,
-      minChunks(module) {
-        return bundleByName(module, ['react']);
-      },
-    }),
-    new webpack.optimize.CommonsChunkPlugin({
-      async: 'redux',
-      children: true,
-      minChunks(module) {
-        return bundleByName(module, ['redux']);
-      },
-    }),
-    new webpack.optimize.CommonsChunkPlugin({
-      async: 'titon',
-      children: true,
-      minChunks(module) {
-        return bundleByName(module, ['titon']);
-      },
-    }),
-    new webpack.optimize.CommonsChunkPlugin({
-      async: 'videojs',
-      children: true,
-      minChunks(module) {
-        return bundleByName(module, ['video.js', 'videojs-youtube']);
-      },
-    }),
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('production'),
       },
     }),
-    new ExtractTextPlugin({
-      allChunks: true,
-      disable: false,
+    new MiniCssExtractPlugin({
       filename: '[name]-[chunkhash].css',
-    }),
-    new HtmlWebpackPlugin({
-      filename: 'offline.html',
-      inject: false,
-      template: paths.offline,
-    }),
-    new webpack.optimize.UglifyJsPlugin({
-      beautify: false,
-      mangle: {
-        screw_ie8: true,
-        keep_fnames: true,
-      },
-      comments: false,
-      compress: {
-        screw_ie8: true,
-        warnings: false,
-      },
-      output: {
-        comments: false,
-      },
     }),
     new StatsWriterPlugin({
       transform(data, opts) {
@@ -201,22 +131,3 @@ module.exports = merge.smart(baseConfig, {
     }),
   ],
 });
-
-/** Check if module name contains the specified names. */
-function bundleByName(module, names) {
-  if (!module.resource) {
-    return false;
-  }
-
-  // This prevents stylesheet resources with the .css or .scss extension
-  // from being moved from their original chunk to the vendor chunk
-  if (/^.*\.(css|scss)$/.test(module.resource)) {
-    return false;
-  }
-
-  return names.some(
-    name =>
-      module.resource.indexOf(name) >= 0 &&
-      module.resource.indexOf('node_modules') >= 0
-  );
-}
