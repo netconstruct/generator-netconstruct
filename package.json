@@ -1,6 +1,6 @@
 {
   "name": "@netc/generator-netconstruct",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "NetConstruct generator.",
   "homepage": "http://www.netconstruct.co.uk",
   "author": {
@@ -8,13 +8,9 @@
     "email": "sales@netconstruct.co.uk",
     "url": "http://www.netconstruct.co.uk"
   },
-  "files": [
-    "generators"
-  ],
+  "files": ["generators"],
   "main": "generators\\index.js",
-  "keywords": [
-    "yeoman-generator"
-  ],
+  "keywords": ["yeoman-generator"],
   "dependencies": {
     "chalk": "^1.0.0",
     "extend": "^3.0.0",
