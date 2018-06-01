@@ -128,16 +128,10 @@ module.exports = class extends Generator {
     this.log('Create boilerplate...');
 
     /** Create gitignore files. */
-    this.fs.copy(
-      this.templatePath('_gitignore'),
-      this.destinationPath('.gitignore')
-    );
+    this.fs.copy(this.templatePath('_gitignore'), this.destinationPath('.gitignore'));
 
     /** Create gitattributes files. */
-    this.fs.copy(
-      this.templatePath('_gitattributes'),
-      this.destinationPath('.gitattributes')
-    );
+    this.fs.copy(this.templatePath('_gitattributes'), this.destinationPath('.gitattributes'));
 
     /** Create babelrc file. */
     this.fs.copy(
@@ -182,10 +176,7 @@ module.exports = class extends Generator {
     );
 
     /** Create offline template. */
-    this.fs.copy(
-      this.templatePath('offline.ejs'),
-      this.destinationPath(this.offlinePath)
-    );
+    this.fs.copy(this.templatePath('offline.ejs'), this.destinationPath(this.offlinePath));
 
     /** Create postcss config file. */
     this.fs.copy(
@@ -214,33 +205,22 @@ module.exports = class extends Generator {
       devDependencies: {},
     };
 
-    this.fs.writeJSON(this.destinationPath(path.join(this.root, 'SiteFiles/src/package.json')), contents);
+    this.fs.writeJSON(
+      this.destinationPath(path.join(this.root, 'SiteFiles/src/package.json')),
+      contents
+    );
 
     /** Create templated core files. */
-    this.fs.copyTpl(
-      this.templatePath('core/**/*'),
-      this.destinationPath(this.corePath)
-    );
+    this.fs.copyTpl(this.templatePath('core/**/*'), this.destinationPath(this.corePath));
 
     /** Create templated fonts files. */
-    this.fs.copy(
-      this.templatePath('fonts/**/*'),
-      this.destinationPath(this.fontsPath),
-      this.props
-    );
+    this.fs.copy(this.templatePath('fonts/**/*'), this.destinationPath(this.fontsPath), this.props);
 
     /** Create templated js files. */
-    this.fs.copyTpl(
-      this.templatePath('js/**/*'),
-      this.destinationPath(this.jsPath),
-      this.props
-    );
+    this.fs.copyTpl(this.templatePath('js/**/*'), this.destinationPath(this.jsPath), this.props);
 
     /** Create templated sass files. */
-    this.fs.copyTpl(
-      this.templatePath('sass/**/*'),
-      this.destinationPath(this.sassPath)
-    );
+    this.fs.copyTpl(this.templatePath('sass/**/*'), this.destinationPath(this.sassPath));
 
     /** Create templated styleguide files. */
     this.fs.copyTpl(
@@ -249,10 +229,7 @@ module.exports = class extends Generator {
     );
 
     /** Create templated task files. */
-    this.fs.copyTpl(
-      this.templatePath('tasks/**/*'),
-      this.destinationPath(this.tasksPath)
-    );
+    this.fs.copyTpl(this.templatePath('tasks/**/*'), this.destinationPath(this.tasksPath));
   }
 
   install() {
@@ -264,9 +241,6 @@ module.exports = class extends Generator {
     /** Install npm dependencies. */
     const dependencies = [
       '@netc/core',
-      'angular',
-      'angular-deferred-bootstrap',
-      'angular-sanitize',
       'babel-polyfill',
       'fg-loadcss',
       'gridle',
@@ -297,7 +271,6 @@ module.exports = class extends Generator {
     const devDependencies = [
       '@frctl/fractal',
       '@frctl/mandelbrot',
-      'assets-webpack-plugin',
       'autoprefixer',
       'babel-core',
       'babel-eslint',
@@ -334,8 +307,6 @@ module.exports = class extends Generator {
       'image-webpack-loader',
       'imports-loader',
       'mini-css-extract-plugin',
-      'ng-annotate-loader',
-      'ng-annotate-patched',
       'node-sass',
       'postcss-loader',
       'postcss-pseudoelements',
@@ -345,6 +316,7 @@ module.exports = class extends Generator {
       'style-loader',
       'url-loader',
       'webpack@^4.1.0',
+      'webpack-assets-manifest',
       'webpack-dev-middleware@^3.0.0',
       'webpack-hot-middleware',
       'webpack-merge',

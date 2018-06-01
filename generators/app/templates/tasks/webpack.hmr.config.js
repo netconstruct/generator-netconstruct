@@ -6,10 +6,10 @@ const path = require('path');
 const webpack = require('webpack');
 
 // webpack plugins
-const AssetsPlugin = require('assets-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const StatsWriterPlugin = require('webpack-stats-plugin').StatsWriterPlugin;
+const WebpackAssetsManifest = require('webpack-assets-manifest');
 
 // load base configuration.
 const baseConfig = require('./webpack.config');
@@ -18,10 +18,6 @@ const baseConfig = require('./webpack.config');
 const paths = require('../core/paths');
 
 module.exports = merge.smart(baseConfig, {
-  cache: true,
-  devtool: '#cheap-source-map',
-  mode: 'development',
-
   entry: {
     critical: ['sass/critical.scss'],
     styleguide: ['sass/styleguide.scss'],
@@ -32,8 +28,14 @@ module.exports = merge.smart(baseConfig, {
       'js/main',
     ],
     offline: ['sass/offline.scss'],
+    polyfill: [
+      'babel-polyfill',
+      'loadcss-core',
+      'loadcss-polyfill',
+      'picturefill/dist/picturefill',
+    ],
   },
-
+  mode: 'development',
   module: {
     rules: [
       {
@@ -78,20 +80,15 @@ module.exports = merge.smart(baseConfig, {
       },
     ],
   },
-
+  optimization: {
+    noEmitOnErrors: true,
+  },
   output: {
     chunkFilename: '[name].js',
     filename: '[name].js',
     path: paths.dist,
     publicPath: '/sitefiles/dist/',
-    // use for AssetsPlugin to filter out hot updates (https://github.com/ctrlplusb/react-universally/pull/566)
-    hotUpdateChunkFilename: '[hash].hot-update.js',
   },
-
-  optimization: {
-    noEmitOnErrors: true,
-  },
-
   plugins: [
     new CopyWebpackPlugin([
       {
@@ -103,10 +100,11 @@ module.exports = merge.smart(baseConfig, {
       exclude: path.join(paths.dist, '.gitignore'),
       root: paths.sitefiles,
     }),
-    // note: https://github.com/kossnocorp/assets-webpack-plugin/issues/86
-    new AssetsPlugin({
-      filename: 'assets.json',
-      path: paths.dist,
+    new WebpackAssetsManifest({
+      integrity: true,
+      output: 'assets.json',
+      publicPath: true,
+      writeToDisk: true,
     }),
     new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en-gb/),
     new webpack.DefinePlugin({

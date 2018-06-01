@@ -5,16 +5,12 @@ const path = require('path');
 const paths = require('../core/paths');
 
 const baseConfig = {
+  devtool: '#source-map',
   externals: {
     jquery: 'jQuery',
   },
-
   module: {
     rules: [
-      {
-        test: /\.html$/,
-        use: ['html-loader'],
-      },
       {
         test: /\.(js|jsx)$/,
         use: [
@@ -32,6 +28,10 @@ const baseConfig = {
         use: ['babel-loader'],
         include: [paths.js],
         exclude: [paths.vendor],
+      },
+      {
+        test: /\.html$/,
+        use: ['html-loader'],
       },
       {
         test: /\.(css|scss)$/,
@@ -62,10 +62,7 @@ const baseConfig = {
       },
       {
         test: /loadcss\.js$/,
-        use: [
-          'imports-loader?exports=>undefined',
-          'exports-loader?window.loadCSS',
-        ],
+        use: ['imports-loader?exports=>undefined', 'exports-loader?window.loadCSS'],
         exclude: [paths.js],
         include: /fg-loadcss/,
       },
@@ -81,57 +78,21 @@ const baseConfig = {
         exclude: [paths.js],
         include: /lodash-es/,
       },
-      {
-        test: /\.js$/,
-        use: ['babel-loader'],
-        include: /ng\-redux/,
-      },
-      {
-        test: /\.js$/,
-        use: ['babel-loader'],
-        exclude: [paths.js],
-        include: /aos/,
-      },
-      {
-        test: /\.js$/,
-        use: ['babel-loader'],
-        exclude: [paths.js],
-        include: /@netc/,
-      },
-      {
-        test: /\.js$/,
-        use: ['imports-loader?define=>false'],
-        exclude: [paths.js],
-        include: /scrollmagic/,
-      },
-      {
-        test: /underscore\.js$/,
-        use: ['expose-loader?_'],
-        exclude: [paths.js],
-        include: /underscore/,
-      },
-      {
-        test: /\.js$/,
-        use: ['imports-loader?this=>window&exports=>false&define=>false'],
-        exclude: [paths.js],
-        include: /video\.js/,
-      },
-      {
-        test: /\.js$/,
-        use: ['imports-loader?this=>window&exports=>false&define=>false'],
-        exclude: [paths.js],
-        include: /videojs-youtube/,
-      },
-    ],
-
-    noParse: [
-      // Ignore prebuilt warning for videojs
-      /[\/\\]video\.js$/,
-      /[\/\\]video\.min\.js$/,
-      /[\/\\]videojs-youtube/,
     ],
   },
-
+  performance: {
+    assetFilter: function (assetFilename) {
+      // remove warning about stats.json file size
+      if (/stats.json/.test(assetFilename)) {
+        return false;
+      }
+      // remove warning about sourcemap file size
+      if (/\.map$/.test(assetFilename)) {
+        return false;
+      }
+      return true;
+    },
+  },
   resolve: {
     alias: {
       // Alias common src folders.
@@ -157,15 +118,6 @@ const baseConfig = {
       // Alias node modules.
       'loadcss-core': 'fg-loadcss/src/loadcss',
       'loadcss-polyfill': 'fg-loadcss/src/cssrelpreload',
-      'scrollmagic-core': 'scrollmagic/scrollmagic/uncompressed/ScrollMagic',
-      'scrollmagic-gsap': 'scrollmagic/scrollmagic/uncompressed/plugins/animation.gsap',
-      select2: path.resolve(path.join(paths.root, 'node_modules', 'select2')),
-      TweenMax: 'gsap/TweenMax',
-      TweenLite: 'gsap/TweenLite',
-      TimelineMax: 'gsap/TimelineMax',
-      TimelineLite: 'gsap/TimelineLite',
-      'videojs-core': 'video.js/dist/video.js',
-      'videojs-youtube': 'videojs-youtube/dist/Youtube',
     },
     extensions: ['.js', '.jsx', '.json'],
   },

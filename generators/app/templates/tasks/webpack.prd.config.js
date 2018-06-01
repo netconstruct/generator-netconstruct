@@ -6,12 +6,12 @@ const path = require('path');
 const webpack = require('webpack');
 
 // webpack plugins
-const AssetsPlugin = require('assets-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const StatsWriterPlugin = require('webpack-stats-plugin').StatsWriterPlugin;
 const { InjectManifest } = require('workbox-webpack-plugin');
+const WebpackAssetsManifest = require('webpack-assets-manifest');
 
 // load base configuration.
 const baseConfig = require('./webpack.config');
@@ -21,17 +21,19 @@ const paths = require('../core/paths');
 
 // Load base configuration.
 module.exports = merge.smart(baseConfig, {
-  cache: false,
-  devtool: '#source-map',
-  mode: 'production',
-
   entry: {
     critical: ['sass/critical.scss'],
     styleguide: ['sass/styleguide.scss'],
     main: ['sass/main.scss', 'js/main'],
     offline: ['sass/offline.scss'],
+    polyfill: [
+      'babel-polyfill',
+      'loadcss-core',
+      'loadcss-polyfill',
+      'picturefill/dist/picturefill',
+    ],
   },
-
+  mode: 'production',
   module: {
     rules: [
       {
@@ -76,20 +78,40 @@ module.exports = merge.smart(baseConfig, {
       },
     ],
   },
-
+  optimization: {
+    concatenateModules: true,
+    minimize: true,
+    runtimeChunk: true,
+    splitChunks: {
+      // todo: change to "chunks: 'async'" when code splitting is done
+      chunks(chunk) {
+        return chunk.name !== 'polyfill';
+      },
+      minSize: 30000,
+      minChunks: 1,
+      maxAsyncRequests: 5,
+      maxInitialRequests: 3,
+      automaticNameDelimiter: '~',
+      name: true,
+      cacheGroups: {
+        vendors: {
+          test: /([\\/]node_modules[\\/]|[\\/]vendors[\\/]|[\\/]libs[\\/])/,
+          priority: -10,
+        },
+        default: {
+          minChunks: 2,
+          priority: -20,
+          reuseExistingChunk: true,
+        },
+      },
+    },
+  },
   output: {
     chunkFilename: '[name]-[chunkhash].js',
     filename: '[name]-[chunkhash].js',
     path: paths.dist,
     publicPath: '/sitefiles/dist/',
   },
-
-  optimization: {
-    concatenateModules: true,
-    minimize: true,
-    runtimeChunk: true,
-  },
-
   plugins: [
     new CopyWebpackPlugin([
       {
@@ -105,10 +127,11 @@ module.exports = merge.smart(baseConfig, {
       exclude: path.join(paths.dist, '.gitignore'),
       root: paths.sitefiles,
     }),
-    // note: https://github.com/kossnocorp/assets-webpack-plugin/issues/86
-    new AssetsPlugin({
-      filename: 'assets.json',
-      path: paths.dist,
+    new WebpackAssetsManifest({
+      integrity: true,
+      output: 'assets.json',
+      publicPath: true,
+      writeToDisk: true,
     }),
     new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en-gb/),
     new webpack.DefinePlugin({

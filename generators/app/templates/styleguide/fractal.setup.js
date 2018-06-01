@@ -23,22 +23,22 @@ module.exports = function setup(fractal, isDevelopmentMode) {
   // Create custom handlebars engine to support webpack.
   const hbs = require('@frctl/handlebars')({
     helpers: {
-      asset: function asset(chunkName, chunkType) {
+      asset: function asset(fileName) {
         if (isDevelopmentMode) {
-          return `/sitefiles/dist/${chunkName}.${chunkType}`;
+          return `/sitefiles/dist/${fileName}`;
         }
 
         // Get assets.json file from webpack output directory.
         const assetsPath = path.join(__root, './dist/assets.json');
         const assetsJson = require(assetsPath);
 
-        const files = assetsJson[chunkName];
+        const entry = assetsJson[fileName];
 
-        if (!files) {
+        if (!entry) {
           return '';
         }
 
-        return files[chunkType];
+        return entry.src;
       },
       icon: function icon(iconName) {
         return `/src/img/icons/symbol/svg/sprite.symbol.svg#${iconName}`;
@@ -46,20 +46,9 @@ module.exports = function setup(fractal, isDevelopmentMode) {
       json: function json(context) {
         return JSON.stringify(context);
       },
-      manifest: function manifest() {
-        if (isDevelopmentMode) {
-          return '';
-        }
-
-        // Get manifest.json file from webpack output directory.
-        const manifestPath = path.join(__root, './dist/manifest.json');
-        const manifestJson = require(manifestPath);
-
-        return `window.webpackManifest = JSON.parse('${JSON.stringify(manifestJson)}')`;
-      },
     },
   });
 
   fractal.components.engine(hbs);
   fractal.docs.engine(hbs);
-}
+};
