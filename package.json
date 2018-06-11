@@ -8,9 +8,13 @@
     "email": "sales@netconstruct.co.uk",
     "url": "http://www.netconstruct.co.uk"
   },
-  "files": ["generators"],
+  "files": [
+    "generators"
+  ],
   "main": "generators\\index.js",
-  "keywords": ["yeoman-generator"],
+  "keywords": [
+    "yeoman-generator"
+  ],
   "dependencies": {
     "chalk": "^1.0.0",
     "extend": "^3.0.0",
@@ -32,7 +36,6 @@
     "gulp-eslint": "^3.0.1",
     "gulp-exclude-gitignore": "^1.0.0",
     "gulp-istanbul": "^1.1.1",
-    "gulp-mocha": "^3.0.1",
     "gulp-nsp": "^2.1.0",
     "gulp-plumber": "^1.0.0",
     "yeoman-assert": "^2.0.0"
