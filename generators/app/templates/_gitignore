@@ -208,6 +208,7 @@ _Pvt_Extensions
 # Custom Ignores
 CMS/.sass-cache
 CMS/.grunt
+CMS/ConnectionStrings.config
 CMS/App_Data/CMSModules/DeviceProfile/51Degrees.dat
 CMS/App_Data/CMSModules/DeviceProfile/logFiftyOne.txt
 CMS/App_Data/CMSModules/SmartSearch/
