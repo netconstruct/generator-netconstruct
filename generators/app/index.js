@@ -128,6 +128,9 @@ module.exports = class extends Generator {
     this.log('Create boilerplate...');
 
     /** Create gitignore files. */
+    this.fs.copy(this.templatePath('README.md'), this.destinationPath('README.md'));
+
+    /** Create gitignore files. */
     this.fs.copy(this.templatePath('_gitignore'), this.destinationPath('.gitignore'));
 
     /** Create gitattributes files. */
