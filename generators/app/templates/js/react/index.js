@@ -2,7 +2,12 @@ import createHistory from 'history/createHashHistory';
 import queryString from 'query-string';
 import { Bootstrapper } from 'react-habitat';
 import { ReduxDomFactory } from 'react-habitat-redux';
-import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
+import {
+  applyMiddleware,
+  combineReducers,
+  compose,
+  createStore,
+} from 'redux';
 import { connectRoutes } from 'redux-first-router';
 import { createLogger } from 'redux-logger';
 import promise from 'redux-promise';
