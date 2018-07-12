@@ -313,6 +313,7 @@ module.exports = class extends Generator {
       'node-sass',
       'postcss-loader',
       'postcss-pseudoelements',
+      'query-string',
       'raw-loader',
       'require-dir',
       'sass-loader',
