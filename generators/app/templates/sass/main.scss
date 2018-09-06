@@ -1,8 +1,10 @@
 $slick-font-path: "~slick-carousel/slick/fonts/";
 $slick-loader-path: "~slick-carousel/slick/";
 
+// Breakpoint settings
+@import 'settings/settings-grid';
+
 // libs
-@import '~gridle/sass/gridle/gridle-flex';
 @import '~sass-rem/rem';
 @import '~slick-carousel/slick/slick';
 
@@ -15,17 +17,12 @@ $slick-loader-path: "~slick-carousel/slick/";
 
 // settings
 @import 'settings/settings-brand';
-@import 'settings/settings-grid';
 @import 'settings/settings-layers';
 @import 'settings/settings-type';
 @import 'settings/settings-global';
 
-// override Titon variables
-@import 'settings/settings-framework';
-@import 'framework-imports';
-
 // tools
-@import '~@netc/core/src/sass/main';
+@import '~@netc/core/src/sass/core/core-mixins';
 
 // base
 @import 'base/base-fonts';
@@ -34,10 +31,13 @@ $slick-loader-path: "~slick-carousel/slick/";
 // helpers
 @import 'helpers/helpers';
 
-// components
+// components - alphabetical order please 😀
+@import 'components/component-buttons';
+@import 'components/component-footer';
 @import 'components/component-global';
 @import 'components/component-header';
-@import 'components/component-footer';
+@import 'components/component-icons';
+@import 'components/component-typography';
 
 // templates
 @import 'template/template-home';

@@ -1,39 +1,25 @@
-// Gridle configuration.
-// Defines the Gridle options in a sass map
-// For more options or documentation please see http://gridle.org/documentation
-$gridle-settings: (
-  context: 12,
-  gutter-width : 40px,
-  direction : ltr,
-  name-multiplicator : 1
-);
+// sass-mq configuration - please see https://github.com/sass-mq/sass-mq for more infos
+// Enable media queries support 
+$mq-responsive: true;
 
-// Gridle gutter sizes.
-// Defines the different gutter across the grid and breakpoints in a sass map
-// This is use for the grid and also for spacing elements like cards
-$gridle-gutters: (
-  g-xsmall: 24px,
-  g-small: 24px,
-  g-medium: 32px,
-  g-large: 40px
-);
+// Base font size
+$mq-base-font-size: 16px !default;
 
-// Gridle breakpoints.
-$gridle-breakpoints: (
-  mobile-small:        ( gutter: 'g-xsmall',   max: 480px ),
-  mobile:              ( gutter: 'g-xsmall',   max: 767px ),
-  tablet:              ( gutter: 'g-small',    min: 768px ),
-  tablet-exact:        ( gutter: 'g-small',    min: 768px,  max: 991px ),
-  desktop-small:       ( gutter: 'g-medium',   min: 992px ),
-  desktop-small-exact: ( gutter: 'g-medium',   min: 992px,  max: 1239px ),
-  desktop:             ( gutter: 'g-medium',   min: 1240px ),
-  desktop-exact:       ( gutter: 'g-medium',   min: 1240px, max: 1471px ),
-  desktop-lg:          ( gutter: 'g-large',    min: 1472px ),
+// Defines breakpoints list
+$mq-breakpoints: (
+    mobile-small: 480px, // max
+    mobile: 767px, // max
+    tablet:  768px,
+    desktop-small: 992px,
+    desktop: 1240px,
+    desktop-lg: 1472px
 );
 
 // Padding on either side of the main container.
 $site-wide-padding: 30px;
 
 // Width of the main container.
-$desktop-width: map-get(map-get($gridle-breakpoints, 'desktop'), 'min');
+$desktop-width: map-get($mq-breakpoints, 'desktop');
 $site-width: $desktop-width + ( $site-wide-padding * 2 );
+
+@import '~sass-mq/mq';

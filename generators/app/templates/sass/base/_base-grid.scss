@@ -1,52 +1,3 @@
-// Setup Gridle - gridle_setup needs to be run in order for Gridle to work.
-@include gridle_setup($gridle-settings);
-
-// gridle_generate_classes generates the CSS classes defined in /base/_base.scss and other one used by Gridle
-@include gridle_generate_classes( all , -default -helpers -debug -push -pull -prefix -suffix -float -clear -gutter -no-gutter -hide -show -visible );
-
-// Register breakpoints.
-// Each breakpoint created in /settings/_settings-breapoint.scss need to be call by gridle_register_state in order to work
-// If a new breakpoint is added to the list, we need to register it here
-@each $name, $breakpoint in $gridle-breakpoints {
-  @if map-has-key($breakpoint, 'min') and map-has-key($breakpoint, 'max') {
-    @include register-exact($name, $breakpoint);
-  }
-  @else if map-has-key($breakpoint, 'max') {
-    @include register-desktop-first($name, $breakpoint);
-  }
-  @else if map-has-key($breakpoint, 'min') {
-    @include register-mobile-first($name, $breakpoint);
-  }
-}
-
-// Responsive grid inner
-// Uncomment the following and tweak it as you need to use responsive padding on grid inner 
-/*
-.grid-inner {
-  padding-left: map-get($grid-inner-padding, 'p-xsmall');
-  padding-right: map-get($grid-inner-padding, 'p-xsmall');
-
-  @include gridle_state ( tablet ) {
-    padding-left: map-get($grid-inner-padding, 'p-small');
-    padding-right: map-get($grid-inner-padding, 'p-small');
-  }
-
-  @include gridle_state ( desktop-small ) {
-    padding-left: map-get($grid-inner-padding, 'p-medium');
-    padding-right: map-get($grid-inner-padding, 'p-medium');
-  }
-
-  @include gridle_state ( desktop ) {
-    padding-left: map-get($grid-inner-padding, 'p-medium');
-    padding-right: map-get($grid-inner-padding, 'p-medium');
-  }
-
-  @include gridle_state ( desktop-lg ) {
-    padding-left: map-get($grid-inner-padding, 'p-large');
-    padding-right: map-get($grid-inner-padding, 'p-large');
-  }
-}
-*/
 
 
 .grid-color-debug {
@@ -71,61 +22,100 @@
 	overflow: visible;
 }
 
-// site-wide--responsive-padding is used when there is no grid inside it.
-// It has different padding depending on the breakpoint
-// Uncomment the following and tweak it as you need to use responsive site-wide when responsive gutter are used
-// Update the max-width to match the design requirement
-/* 
-.site-wide--responsive-padding {
-  @include rem(max-width, 1552px);
-  margin: 0 auto;
-  padding-left: rem((map-get($gridle-gutters, g-xsmall))/2);
-  padding-right: rem((map-get($gridle-gutters, g-xsmall))/2);
-  overflow: visible;
-
-  @include gridle_state ( tablet ) {
-    padding-left: rem((map-get($gridle-gutters, g-small))/2);
-    padding-right: rem((map-get($gridle-gutters, g-small))/2);
-  }
-
-  @include gridle_state ( desktop-small ) {
-    padding-left: rem((map-get($gridle-gutters, g-medium))/2);
-    padding-right: rem((map-get($gridle-gutters, g-medium))/2);
-  }
-
-  @include gridle_state ( desktop ) {
-    padding-left: rem((map-get($gridle-gutters, g-medium))/2);
-    padding-right: rem((map-get($gridle-gutters, g-medium))/2);
-  }
-
-  @include gridle_state ( desktop-lg ) {
-    padding-left: rem((map-get($gridle-gutters, g-large))/2);
-    padding-right: rem((map-get($gridle-gutters, g-large))/2);
-  }
-}
-*/
-
 .grid-container {
-	@include gridle( row );
+  @supports not (display: grid) {
+    display: flex;
+    flex-wrap: wrap;
+    flex: 1 0 auto;
+    flex-direction: row;
+    margin-left: -15px;
+    margin-right: -15px;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  @supports (display: grid) {
+    display: grid;
+    grid-template-columns: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    grid-column-gap: rem(20px);
+  }
+
+  > .grid-column {
+    padding-bottom: rem(30px);
+
+    @supports not (display: grid) {
+      flex: 0 0 100%;
+      flex-direction: column;
+      display: block;
+      box-sizing: border-box;
+      max-width: 100%;
+      margin-left: 0;
+      margin-right: 0;
+      padding-left: rem(15px);
+      padding-right: rem(15px);
+      
+    }
+
+    @supports (display: grid) {
+      max-width: 100%;
+      padding-left: 0;
+      padding-right: 0;
+    }
+  }
 }
 
-.grid-container--bottom {
-  @include gridle_row_align ( bottom );
+.grid-container--full {
+  @supports (display: grid) {
+    grid-template-columns: 1fr;
+  }  
 }
 
-.grid-container--no-gutter {
-	margin-left: 0;
-	margin-right: 0;
-}
-
+// Grid 1:1
 .grid-container--half {
-	.grid-column {
-		@include gridle_grid ( 12 );
-		margin-left: 0;
-		margin-right: 0;
+  @include mq ( tablet ) {
+    @supports (display: grid) {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
 
-		@include gridle_state ( tablet desktop ) {
-			@include gridle_grid ( 6 );
-		}
+	> .grid-column {
+    @supports not (display: grid) {
+      flex-basis: 50%;
+      max-width: 50%;
+    }
+	}
+}
+
+// Grid 1:1:1
+.grid-container--third {
+  @include mq ( tablet ) {
+    @supports (display: grid) {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+  }
+
+	> .grid-column {
+    @supports not (display: grid) {
+      flex-basis: 33.33%;
+      max-width: 33.33%;
+    }
+	}
+}
+
+// Grid 1:1:1:1
+.grid-container--quarter {
+  @include mq ( tablet ) {
+    @supports (display: grid) {
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
+  }
+
+	> .grid-column {
+		@supports not (display: grid) {
+      flex-basis: 25%;
+      max-width: 25%;
+    }
 	}
 }
