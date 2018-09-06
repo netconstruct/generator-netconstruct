@@ -3,14 +3,45 @@
  */
 
 html {
-	color: $brand-text;
+  color: $brand-text;
+  min-height: 100%; // Ensure the page always fills at least the entire height of the viewport.
+  box-sizing: border-box;
+}
+
+/**
+ * More sensible default box-sizing:
+ * css-tricks.com/inheriting-box-sizing-probably-slightly-better-best-practice
+ */
+
+*,
+*::after,
+*::before {
+  box-sizing: inherit;
+}
+
+body {
+  font-family: $base-font-family;
+  margin: 0;
 }
 
 p {
-	font-family: $base-font-family;
 }
 
 // @note: override margin-top from Titon and add a margin-bottom
 ul, ol, p {
 	@include rem(margin, 0 0 16px 0);
+}
+
+/**
+ * 1. Fluid images for responsive purposes.
+ * 2. Offset `alt` text from surrounding copy.
+ * 3. Setting `vertical-align` removes the whitespace that appears under `img`
+ *    elements when they are dropped into a page as-is. Safer alternative to
+ *    using `display: block;`.
+ */
+
+ img {
+  max-width: 100%; /* [1] */
+  font-style: italic; /* [2] */
+  vertical-align: middle; /* [3] */
 }

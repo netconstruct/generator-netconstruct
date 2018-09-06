@@ -3,3 +3,11 @@
   $emValue: $value / 1000;
   @return $emValue + 0em;
 }
+
+// Get value from nested sass map.
+@function netc-map-deep-get($map, $keys...) {
+  @each $key in $keys {
+      $map: map-get($map, $key);
+  }
+  @return $map;
+}

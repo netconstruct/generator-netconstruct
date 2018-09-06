@@ -1,0 +1,13 @@
+{{#if isBtn}}
+<button class="btn {{modifier}}" type="button" name="button"><span class="btn__text">{{btnText}}</span></button>
+{{/if}}
+
+{{#if isInput}}
+<div class="btn {{modifier}}">
+  <input class="btn btn__text" type="submit" value="{{btnText}}" />
+</div>
+{{/if}}
+
+{{#if isLink}}
+<a class="btn {{modifier}}" href="#"><span class="btn__text">{{btnText}}</span></a>
+{{/if}}

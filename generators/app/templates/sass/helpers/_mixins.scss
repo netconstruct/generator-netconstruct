@@ -1,7 +1,7 @@
 @mixin helpers-reset-button {
   border: 0;
   background: transparent;
-  font-weight: bold;
+  font-weight: normal;
   padding: 0;
 }
 
@@ -76,44 +76,6 @@
   &:before {
     content: $icon-var;
   }
-}
-
-// Register mobile first breakpoint (min only).
-@mixin register-mobile-first($name, $breakpoint) {
-  $min: map-get($breakpoint, 'min');
-  $gutter: map-get($breakpoint, 'gutter');
-
-  @include gridle_register_state( $name, (
-    min-width: $min,
-    gutter-width : map-get($gridle-gutters, $gutter),
-    gutter-bottom : map-get($gridle-gutters, $gutter),
-  ));
-}
-
-// Register desktop first breakpoint (max only).
-@mixin register-desktop-first($name, $breakpoint) {
-  $max: map-get($breakpoint, 'max');
-  $gutter: map-get($breakpoint, 'gutter');
-
-  @include gridle_register_state( $name, (
-    max-width: $max,
-    gutter-width : map-get($gridle-gutters, $gutter),
-    gutter-bottom : map-get($gridle-gutters, $gutter),
-  ));
-}
-
-// Register exact breakpoint (min and max).
-@mixin register-exact($name, $breakpoint) {
-  $min: map-get($breakpoint, 'min');
-  $max: map-get($breakpoint, 'max');
-  $gutter: map-get($breakpoint, 'gutter');
-
-  @include gridle_register_state( $name, (
-    min-width: $min,
-    max-width: $max,
-    gutter-width : map-get($gridle-gutters, $gutter),
-    gutter-bottom : map-get($gridle-gutters, $gutter),
-  ));
 }
 
 // Set font weight value.
