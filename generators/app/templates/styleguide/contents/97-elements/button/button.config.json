@@ -1,0 +1,31 @@
+{
+  "status": "ready",
+  "default": "primary-button",
+  "notes": "",
+  "variants": [
+    {
+      "name": "primary-button",
+      "context": {
+        "modifier": "btn--reset btn--primary",
+        "btnText": "Button",
+        "isBtn": true
+      }
+    },
+    {
+      "name": "primary-input",
+      "context": {
+        "modifier": "btn--reset btn--primary",
+        "btnText": "Button",
+        "isInput": true
+      }
+    },
+    {
+      "name": "primary-link",
+      "context": {
+        "modifier": "btn--reset btn--primary",
+        "btnText": "Button",
+        "isLink": true
+      }
+    }
+  ]
+}

@@ -1,8 +1,8 @@
 /**
- * Add z-index values in this file. E.g.
- *
- * $layer-lightbox: 10;
- * $layer-modal: 20;
- * $layer-overlay: 50;
+ * Add z-index values in this file.
  *
  */
+
+$layer-root: -1;
+$layer-default: 10;
+$layer-god: 100;

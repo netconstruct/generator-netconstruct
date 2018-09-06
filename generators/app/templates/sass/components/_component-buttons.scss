@@ -1,0 +1,11 @@
+.btn--reset {
+  @include helpers-reset-button;
+  text-decoration: none;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.btn {
+}
