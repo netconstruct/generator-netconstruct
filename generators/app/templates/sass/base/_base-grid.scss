@@ -15,7 +15,7 @@
 
 // Site-wide is used as a container for the grid or components
 .site-wide {
-	@include rem(max-width, $site-width);
+	max-width: $site-width;
 	margin: 0 auto;
 	padding-left: $site-wide-padding;
 	padding-right: $site-wide-padding;
@@ -39,11 +39,11 @@
     grid-template-columns: 100%;
     margin-left: 0;
     margin-right: 0;
-    grid-column-gap: rem(20px);
+    grid-column-gap: 20px;
   }
 
   > .grid-column {
-    padding-bottom: rem(30px);
+    padding-bottom: 30px;
 
     @supports not (display: grid) {
       flex: 0 0 100%;
@@ -53,8 +53,8 @@
       max-width: 100%;
       margin-left: 0;
       margin-right: 0;
-      padding-left: rem(15px);
-      padding-right: rem(15px);
+      padding-left: 15px;
+      padding-right: 15px;
       
     }
 

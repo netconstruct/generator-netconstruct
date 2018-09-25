@@ -217,6 +217,7 @@ CMS/App_Data/Persistent/
 CMS/CMSFiles/
 CMS/CMSSiteUtils/Export/
 CMS/SiteFiles/dist/*
+CMS/SiteFiles/styleguide/*
 
 # Custom Exceptions
 !CMS/bin/SchedulerService.exe
