@@ -24,12 +24,8 @@ body {
   margin: 0;
 }
 
-p {
-}
-
-// @note: override margin-top from Titon and add a margin-bottom
 ul, ol, p {
-	@include rem(margin, 0 0 16px 0);
+	margin: 0 0 16px 0;
 }
 
 /**
