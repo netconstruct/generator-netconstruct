@@ -7,12 +7,12 @@ $mq-base-font-size: 16px !default;
 
 // Defines breakpoints list
 $mq-breakpoints: (
-    mobile-small: 480px, // max
-    mobile: 767px, // max
-    tablet:  768px,
-    desktop-small: 992px,
-    desktop: 1240px,
-    desktop-lg: 1472px
+  mobile-small: 480px, // max
+  mobile: 767px, // max
+  tablet:  768px,
+  desktop-small: 992px,
+  desktop: 1240px,
+  desktop-lg: 1472px
 );
 
 // Padding on either side of the main container.
