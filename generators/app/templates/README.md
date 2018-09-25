@@ -1,24 +1,24 @@
 # Project Information
 
-CMS: Kentico/Umbraco
+- CMS: N/A
 
-Functional Specifications: N/C
+- Functional Specifications: N/A
 
-Jira Board: N/C
+- Jira Board: N/A
 
-Trello Board: N/C
+- Trello Board: N/A
 
-Slack channel: N/C
+- Slack channel: N/A
 
-Preview URL: N/C
+- Preview URL: N/A
 
-Live URL: N/C
+- Live URL: N/A
 
-Database: N/C
+- Database: N/A
 
-License: N/C
+- Design link: N/A
 
-Design link: N/C
+- Lead Developer(s): N/A
 
 ___
 
@@ -53,21 +53,6 @@ ___
 
   ```run npm i or yarn```
 
-
-## Setup a host with Microsoft IIS
-1. Press the Windows menu icon and type IIS
-2. Open IIS
-3. Right click on `Sites`
-4. Select `Add Website`
-5. Enter the following details and press OK:
-   1. Site name: ProjectName
-   2. Physical path for Kentico: ```c:\Projects\ProjectName\CMS``` 
-      Physical path for Umbraco: ```c:\Projects\ProjectName\Netc.ProjectName.Web```
-   3. Binding Type: ```http```
-   4. IP address: ```All Unassigned```
-   5. Host name: ```localhost```
-6. Right click on `SiteName > Manage Website > Start`
-7. The site is now accessible at: http://localhost
 
 ## Frontend folder in Kentico
 All the frontend files are located under `C:\Project\ProjectName\CMS\SiteFiles\src`
@@ -107,3 +92,4 @@ Please read the following **core-concepts** to familiarise yourself with `Fracta
 For more information please follow the documentation link:
 https://fractal.build/guide
 
+## Third party dependencies and integration
